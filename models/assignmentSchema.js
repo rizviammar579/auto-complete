@@ -1,6 +1,6 @@
-import moongoose from "mongoose"
+import mongoose from "mongoose"
 
-const assignmentSchema = new moongoose.Schema({
+const assignmentSchema = new mongoose.Schema({
 
     assignmentId: {
         type: String,
@@ -40,7 +40,17 @@ const assignmentSchema = new moongoose.Schema({
 
     alternateLink: {
         type: String
-    }
+    },
+
+    materials: [
+        {
+            type: { type: String },
+            title: String,
+            url: String,
+            fileId: String
+        }
+    ]
+
 })
 
-export const Assignment = moongoose.model('Assignment', assignmentSchema)
+export const Assignment = mongoose.model('Assignment', assignmentSchema)

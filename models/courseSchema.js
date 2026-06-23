@@ -1,20 +1,20 @@
-import moongoose from "mongoose"
+import mongoose from "mongoose"
 
-const courseSchema = new moongoose.Schema({
-    courseId : {
-        type : String,
-        required : true,
-        unique : true
+const courseSchema = new mongoose.Schema({
+    courseId: {
+        type: String,
+        required: true,
+        unique: true
     },
-    courseName : {
-        type : String,
-        required : true
+    courseName: {
+        type: String,
+        required: true
     },
-    courseStatus : {
-        type : String,
-        required : true
+    courseStatus: {
+        type: String,
+        required: true
     }
 
 })
 
-export const Course = moongoose.model('Course' , courseSchema)
+export const Course = mongoose.model('Course', courseSchema)

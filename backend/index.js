@@ -1,10 +1,11 @@
+import mongoose from 'mongoose';
 import path from 'node:path';
 import process from 'node:process';
 import { authenticate } from '@google-cloud/local-auth';
 import { google } from 'googleapis';
 import { Course } from '../models/courseSchema.js';
 import { Assignment } from '../models/assignmentSchema.js'
-import mongoose from 'mongoose';
+
 
 
 
@@ -21,8 +22,6 @@ const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
 mongoose.connect("mongodb://localhost:27017/assignment-automation-database")
 
 
-
-// Lists the courses the user has access to.
 async function main() {
 
   // Authenticate with Google and get an authorized client.
@@ -37,8 +36,6 @@ async function main() {
 
   await listCourses(classroom)
   await listCoursework(classroom)
-
-
 
 }
 
@@ -87,10 +84,43 @@ async function listCoursework(classroom) {
     return;
   }
 
+
   for (const assignment of assignments) {
+
+
+    const array = (assignment.materials || []).map(material => {
+
+
+
+      if (material.driveFile) {
+        return {
+          type: "driveFile",
+          title: material.driveFile.driveFile.title || "",
+          url: material.driveFile.driveFile.alternateLink || "",
+          fileId: material.driveFile.driveFile.id || ""
+        };
+      }
+
+      else if (material.form) {
+        return {
+          type: "form",
+          title: material.form.title || "",
+          url: material.form.formUrl || "",
+          fileId: ""
+        };
+      }
+      else {
+        return null
+      }
+
+    }).filter(Boolean)
+
+
+
 
     await Assignment.updateOne(
       { assignmentId: assignment.id },
+
       {
         assignmentId: assignment.id,
 
@@ -106,14 +136,16 @@ async function listCoursework(classroom) {
 
         maxPoints: assignment.maxPoints,
 
-        alternateLink: assignment.alternateLink
+        alternateLink: assignment.alternateLink,
+
+        materials: array,
 
       },
       { upsert: true }
     );
   }
 
-
 }
+
 
 await main();
