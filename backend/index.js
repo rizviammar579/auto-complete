@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import fs from 'fs'
 import path from 'node:path';
 import process from 'node:process';
 import { authenticate } from '@google-cloud/local-auth';
@@ -10,8 +11,9 @@ import { Assignment } from '../models/assignmentSchema.js'
 
 
 // The scope for reading Classroom courses,courseworks.
-const SCOPES = ['https://www.googleapis.com/auth/classroom.courses.readonly',
-  'https://www.googleapis.com/auth/classroom.coursework.me.readonly'];
+const SCOPES = [  'https://www.googleapis.com/auth/classroom.courses.readonly',
+  'https://www.googleapis.com/auth/classroom.coursework.me',
+  'https://www.googleapis.com/auth/drive.readonly'];
 
 
 
@@ -33,9 +35,22 @@ async function main() {
   // Create a new Classroom API client.
   const classroom = google.classroom({ version: 'v1', auth });
 
+  // Create a new Drive API client (v3).
+  const drive = google.drive({ version: 'v3', auth });
+
 
   await listCourses(classroom)
+
+  
   await listCoursework(classroom)
+
+  
+
+  if (!fs.existsSync("./downloads")) {
+    fs.mkdirSync("./downloads")
+  }
+
+  await downloadFile(drive)
 
 }
 
@@ -97,7 +112,10 @@ async function listCoursework(classroom) {
           type: "driveFile",
           title: material.driveFile.driveFile.title || "",
           url: material.driveFile.driveFile.alternateLink || "",
-          fileId: material.driveFile.driveFile.id || ""
+          fileId: material.driveFile.driveFile.id || "",
+          localPath: "",
+          fileName: "",
+          downloadedAt: null,
         };
       }
 
@@ -106,7 +124,11 @@ async function listCoursework(classroom) {
           type: "form",
           title: material.form.title || "",
           url: material.form.formUrl || "",
-          fileId: ""
+          fileId: "",
+          localPath: "",
+          fileName: "",
+          downloadedAt: null,
+          
         };
       }
       else {
@@ -148,6 +170,69 @@ async function listCoursework(classroom) {
 }
 
 
+async function downloadFile(drive) {
+
+
+  // extract file metadata
+
+  const metadata = await drive.files.get({
+    fileId: "1aSx1D3tPRWhU2PKlA8mdtWjb2-zaI5_X",
+    fields: "name,mimeType",
+  });
+
+  const fileName = metadata.data.name
+  const mimeType = metadata.data.mimeType
+  let file
+  let destination
+
+  if (mimeType.startsWith('application/vnd.google-apps.')) {
+
+
+    file = await drive.files.export({
+      fileId: "1aSx1D3tPRWhU2PKlA8mdtWjb2-zaI5_X",
+      mimeType:
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    },
+      {
+        responseType: "stream"
+      }
+    );
+
+
+    destination = fs.createWriteStream(`./downloads/${fileName}.docx`)
+
+
+  }
+
+  else {
+
+    file = await drive.files.get({
+      fileId: "1aSx1D3tPRWhU2PKlA8mdtWjb2-zaI5_X",
+      alt: "media"
+    },
+      {
+        responseType: "stream"
+      }
+    );
+
+
+    destination = fs.createWriteStream(`./downloads/${fileName}`)
+
+
+  }
+
+  file.data.pipe(destination)
+
+  await new Promise((resolve, reject) => {
+    destination.on("finish", resolve);
+    destination.on("error", reject);
+  });
+
+
+
+
+}
+
+
 await main();
 
-//test
