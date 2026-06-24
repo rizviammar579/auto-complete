@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 credentials.json
 gitcommands.md
-downloads
+./downloads
