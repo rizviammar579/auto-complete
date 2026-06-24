@@ -39,18 +39,50 @@ async function main() {
   const drive = google.drive({ version: 'v3', auth });
 
 
-  await listCourses(classroom)
+//    const a= await classroom.courses.courseWork.list({
+//   courseId: "866884207853"
+// });
+
+const b= await classroom.courses.courseWork.list({
+  courseId: "824684325960"
+});
+
+// console.log(a.data.courseWork);
+console.log(b.data.courseWork);
+
+
+  // await listCourses(classroom)
+
+  // const courses = await Course.find()
+  
+
+  // for (const course of courses) {
+
+  //   if(course.courseId !== "824684325960"){
+      
+  //     try{
+  //       await listCoursework(classroom,course.courseId,course.courseName)
+  //     }catch(err){
+  //       console.log(err,course.courseName);
+
+  //     }
+
+  //   }
+    
+  // }
+    
+ 
 
   
-  await listCoursework(classroom)
+  // await listCoursework(classroom)
 
   
 
-  if (!fs.existsSync("./downloads")) {
-    fs.mkdirSync("./downloads")
-  }
+  // if (!fs.existsSync("./downloads")) {
+  //   fs.mkdirSync("./downloads")
+  // }
 
-  await downloadFile(drive)
+  // await downloadFile(drive)
 
 }
 
@@ -86,16 +118,16 @@ async function listCourses(classroom) {
 
 
 
-async function listCoursework(classroom) {
+async function listCoursework(classroom,courseId,courseName) {
 
   const result = await classroom.courses.courseWork.list({
-    courseId: "866884207853"
+    courseId: courseId
   });
 
   const assignments = result.data.courseWork
 
   if (!assignments || assignments.length === 0) {
-    console.log('No assignments found.');
+    console.log('No assignments found.',courseName);
     return;
   }
 
