@@ -11,7 +11,7 @@ import { Assignment } from '../models/assignmentSchema.js'
 
 
 // The scope for reading Classroom courses,courseworks.
-const SCOPES = [  'https://www.googleapis.com/auth/classroom.courses.readonly',
+const SCOPES = ['https://www.googleapis.com/auth/classroom.courses.readonly',
   'https://www.googleapis.com/auth/classroom.coursework.me',
   'https://www.googleapis.com/auth/drive.readonly'];
 
@@ -39,55 +39,17 @@ async function main() {
   const drive = google.drive({ version: 'v3', auth });
 
 
-//    const a= await classroom.courses.courseWork.list({
-//   courseId: "866884207853"
-// });
+  if (!fs.existsSync("./downloads")) {
+    fs.mkdirSync("./downloads")
+  }
 
-const b= await classroom.courses.courseWork.list({
-  courseId: "824684325960"
-});
+  await listCourses(classroom, drive)
 
-// console.log(a.data.courseWork);
-console.log(b.data.courseWork);
-
-
-  // await listCourses(classroom)
-
-  // const courses = await Course.find()
-  
-
-  // for (const course of courses) {
-
-  //   if(course.courseId !== "824684325960"){
-      
-  //     try{
-  //       await listCoursework(classroom,course.courseId,course.courseName)
-  //     }catch(err){
-  //       console.log(err,course.courseName);
-
-  //     }
-
-  //   }
-    
-  // }
-    
- 
-
-  
-  // await listCoursework(classroom)
-
-  
-
-  // if (!fs.existsSync("./downloads")) {
-  //   fs.mkdirSync("./downloads")
-  // }
-
-  // await downloadFile(drive)
 
 }
 
 
-async function listCourses(classroom) {
+async function listCourses(classroom, drive) {
 
   // Get the list of courses.
   const result = await classroom.courses.list({
@@ -100,7 +62,6 @@ async function listCourses(classroom) {
     return;
   }
 
-  // Print the name and ID of each course and upsert them to DB.
   for (const course of courses) {
 
     await Course.updateOne(
@@ -112,13 +73,25 @@ async function listCourses(classroom) {
       },
       { upsert: true }
     );
+
+
+    try {
+      await listCoursework(classroom, drive, course.id, course.name)
+
+    } catch {
+      console.log('CANNOT FETCH ASSIGNMENTS FOR : ', course.name)
+
+    }
   }
+
+
 
 }
 
 
 
-async function listCoursework(classroom,courseId,courseName) {
+async function listCoursework(classroom, drive, courseId, courseName) {
+
 
   const result = await classroom.courses.courseWork.list({
     courseId: courseId
@@ -127,7 +100,7 @@ async function listCoursework(classroom,courseId,courseName) {
   const assignments = result.data.courseWork
 
   if (!assignments || assignments.length === 0) {
-    console.log('No assignments found.',courseName);
+    console.log('No assignments found.', courseName);
     return;
   }
 
@@ -135,19 +108,29 @@ async function listCoursework(classroom,courseId,courseName) {
   for (const assignment of assignments) {
 
 
-    const array = (assignment.materials || []).map(material => {
+    const array = await Promise.all((assignment.materials || []).map(async (material) => {
 
 
 
       if (material.driveFile) {
+
+        let mat = material.driveFile.driveFile
+        let downloadDetails
+
+        if (mat.id) {
+
+          downloadDetails = await downloadFile(drive, mat.id)
+
+        }
+
         return {
           type: "driveFile",
-          title: material.driveFile.driveFile.title || "",
-          url: material.driveFile.driveFile.alternateLink || "",
-          fileId: material.driveFile.driveFile.id || "",
-          localPath: "",
-          fileName: "",
-          downloadedAt: null,
+          title: mat.title || "",
+          url: mat.alternateLink || "",
+          fileId: mat.id || "",
+          localPath: downloadDetails.localPath || "",
+          fileName: downloadDetails.fileName || "",
+          downloadedAt: downloadDetails.downloadedAt || null,
         };
       }
 
@@ -160,14 +143,16 @@ async function listCoursework(classroom,courseId,courseName) {
           localPath: "",
           fileName: "",
           downloadedAt: null,
-          
+
         };
       }
       else {
         return null
       }
 
-    }).filter(Boolean)
+    }))
+
+    const filteredArray = array.filter(Boolean);
 
 
 
@@ -192,23 +177,25 @@ async function listCoursework(classroom,courseId,courseName) {
 
         alternateLink: assignment.alternateLink,
 
-        materials: array,
+        materials: filteredArray,
 
       },
       { upsert: true }
     );
   }
 
+
+
 }
 
 
-async function downloadFile(drive) {
+async function downloadFile(drive, fileId) {
 
 
   // extract file metadata
 
   const metadata = await drive.files.get({
-    fileId: "1aSx1D3tPRWhU2PKlA8mdtWjb2-zaI5_X",
+    fileId: fileId,
     fields: "name,mimeType",
   });
 
@@ -216,12 +203,13 @@ async function downloadFile(drive) {
   const mimeType = metadata.data.mimeType
   let file
   let destination
+  let localPath = null
 
   if (mimeType.startsWith('application/vnd.google-apps.')) {
 
 
     file = await drive.files.export({
-      fileId: "1aSx1D3tPRWhU2PKlA8mdtWjb2-zaI5_X",
+      fileId: fileId,
       mimeType:
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     },
@@ -230,8 +218,8 @@ async function downloadFile(drive) {
       }
     );
 
-
-    destination = fs.createWriteStream(`./downloads/${fileName}.docx`)
+    localPath = `./downloads/${fileName}.docx`
+    destination = fs.createWriteStream(localPath)
 
 
   }
@@ -239,7 +227,7 @@ async function downloadFile(drive) {
   else {
 
     file = await drive.files.get({
-      fileId: "1aSx1D3tPRWhU2PKlA8mdtWjb2-zaI5_X",
+      fileId: fileId,
       alt: "media"
     },
       {
@@ -248,19 +236,40 @@ async function downloadFile(drive) {
     );
 
 
-    destination = fs.createWriteStream(`./downloads/${fileName}`)
+    localPath = `./downloads/${fileName}`
+    destination = fs.createWriteStream(localPath)
 
 
   }
 
-  file.data.pipe(destination)
-
-  await new Promise((resolve, reject) => {
-    destination.on("finish", resolve);
-    destination.on("error", reject);
-  });
 
 
+  if (fs.existsSync(localPath)) {
+
+
+
+    return {
+      localPath,
+      fileName,
+      downloadedAt: null,
+    }
+  }
+  else {
+    file.data.pipe(destination)
+
+    await new Promise((resolve, reject) => {
+      destination.on("finish", resolve);
+      destination.on("error", reject);
+    });
+
+    return {
+
+      localPath: localPath,
+      fileName: fileName,
+      downloadedAt: new Date(),
+
+    }
+  }
 
 
 }
