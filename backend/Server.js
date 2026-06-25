@@ -75,14 +75,19 @@ async function listCourses(classroom, drive) {
     );
 
 
-    try {
+   if(course.courseState === "ACTIVE"){
+
+   try {
       await listCoursework(classroom, drive, course.id, course.name)
 
     } catch {
       console.log('CANNOT FETCH ASSIGNMENTS FOR : ', course.name)
 
     }
+    
   }
+
+   }
 
 
 
