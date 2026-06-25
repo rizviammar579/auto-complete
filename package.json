@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "node backend/index.js"
+    "server": "node backend/Server.js"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^2.1.0",
