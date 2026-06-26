@@ -1,4 +1,4 @@
-import { Course } from '../models/courseSchema.js';
+import { Course } from '../../models/courseSchema.js';
 
 export async function upsertCourses(courses) {
 

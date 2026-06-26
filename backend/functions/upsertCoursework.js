@@ -1,4 +1,4 @@
-import { Assignment } from '../models/assignmentSchema.js'
+import { Assignment } from '../../models/assignmentSchema.js'
 
 export async function upsertCoursework(assignments) {
 

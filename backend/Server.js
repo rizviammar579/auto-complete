@@ -5,14 +5,14 @@ import { authenticate } from '@google-cloud/local-auth';
 import { google } from 'googleapis';
 import { Course } from '../models/courseSchema.js';
 import { Assignment } from '../models/assignmentSchema.js'
-import { listCourses } from './listCourses.js';
-import { upsertCourses } from './upsertCourses.js';
-import { listCoursework } from './listCoursework.js';
-import { upsertCoursework } from './upsertCoursework.js';
-import { downloadCoursework } from './downloadCoursework.js';
-import { mkdirDownloads } from './mkdirDownloads.js';
-import { ListAndUpsertCoursework } from './ListAndUpsertCoursework.js'
-import { ListAndUpsertCourses } from './ListAndUpsertCourses.js';
+import { listCourses } from './functions/listCourses.js';
+import { upsertCourses } from './functions/upsertCourses.js';
+import { listCoursework } from './functions/listCoursework.js';
+import { upsertCoursework } from './functions/upsertCoursework.js';
+import { downloadCoursework } from './functions/downloadCoursework.js';
+import { mkdirDownloads } from './functions/mkdirDownloads.js';
+import { ListAndUpsertCoursework } from './functions/ListAndUpsertCoursework.js'
+import { ListAndUpsertCourses } from './functions/ListAndUpsertCourses.js';
 
 
 
