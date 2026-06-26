@@ -1,4 +1,5 @@
 import { Assignment } from '../../models/assignmentSchema.js'
+import { processState } from '../../models/assignmentProcessingSchema.js';
 
 export async function upsertCoursework(assignments) {
 
@@ -73,9 +74,26 @@ export async function upsertCoursework(assignments) {
       },
       { upsert: true }
     );
+
+    await processState.updateOne(
+      { assignmentId: assignment.id },
+
+      {
+        $setOnInsert: {
+          assignmentId: assignment.id,
+          courseId: assignment.courseId,
+          submissionDeadline: assignment.dueDate,
+          aiStatus: "pending"
+        }
+
+      },
+      { upsert: true }
+    );
+
+
   }
 
 
-
-
 }
+
+

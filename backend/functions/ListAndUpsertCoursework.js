@@ -30,8 +30,9 @@ export async function ListAndUpsertCoursework(classroom, courses) {
 
                 }
 
-            } catch {
-
+            } catch(err) {
+                //  console.log(err);
+                 
                 console.log("CANNOT FETCH ASSIGNMENTS FOR : ", course.name, " (", course.id, ")")
 
             }
