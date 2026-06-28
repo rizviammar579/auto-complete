@@ -1,5 +1,5 @@
-export async function canUseAI() {
+export function canUseAI() {
 
-    return true
+    return false
     
 }

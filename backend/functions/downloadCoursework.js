@@ -22,7 +22,7 @@ export async function downloadCoursework(drive,assignment) {
                 fields: "name,mimeType",
             });
 
-            const fileName = metadata.data.name
+            const fileName = `${material.fileId}_${metadata.data.name}`
             const mimeType = metadata.data.mimeType
             let file
             let destination
@@ -41,7 +41,8 @@ export async function downloadCoursework(drive,assignment) {
                     }
                 );
 
-                localPath = `./downloads/${fileName}.docx`
+                await fs.mkdirSync(`./downloads/assignment_${assignment.assignmentId}`,{ recursive: true })
+                localPath = `./downloads/assignment_${assignment.assignmentId}/${fileName}.docx`
                 destination = fs.createWriteStream(localPath)
 
 
@@ -58,8 +59,8 @@ export async function downloadCoursework(drive,assignment) {
                     }
                 );
 
-
-                localPath = `./downloads/${fileName}`
+                await fs.mkdirSync(`./downloads/assignment_${assignment.assignmentId}`,{ recursive: true })
+                localPath = `./downloads/assignment_${assignment.assignmentId}/${fileName}`
                 destination = fs.createWriteStream(localPath)
 
 

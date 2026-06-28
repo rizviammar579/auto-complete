@@ -8,10 +8,11 @@ import { upsertCourses } from './functions/upsertCourses.js';
 import { listCoursework } from './functions/listCoursework.js';
 import { upsertCoursework } from './functions/upsertCoursework.js';
 import { downloadCoursework } from './functions/downloadCoursework.js';
-import { mkdirDownloads } from './functions/mkdirDownloads.js';
 import { ListAndUpsertCoursework } from './functions/ListAndUpsertCoursework.js'
 import { ListAndUpsertCourses } from './functions/ListAndUpsertCourses.js';
 import { scheduler } from './functions/scheduler.js';
+import { Assignment } from '../models/assignmentSchema.js';
+import fs from 'fs'
 
 
 
@@ -48,31 +49,31 @@ async function main() {
 
 
 
-  // Create downloads folder 
-  // await mkdirDownloads()
+  // Create downloads folder only once
+  await fs.mkdirSync("./downloads",{ recursive: true })
 
 
   // Calls API for list of courses and upserts course details in DB
-  // const courses = await ListAndUpsertCourses(classroom)
+  const courses = await ListAndUpsertCourses(classroom)
 
 
   // Calls API for coursework of each course and upsert coursework details in DB
-  // await ListAndUpsertCoursework(classroom, courses)
+  await ListAndUpsertCoursework(classroom, courses)
 
 
 
   // Download coursework 
-  // const DB_assignments = await Assignment.find()
-  // {
-  //   for (const DB_assignment of DB_assignments) {
-  //     await downloadCoursework(drive, DB_assignment)
-  //   }
+  const DB_assignments = await Assignment.find()
+  {
+    for (const DB_assignment of DB_assignments) {
+      await downloadCoursework(drive, DB_assignment)
+    }
 
-  //   console.log('ALL DOWNLOADS SUCCESSFUL');
-  // }
+    console.log('DOWNLOADS SYNCED SUCCESSFUL');
+  }
 
 
-   await scheduler()
+  //  await scheduler()
 
 
 }
