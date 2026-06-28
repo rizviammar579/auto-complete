@@ -1,9 +1,11 @@
 import { Assignment } from '../../models/assignmentSchema.js'
-import { processState } from '../../models/assignmentProcessingSchema.js';
+import { assignmentProcessing } from '../../models/assignmentProcessingSchema.js';
 
 export async function upsertCoursework(assignments) {
 
   for (const assignment of assignments) {
+
+    
 
 
     const array = await Promise.all((assignment.materials || []).map(async (material) => {
@@ -65,6 +67,8 @@ export async function upsertCoursework(assignments) {
 
         dueDate: assignment.dueDate,
 
+        dueTime: assignment.dueTime,
+
         maxPoints: assignment.maxPoints,
 
         alternateLink: assignment.alternateLink,
@@ -75,14 +79,15 @@ export async function upsertCoursework(assignments) {
       { upsert: true }
     );
 
-    await processState.updateOne(
+    await assignmentProcessing.updateOne(
       { assignmentId: assignment.id },
 
       {
         $setOnInsert: {
           assignmentId: assignment.id,
           courseId: assignment.courseId,
-          submissionDeadline: assignment.dueDate,
+          dueDate: assignment.dueDate,
+          dueTime: assignment.dueTime,
           aiStatus: "pending"
         }
 

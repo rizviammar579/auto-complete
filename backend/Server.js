@@ -50,7 +50,7 @@ async function main() {
 
 
   // Create downloads folder only once
-  await fs.mkdirSync("./downloads",{ recursive: true })
+  // await fs.mkdirSync("./downloads",{ recursive: true })
 
 
   // Calls API for list of courses and upserts course details in DB
@@ -63,17 +63,18 @@ async function main() {
 
 
   // Download coursework 
-  const DB_assignments = await Assignment.find()
-  {
-    for (const DB_assignment of DB_assignments) {
-      await downloadCoursework(drive, DB_assignment)
-    }
+  // const DB_assignments = await Assignment.find()
+  // {
+  //   for (const DB_assignment of DB_assignments) {
+  //     await downloadCoursework(drive, DB_assignment)
+  //   }
 
-    console.log('DOWNLOADS SYNCED SUCCESSFUL');
-  }
+  //   console.log('DOWNLOADS SYNCED SUCCESSFUL');
+  // }
 
 
   //  await scheduler()
+
 
 
 }

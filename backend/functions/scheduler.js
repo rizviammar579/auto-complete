@@ -8,12 +8,17 @@ export async function scheduler() {
 
     for (const pendingAssignment of pendingAssignments) {
 
-           
-        if (await shouldProcessAssignment(pendingAssignment)) {
+        const res = await shouldProcessAssignment(pendingAssignment)
+
+        if (res) {
 
             const assignment = await getAssignment(pendingAssignment.assignmentId)
             console.log('processing ',assignment.title);
 
+        }
+
+        if(!res) {
+            return
         }
 
         

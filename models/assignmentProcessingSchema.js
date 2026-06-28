@@ -13,10 +13,21 @@ const assignmentProcessingSchema = new mongoose.Schema({
         required: true
     },
 
-    submissionDeadline: {
-        year: Number,
-        month: Number,
-        day: Number
+    dueDate: {
+        type: {
+            year: Number,
+            month: Number,
+            day: Number
+        },
+        default: null
+    },
+
+    dueTime: {
+        type: {
+            hours: Number,
+            minutes: Number
+        },
+        default: null
     },
 
     aiStatus: {
@@ -56,4 +67,4 @@ const assignmentProcessingSchema = new mongoose.Schema({
 
 })
 
-export const processState = mongoose.model('processState', assignmentProcessingSchema)
+export const assignmentProcessing = mongoose.model('assignmentProcessing', assignmentProcessingSchema)

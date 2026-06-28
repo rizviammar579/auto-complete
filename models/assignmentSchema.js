@@ -29,9 +29,20 @@ const assignmentSchema = new mongoose.Schema({
     },
 
     dueDate: {
-        year: Number,
-        month: Number,
-        day: Number
+        type: {
+            year: Number,
+            month: Number,
+            day: Number
+        },
+        default: null
+    },
+
+    dueTime: {
+        type: {
+            hours: Number,
+            minutes: Number
+        },
+        default: null
     },
 
     maxPoints: {
