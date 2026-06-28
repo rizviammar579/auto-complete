@@ -1,27 +1,36 @@
-import { getAssignment } from "./getAssignment.js";
+import { canUseFileUpload } from "./canUseFileUpload.js";
 import { getPendingAssignments } from "./getPendingAssignments.js";
-import { shouldProcessAssignment } from "./shouldProcessAssignment.js";
+import { processWithFileUpload } from "./processWithFileUpload.js";
+import { enoughTimeForDeadline } from "./enoughTimeForDeadline.js";
+import { scheduleRetry } from "./scheduleRetry.js";
 
 export async function scheduler() {
 
     const pendingAssignments = await getPendingAssignments()
 
+    if(pendingAssignments.length === 0) return
+
+    
+
     for (const pendingAssignment of pendingAssignments) {
 
-        const res = await shouldProcessAssignment(pendingAssignment)
+        const now = new Date()
 
-        if (res) {
+        if (canUseFileUpload()) {
 
-            const assignment = await getAssignment(pendingAssignment.assignmentId)
-            console.log('processing ',assignment.title);
+            await processWithFileUpload(pendingAssignment)
+
+        } else if (enoughTimeForDeadline(pendingAssignment,now)) {
+
+            await scheduleRetry(pendingAssignment)
+
+        }else{
+
+            await processWithTextExtraction(pendingAssignment);
 
         }
 
-        if(!res) {
-            return
-        }
 
-        
     }
 
 }

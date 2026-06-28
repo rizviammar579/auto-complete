@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
 const assignmentProcessingSchema = new mongoose.Schema({
-    
+
     assignmentId: {
         type: String,
         required: true,
@@ -45,7 +45,7 @@ const assignmentProcessingSchema = new mongoose.Schema({
         default: null
     },
 
-    solutionPath : {
+    solutionPath: {
         type: String,
         default: ""
     },
