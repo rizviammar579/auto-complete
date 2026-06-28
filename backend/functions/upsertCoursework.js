@@ -75,6 +75,8 @@ export async function upsertCoursework(assignments) {
 
         materials: filteredArray,
 
+        description: assignment.description
+
       },
       { upsert: true }
     );

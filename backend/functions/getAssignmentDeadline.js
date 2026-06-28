@@ -1,7 +1,7 @@
-export function getAssignmentDeadline(assignment) {
+export function getAssignmentDeadline(pendingAssignment) {
 
-    let dueDate = assignment.dueDate
-    let dueTime = assignment.dueTime
+    let dueDate = pendingAssignment.dueDate
+    let dueTime = pendingAssignment.dueTime
 
     if (dueDate === null) return null
 

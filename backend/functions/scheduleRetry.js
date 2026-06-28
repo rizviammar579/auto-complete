@@ -1,9 +1,9 @@
 import { assignmentProcessing } from "../../models/assignmentProcessingSchema.js";
 
-export async function scheduleRetry(assignment) {
+export async function scheduleRetry(pendingAssignment) {
 
     await assignmentProcessing.updateOne(
-        { assignmentId: assignment.assignmentId },
+        { assignmentId: pendingAssignment.assignmentId },
         {
             $set: {
                 lastAttempt: new Date(),

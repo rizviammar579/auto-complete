@@ -1,5 +1,5 @@
 export function canUseFileUpload() {
 
-    return false
+    return true
     
 }

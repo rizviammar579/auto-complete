@@ -23,6 +23,11 @@ const assignmentSchema = new mongoose.Schema({
         required: true
     },
 
+    description:  {
+        type: String,
+        default: ""
+    },    
+
     workType: {
         type: String,
         required: true
