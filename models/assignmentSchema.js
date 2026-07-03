@@ -65,8 +65,7 @@ const assignmentSchema = new mongoose.Schema({
             url: String,
             fileId: String,
             localPath: String,
-            fileName: String,
-            downloadedAt: Date
+            fileName: String
         }
     ]
 
