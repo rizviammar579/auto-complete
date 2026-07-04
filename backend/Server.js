@@ -13,6 +13,7 @@ import { ListAndUpsertCourses } from './functions/ListAndUpsertCourses.js';
 import { scheduler } from './functions/scheduler.js';
 import { Assignment } from '../models/assignmentSchema.js';
 import fs from 'fs'
+import { canUseAI } from './functions/canUseAI.js';
 
 
 
@@ -73,7 +74,9 @@ async function main() {
   // }
 
 
-  await scheduler()
+  // if (await canUseAI()) {
+  //   await scheduler()
+  // }
 
 
 

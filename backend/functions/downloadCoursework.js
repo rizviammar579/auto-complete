@@ -43,7 +43,7 @@ export async function downloadCoursework(drive, assignment) {
 
             await fs.mkdirSync(`./downloads/assignment_${assignment.assignmentId}`, { recursive: true })
             localPath = `./downloads/assignment_${assignment.assignmentId}/${fileName}.docx`
-            destination = fs.createWriteStream(localPath)
+           
 
 
         }
@@ -61,14 +61,15 @@ export async function downloadCoursework(drive, assignment) {
 
             await fs.mkdirSync(`./downloads/assignment_${assignment.assignmentId}`, { recursive: true })
             localPath = `./downloads/assignment_${assignment.assignmentId}/${fileName}`
-            destination = fs.createWriteStream(localPath)
+            
 
 
         }
 
 
         if (!fs.existsSync(localPath)) {
-
+            
+            destination = fs.createWriteStream(localPath)
             file.data.pipe(destination)
 
             await new Promise((resolve, reject) => {
