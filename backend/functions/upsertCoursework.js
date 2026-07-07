@@ -5,8 +5,6 @@ export async function upsertCoursework(assignments) {
 
   for (const assignment of assignments) {
 
-    
-
 
     const array = await Promise.all((assignment.materials || []).map(async (material) => {
 

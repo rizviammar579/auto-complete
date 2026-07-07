@@ -1,18 +1,14 @@
 import mongoose from 'mongoose';
 import path from 'node:path';
+import fs from 'fs'
 import process from 'node:process';
 import { authenticate } from '@google-cloud/local-auth';
 import { google } from 'googleapis';
-import { listCourses } from './functions/listCourses.js';
-import { upsertCourses } from './functions/upsertCourses.js';
-import { listCoursework } from './functions/listCoursework.js';
-import { upsertCoursework } from './functions/upsertCoursework.js';
 import { downloadCoursework } from './functions/downloadCoursework.js';
 import { ListAndUpsertCoursework } from './functions/ListAndUpsertCoursework.js'
 import { ListAndUpsertCourses } from './functions/ListAndUpsertCourses.js';
 import { scheduler } from './functions/scheduler.js';
 import { Assignment } from '../models/assignmentSchema.js';
-import fs from 'fs'
 import { canUseAI } from './functions/canUseAI.js';
 
 
@@ -52,6 +48,7 @@ async function main() {
 
   // Create downloads folder only once
   // await fs.mkdirSync("./downloads", { recursive: true })
+  await fs.mkdirSync("./solutions", { recursive: true })
 
 
   // Calls API for list of courses and upserts course details in DB
@@ -74,9 +71,9 @@ async function main() {
   // }
 
 
-  // if (await canUseAI()) {
-  //   await scheduler()
-  // }
+  if (await canUseAI()) {
+    await scheduler()
+  }
 
 
 

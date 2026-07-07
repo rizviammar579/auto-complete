@@ -1,5 +1,6 @@
 import fs from 'fs'
 import { Assignment } from '../../models/assignmentSchema.js'
+import path from "path";
 
 
 export async function downloadCoursework(drive, assignment) {
@@ -28,22 +29,24 @@ export async function downloadCoursework(drive, assignment) {
         let destination
         let localPath = null
 
-        if (mimeType.startsWith('application/vnd.google-apps.')) {
+        await fs.mkdirSync(`./downloads/assignment_${assignment.assignmentId}`, { recursive: true })
+
+        if (mimeType.startsWith('application/vnd.google-apps.document')) {
 
 
             file = await drive.files.export({
                 fileId: material.fileId,
                 mimeType:
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    "application/pdf"
             },
                 {
                     responseType: "stream"
                 }
             );
 
-            await fs.mkdirSync(`./downloads/assignment_${assignment.assignmentId}`, { recursive: true })
-            localPath = `./downloads/assignment_${assignment.assignmentId}/${fileName}.docx`
-           
+
+            const baseName = path.parse(fileName).name;
+            localPath = `./downloads/assignment_${assignment.assignmentId}/${baseName}.pdf`
 
 
         }
@@ -59,16 +62,15 @@ export async function downloadCoursework(drive, assignment) {
                 }
             );
 
-            await fs.mkdirSync(`./downloads/assignment_${assignment.assignmentId}`, { recursive: true })
+
             localPath = `./downloads/assignment_${assignment.assignmentId}/${fileName}`
-            
 
 
         }
 
 
         if (!fs.existsSync(localPath)) {
-            
+
             destination = fs.createWriteStream(localPath)
             file.data.pipe(destination)
 

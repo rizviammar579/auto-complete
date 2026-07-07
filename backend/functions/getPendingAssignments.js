@@ -4,7 +4,7 @@ export async function getPendingAssignments(){
 
      const pendingAssignments =  await assignmentProcessing.find({aiStatus: "pending"})
 
-     console.log(pendingAssignments.length,' assignments pending');
+     // console.log(pendingAssignments.length,' assignments pending');
 
      return pendingAssignments
      
