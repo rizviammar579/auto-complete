@@ -3,7 +3,7 @@ import { upsertCoursework } from "./upsertCoursework.js";
 
 
 
-export async function ListAndUpsertCoursework(classroom, courses) {
+export async function ListAndUpsertCoursework(courses) {
 
     if(courses.length === 0) return
 
@@ -13,7 +13,7 @@ export async function ListAndUpsertCoursework(classroom, courses) {
 
             try {
 
-                const result = await listCoursework(classroom, course)
+                const result = await listCoursework(course)
 
 
 

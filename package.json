@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "node backend/Server.js",
-    "test": "node backend/services/AI/generateDocx.js"
+    "test": "node backend/functions/uploadSolnToDrive.js"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^2.1.0",

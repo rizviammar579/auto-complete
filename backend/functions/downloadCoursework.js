@@ -1,9 +1,10 @@
+import { drive } from "../services/google/googleService.js";
 import fs from 'fs'
 import { Assignment } from '../../models/assignmentSchema.js'
 import path from "path";
 
 
-export async function downloadCoursework(drive, assignment) {
+export async function downloadCoursework(assignment) {
 
 
     let materials = assignment.materials
@@ -79,12 +80,9 @@ export async function downloadCoursework(drive, assignment) {
                 destination.on("error", reject);
             });
 
-
         }
 
-
-
-        await Assignment.updateOne(
+                     await Assignment.updateOne(
             {
                 assignmentId: assignment.assignmentId,
                 "materials._id": material._id
@@ -97,8 +95,7 @@ export async function downloadCoursework(drive, assignment) {
             }
         );
 
-
-
+        
     }
 
 }

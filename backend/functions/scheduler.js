@@ -2,7 +2,6 @@ import { canUseFileUpload } from "./canUseFileUpload.js";
 import { getPendingAssignments } from "./getPendingAssignments.js";
 import { processWithFileUpload } from "./processWithFileUpload.js";
 import { enoughTimeForDeadline } from "./enoughTimeForDeadline.js";
-import { scheduleRetry } from "./scheduleRetry.js";
 import { processWithTextExtraction } from "./processWithTextExtraction.js";
 import { getAssignment } from "./getAssignment.js";
 import { getCourseDetails } from "./getCourseDetails.js"
@@ -23,47 +22,40 @@ export async function scheduler() {
 
     // if (canUseFileUpload()) {
 
-    //     await processWithFileUpload(pendingAssignment,assignment,course)
+    //     await processWithFileUpload(pendingAssignment, assignment, course)
 
-    // } else if (enoughTimeForDeadline(pendingAssignment,now)) {
+    // } else if (!enoughTimeForDeadline(pendingAssignment, now)) {
 
-    //     await scheduleRetry(pendingAssignment)
-
-    // }else{
-
-    //     await processWithTextExtraction(pendingAssignment,assignment,course);
+    //     await processWithTextExtraction(pendingAssignment, assignment, course);
 
     // }
 
 
     // TEST CASE
-   
+
     for (const pendingAssignment of pendingAssignments) {
-         if (a === 23) {
+        if (a === 25) {
 
-        const now = new Date()
-        const assignment = await getAssignment(pendingAssignment.assignmentId);
-        const course = await getCourseDetails(pendingAssignment.courseId)
+            const now = new Date()
+            const assignment = await getAssignment(pendingAssignment.assignmentId);
+            const course = await getCourseDetails(pendingAssignment.courseId)
 
-        if (canUseFileUpload()) {
+            if (canUseFileUpload()) {
 
-            await processWithFileUpload(pendingAssignment, assignment, course)
+                await processWithFileUpload(pendingAssignment, assignment, course)
 
-        } else if (enoughTimeForDeadline(pendingAssignment, now)) {
+            } else if (!enoughTimeForDeadline(pendingAssignment, now)) {
 
-            await scheduleRetry(pendingAssignment)
+                await processWithTextExtraction(pendingAssignment, assignment, course);
 
-        } else {
+            }
 
-            await processWithTextExtraction(pendingAssignment, assignment, course);
 
-        }
+            return
 
-        return
+        } else { a++ }
 
-    }else{ a++ }
-    
-        
+
     }
 
 

@@ -1,9 +1,9 @@
 import { listCourses } from "./listCourses.js";
 import { upsertCourses } from "./upsertCourses.js";
 
-export async function ListAndUpsertCourses(classroom) {
+export async function ListAndUpsertCourses() {
 
-    const result = await listCourses(classroom)
+    const result = await listCourses()
 
     if (Object.keys(result.data).length === 0) {
 

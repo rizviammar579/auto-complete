@@ -1,26 +1,30 @@
 import { notifyForForm } from "./notifyForForm.js"
 import { notifyForReview } from "./notifyForReview.js"
-import { processWithDesc } from "./processWithDesc.js"
 import { generateSolutionWithFiles } from "./generateSolutionWithFiles.js"
+import { assignmentProcessing } from "../../models/assignmentProcessingSchema.js"
 
 export async function processWithFileUpload(pendingAssignment, assignment, course) {
 
     const materials = assignment.materials
     const filesToUpload = []
 
-    if (materials.length === 0) {
 
-        if (assignment.description === "") {
-            await notifyForReview(assignment, course)
+    if (!materials.length) {
 
-        }
-        else {
-            await processWithDesc(assignment, course)
-        }
+        await assignmentProcessing.updateOne({ assignmentId: assignment.assignmentId },
+            {
+                $set: {
+                    aiStatus: "manual review required",
+                }
+            }
+        )
+        await notifyForReview(assignment, course)
 
         return
 
     }
+
+
 
     for (const material of materials) {
 
@@ -52,6 +56,7 @@ export async function processWithFileUpload(pendingAssignment, assignment, cours
 
 
     if (filesToUpload.length > 0) {
+
         await generateSolutionWithFiles(filesToUpload, assignment, course)
     }
 

@@ -6,6 +6,8 @@ import path from "path";
 import { generateDocx } from "./generateDocx.js";
 import fs from 'fs'
 import { assignmentProcessing } from "../../models/assignmentProcessingSchema.js";
+import uploadSolnToDrive from "./uploadSolnToDrive.js";
+import { classroom } from "../services/google/googleService.js";
 
 export async function generateSolutionWithFiles(filesToUpload, assignment, course) {
 
@@ -224,14 +226,32 @@ Return exactly one JSON object.
 
     {
       $set: {
-       aiStatus: "completed",
-       solutionGeneratedAt: new Date(),
-       solutionPath: uploadPath
+        aiStatus: "completed",
+        solutionGeneratedAt: new Date(),
+        solutionPath: uploadPath
 
       }
     }
 
   )
+
+  
+
+
+  try {
+  await uploadSolnToDrive(uploadPath, assignment,course)
+  } catch (err) {
+    console.error(err);
+    return
+  }
+
+  console.log('success');
+  
+
+
+  
+
+
 
 
 }

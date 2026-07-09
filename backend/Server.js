@@ -1,78 +1,49 @@
-import mongoose from 'mongoose';
-import path from 'node:path';
+import { auth } from './services/google/googleService.js'
 import fs from 'fs'
-import process from 'node:process';
-import { authenticate } from '@google-cloud/local-auth';
-import { google } from 'googleapis';
 import { downloadCoursework } from './functions/downloadCoursework.js';
 import { ListAndUpsertCoursework } from './functions/ListAndUpsertCoursework.js'
 import { ListAndUpsertCourses } from './functions/ListAndUpsertCourses.js';
 import { scheduler } from './functions/scheduler.js';
 import { Assignment } from '../models/assignmentSchema.js';
 import { canUseAI } from './functions/canUseAI.js';
-
-
-
-
-// The scope for reading Classroom courses,courseworks and driveFiles.
-const SCOPES = ['https://www.googleapis.com/auth/classroom.courses.readonly',
-  'https://www.googleapis.com/auth/classroom.coursework.me',
-  'https://www.googleapis.com/auth/drive.readonly'];
-
-
-
-// The path to the credentials file.
-const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
-
-
-// Connecting to mongoDB compass
-mongoose.connect("mongodb://localhost:27017/assignment-automation-database")
+import connectDB from './services/mongoose/connectDB.js';
 
 
 
 async function main() {
 
-  // Authenticate with Google and get an authorized client.
-  const auth = await authenticate({
-    scopes: SCOPES,
-    keyfilePath: CREDENTIALS_PATH,
-  });
-
-  // Create a new Classroom API client.
-  const classroom = google.classroom({ version: 'v1', auth });
-
-  // Create a new Drive API client (v3).
-  const drive = google.drive({ version: 'v3', auth });
+  await connectDB()
 
 
-
-  // Create downloads folder only once
-  // await fs.mkdirSync("./downloads", { recursive: true })
+  // Create downloads and solutions folder only once
+  await fs.mkdirSync("./downloads", { recursive: true })
   await fs.mkdirSync("./solutions", { recursive: true })
 
 
   // Calls API for list of courses and upserts course details in DB
-  // const courses = await ListAndUpsertCourses(classroom)
+  const courses = await ListAndUpsertCourses()
 
 
   // Calls API for coursework of each course and upsert coursework details in DB
-  // await ListAndUpsertCoursework(classroom, courses)
+  await ListAndUpsertCoursework(courses)
 
 
 
   // Download coursework 
-  // const DB_assignments = await Assignment.find()
-  // {
-  //   for (const DB_assignment of DB_assignments) {
-  //     await downloadCoursework(drive, DB_assignment)
-  //   }
+  const DB_assignments = await Assignment.find()
+  {
+    for (const DB_assignment of DB_assignments) {
+      await downloadCoursework(DB_assignment)
+    }
 
-  //   console.log('DOWNLOADS SYNCED SUCCESSFULLY');
-  // }
+    console.log('DOWNLOADS SYNCED SUCCESSFULLY');
+  }
 
 
   if (await canUseAI()) {
+
     await scheduler()
+
   }
 
 

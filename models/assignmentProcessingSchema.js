@@ -35,16 +35,7 @@ const assignmentProcessingSchema = new mongoose.Schema({
         default: "pending"
     },
 
-    lastAttempt: {
-        type: Date,
-        default: null
-    },
-
-    nextRetryAt: {
-        type: Date,
-        default: null
-    },
-
+    
     solutionPath: {
         type: String,
         default: ""
@@ -64,6 +55,21 @@ const assignmentProcessingSchema = new mongoose.Schema({
         type: Date,
         default: null
     },
+
+    driveFileLink: {
+        type: String,
+        default: ""
+    },
+
+    driveFileName: {
+        type: String,
+        default: ""
+    },
+
+    driveFileId: {
+        type: String,
+        default: ""
+    }
 
 })
 

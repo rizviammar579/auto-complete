@@ -1,4 +1,6 @@
-export async function listCourses(classroom) {
+import { classroom } from "../services/google/googleService.js";
+
+export async function listCourses() {
 
   const result = await classroom.courses.list({
     pageSize: 100,
