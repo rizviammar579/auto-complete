@@ -71,6 +71,41 @@ export async function generateDocx(content, outputPath) {
 
         switch (element.type) {
 
+            case "code_block": {
+
+                const codeRuns = [];
+
+                const lines = element.code.split("\n");
+
+                lines.forEach((line, index) => {
+
+                    codeRuns.push(
+                        new TextRun({
+                            text: line,
+                            font: "Consolas",
+                            size: 20,
+                            noProof: true,
+                            break: index === lines.length - 1 ? 0 : 1
+                        })
+                    );
+
+                });
+
+                children.push(
+                    new Paragraph({
+
+                        spacing: {
+                            before: 0,
+                            after: 200,
+                        },
+
+                        children: codeRuns,
+
+                    })
+                );
+
+                break;
+            }
 
             case "heading":
 

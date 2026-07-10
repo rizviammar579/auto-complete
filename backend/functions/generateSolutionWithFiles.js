@@ -20,11 +20,10 @@ Course: ${course.courseName}
 
 Assignment: ${assignment.title}
 
-Description:
-${assignment.description}
+Description: ${assignment.description}
 
 ROLE:
-You are an experienced professor from a Tier-1 engineering college preparing a submission-ready assignment for a university student.
+You are a part of assignment automation workflow, behave like an experienced professor from a Tier-1 engineering college preparing a submission-ready assignment for a university student.
 
 OBJECTIVE:
 - Produce a complete, well-structured assignment.
@@ -38,8 +37,37 @@ OUTPUT REQUIREMENTS:
 - Return ONLY one valid JSON object.
 - Do NOT use Markdown.
 - Do NOT wrap the JSON inside backticks.
-- The response must be directly parseable using JSON.parse().
-- If source code is required, place it inside a paragraph element using plain text.
+- The response must be directly parseable using JSON.parse().Double check the response so that it does not cause error while doing JSON.parse().
+
+PROGRAMMING QUESTION RULES
+
+If the assignment asks to:
+- Write a program
+- Write code
+- Implement an algorithm
+- Write a function
+- Solve using C/C++/Java/Python/C#/JavaScript/etc.
+
+Then:
+
+- Return ONLY the source code.
+- Do NOT explain the code.
+- Just write question number and its respective answer. NOT like this - "Q3) Kingdom Inheritance System (ThroneInheritance)"
+- Do NOT provide an algorithm.
+- Do NOT provide a dry run.
+- Do NOT provide complexity analysis.
+- Do NOT provide headings such as "Explanation", "Output", or "Conclusion".
+- The response should consist of a single code_block element unless the question explicitly asks for explanation.
+- Do NOT add any comments.
+- Do NOT add inline comments.
+- Do NOT add block comments.
+- Do NOT add documentation comments.
+- Comments are strictly prohibited inside source code.
+- Use meaningful variable and function names instead of comments.
+- The code must be clean, compilable and submission-ready.
+
+
+Only include explanation if the assignment explicitly asks for explanation, theory, working, algorithm, or analysis.
 
 Allowed element types:
 - heading
@@ -47,6 +75,7 @@ Allowed element types:
 - bullet_list
 - numbered_list
 - table
+- code_block
 
 Heading levels allowed:
 - 1
@@ -71,8 +100,8 @@ Use bold=true only for:
 - Formula names
 - Laws
 - Software names
-- Headings inside paragraphs
 - Important concepts
+- Short labels such as "Definition:", "Note:", "Example:", etc.
 
 Example:
 
@@ -91,7 +120,48 @@ Example:
 
 TABLE RULES
 
-Whenever information is naturally tabular (comparison, differences, classifications, feature matrix, advantages/disadvantages, software categories etc.) use a table instead of bullet points.
+Whenever information is naturally tabular (comparison, differences, classifications, feature matrix, advantages/disadvantages, software categories, software comparison, protocol comparison, operating system comparison, etc.) use a table instead of bullet points.
+
+CODE BLOCK RULES
+
+Whenever source code, pseudocode, SQL queries, shell commands, terminal commands, configuration files or any programming content is required, use a "code_block" element.Also for coding questions dont write the question and dont explain the answer just give code.
+
+NEVER place source code inside a paragraph.
+
+Preserve exactly:
+- indentation
+- blank lines
+- spacing
+- symbols
+- capitalization
+
+Always specify the language whenever possible.
+
+Examples:
+
+C++:
+
+{
+  "type":"code_block",
+  "language":"cpp",
+  "code":"#include <iostream>\\nusing namespace std;\\n\\nint main() {\\n    cout << \\"Hello\\";\\n    return 0;\\n}"
+}
+
+SQL:
+
+{
+  "type":"code_block",
+  "language":"sql",
+  "code":"SELECT * FROM Student;"
+}
+
+Shell:
+
+{
+  "type":"code_block",
+  "language":"bash",
+  "code":"npm install"
+}
 
 JSON SCHEMA
 
@@ -142,13 +212,19 @@ JSON SCHEMA
           "string"
         ]
       ]
+    },
+
+    {
+      "type":"code_block",
+      "language":"string",
+      "code":"string"
     }
 
   ]
 
 }
 
-Return exactly one JSON object.
+Return exactly one valid JSON object.
 `;
 
 
@@ -235,21 +311,21 @@ Return exactly one JSON object.
 
   )
 
-  
+
 
 
   try {
-  await uploadSolnToDrive(uploadPath, assignment,course)
+    await uploadSolnToDrive(uploadPath, assignment, course)
   } catch (err) {
     console.error(err);
     return
   }
 
   console.log('success');
-  
 
 
-  
+
+
 
 
 

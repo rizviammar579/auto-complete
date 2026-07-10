@@ -34,7 +34,7 @@ export async function scheduler() {
     // TEST CASE
 
     for (const pendingAssignment of pendingAssignments) {
-        if (a === 25) {
+        if (a === 40) {
 
             const now = new Date()
             const assignment = await getAssignment(pendingAssignment.assignmentId);
