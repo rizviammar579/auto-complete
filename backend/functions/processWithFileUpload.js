@@ -60,7 +60,4 @@ export async function processWithFileUpload(pendingAssignment, assignment, cours
         await generateSolutionWithFiles(filesToUpload, assignment, course)
     }
 
-
-
-
 }

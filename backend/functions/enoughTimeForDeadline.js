@@ -2,12 +2,14 @@ import { getAssignmentDeadline } from "./getAssignmentDeadline.js"
 
 export function enoughTimeForDeadline(pendingAssignment, now) {
 
-    const RETRY_TIME = 25 * 60 * 60 * 1000 // 25 hours in milliseconds
-    const deadline = getAssignmentDeadline(pendingAssignment)
+    // const ONE_DAY = 24 * 60 * 60 * 1000 // 24 hours in milliseconds
+    // const deadline = getAssignmentDeadline(pendingAssignment)
 
-    if (deadline === null) return true
+    // if (deadline === null) return true
 
 
-    return deadline - now > RETRY_TIME
+    // return deadline - now > ONE_DAY
+
+    return false
 
 }
