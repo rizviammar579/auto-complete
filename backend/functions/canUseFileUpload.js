@@ -1,5 +1,9 @@
-export function canUseFileUpload() {
+import { aiStatus } from '../../models/aiStatusSchema.js'
 
-    return false
+export async function canUseFileUpload() {
+
+    const qouta = await aiStatus.findOne()    
+
+    return !(qouta.fileUploadQuotaExceeded)
     
 }

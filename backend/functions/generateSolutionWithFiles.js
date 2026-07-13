@@ -9,8 +9,10 @@ import { assignmentProcessing } from "../../models/assignmentProcessingSchema.js
 import uploadSolnToDrive from "./uploadSolnToDrive.js";
 import { classroom } from "../services/google/googleService.js";
 import getPrompt from "../services/AI/prompt.js";
+import { aiStatus } from '../../models/aiStatusSchema.js'
+import { processWithTextExtraction } from "./processWithTextExtraction.js";
 
-export async function generateSolutionWithFiles(filesToUpload, assignment, course) {
+export async function generateSolutionWithFiles(filesToUpload, pendingAssignment, assignment, course) {
 
 
 
@@ -38,7 +40,23 @@ export async function generateSolutionWithFiles(filesToUpload, assignment, cours
           }
 
         } catch (err) {
-          console.error(err);
+          if (
+            err.status === 429 ||
+            err.code === 429 ||
+            err.message?.includes("RESOURCE_EXHAUSTED")
+          ) {
+            const quota = await aiStatus.findOne();
+
+            quota.fileUploadQuotaExceeded = true;
+
+            await quota.save();
+
+            await processWithTextExtraction(pendingAssignment, assignment, course)
+          }
+
+          console.log(err);
+
+
         }
 
         break;
@@ -81,7 +99,19 @@ export async function generateSolutionWithFiles(filesToUpload, assignment, cours
 
   } catch (err) {
 
-    console.log(err)
+    if (
+      err.status === 429 ||
+      err.code === 429 ||
+      err.message?.includes("RESOURCE_EXHAUSTED")
+    ) {
+      const quota = await aiStatus.findOne();
+
+      quota.aiQuotaExceeded = true;
+
+      await quota.save();
+    }
+
+    console.log(err);
 
     return
   }

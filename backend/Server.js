@@ -16,31 +16,31 @@ async function main() {
 
 
   // Create downloads and solutions folder only once
-  // await fs.mkdirSync("./downloads", { recursive: true })
-  // await fs.mkdirSync("./solutions", { recursive: true })
+  await fs.mkdirSync("./downloads", { recursive: true })
+  await fs.mkdirSync("./solutions", { recursive: true })
 
 
   // Calls API for list of courses and upserts course details in DB
-  // const courses = await ListAndUpsertCourses()
+  const courses = await ListAndUpsertCourses()
 
 
   // Calls API for coursework of each course and upsert coursework details in DB
-  // await ListAndUpsertCoursework(courses)
+  await ListAndUpsertCoursework(courses)
 
 
 
   // Download coursework 
-  // const DB_assignments = await Assignment.find()
-  // {
-  //   for (const DB_assignment of DB_assignments) {
-  //     await downloadCoursework(DB_assignment)
-  //   }
+  const DB_assignments = await Assignment.find()
+  {
+    for (const DB_assignment of DB_assignments) {
+      await downloadCoursework(DB_assignment)
+    }
 
-  //   console.log('DOWNLOADS SYNCED SUCCESSFULLY');
-  // }
+    console.log('DOWNLOADS SYNCED SUCCESSFULLY');
+  }
 
 
-  if (await canUseAI()) {
+  if (await canUseAI()) {  
 
     await scheduler()
 

@@ -57,7 +57,7 @@ export async function processWithFileUpload(pendingAssignment, assignment, cours
 
     if (filesToUpload.length > 0) {
 
-        await generateSolutionWithFiles(filesToUpload, assignment, course)
+        await generateSolutionWithFiles(filesToUpload, pendingAssignment, assignment, course)
     }
 
 }

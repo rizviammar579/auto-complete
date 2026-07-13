@@ -88,7 +88,7 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
                 const result = await parser.getText();
 
                 await parser.destroy();
-                
+
                 content.push(`PDF:\n${result.text}`);
 
                 break;
@@ -129,6 +129,18 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
 
 
     } catch (err) {
+
+        if (
+            err.status === 429 ||
+            err.code === 429 ||
+            err.message?.includes("RESOURCE_EXHAUSTED")
+        ) {
+            const quota = await aiStatus.findOne();
+
+            quota.aiQuotaExceeded = true;
+
+            await quota.save();
+        }
 
         console.log(err)
 
