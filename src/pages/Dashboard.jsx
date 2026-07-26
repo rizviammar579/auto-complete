@@ -5,9 +5,11 @@ import DashboardSideSection from '../components/DashboardSideSection'
 const Dashboard = () => {
   return (
 
-    <div className='flex overflow-y-scroll'>
+    <div className=''>
+      <div className='flex overflow-y-scroll'>
       <DashboardMainSection/>
       <DashboardSideSection/>
+    </div>
     </div>
   )
 }
