@@ -8,19 +8,19 @@ const DashboardNotification = () => {
       <ul className='flex flex-col gap-2 justify-center'>
         <li className='flex justify-between'>
             <div className='flex gap-1 items-center'>
-                <img src="../../public/notification.png" alt="" className='w-[20px] h-[20px]' />
+                <img src="../../notification.png" alt="" className='w-[20px] h-[20px]' />
                 <div>{`Solution Ready (DBMS Lab)`}</div>
             </div>
         </li>
         <li className='flex justify-between'>
             <div className='flex gap-1 items-center'>
-                <img src="../../public/warning-red.png" alt="" className='w-[20px] h-[20px]' />
+                <img src="../../warning-red.png" alt="" className='w-[20px] h-[20px]' />
                 <div>{`AI Quota Exceeded (DSA)`}</div>
             </div>
         </li>
         <li className='flex justify-between'>
             <div className='flex gap-1 items-center'>
-                <img src="../../public/warning-yellow.png" alt="" className='w-[20px] h-[20px]' />
+                <img src="../../warning-yellow.png" alt="" className='w-[20px] h-[20px]' />
                 <div>Drive Uplaod Failed</div>
             </div>
         </li>

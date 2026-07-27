@@ -8,21 +8,21 @@ const SystemStatus = () => {
       <ul className='flex flex-col gap-2 justify-center'>
         <li className='flex justify-between'>
             <div className='flex gap-1 items-center'>
-                <img src="../../public/googledrive.png" alt="" className='w-[23px] h-[23px]' />
+                <img src="../../googledrive.png" alt="" className='w-[23px] h-[23px]' />
                 <div>Google Drive</div>
             </div>
             <div className='text-green-500 text-[14px] font-bold'>Connected</div>
         </li>
         <li className='flex justify-between'>
             <div className='flex gap-1 items-center'>
-                <img src="../../public/googleclassroom.png" alt="" className='w-[24px] h-[24px]' />
+                <img src="../../googleclassroom.png" alt="" className='w-[24px] h-[24px]' />
                 <div>Google Classroom</div>
             </div>
             <div className='text-green-500 text-[14px] font-bold'>Connected</div>
         </li>
         <li className='flex justify-between'>
             <div className='flex gap-1 items-center'>
-                <img src="../../public/geminiai.png" alt="" className='w-[24px] h-[24px]' />
+                <img src="../../geminiai.png" alt="" className='w-[24px] h-[24px]' />
                 <div>Gemini AI</div>
             </div>
             <div className='text-green-500 text-[14px] font-bold'>Available</div>
@@ -36,7 +36,7 @@ const SystemStatus = () => {
         </li>
         <li className='flex justify-between'>
             <div className='flex gap-2 items-center'>
-             <img src="../../public/sync.png" alt="" className='w-[24px] h-[24px]' />
+             <img src="../../sync.png" alt="" className='w-[24px] h-[24px]' />
                 <div>Last Sync</div>
             </div>
             <div className='text-green-500 text-[14px] font-bold'>Running</div>
