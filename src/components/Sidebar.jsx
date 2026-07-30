@@ -14,27 +14,32 @@ import {
 const Sidebar = () => {
 
   const sidebarItems = [
-    {
+    { 
+      id:1,
       name: "Dashboard",
       icon: Grid2X2,
       navlink: ""
     },
-    {
+    { 
+      id:2,
       name: "Assignments",
       icon: BookOpen,
       navlink: "assignments"
     },
-    {
+    { 
+      id:3,
       name: "History",
       icon: History,
       navlink: "history"
     },
-    {
+    { 
+      id:4,
       name: "Notifications",
       icon: Bell,
       navlink: "notifications"
     },
-    {
+    { 
+      id:5,
       name: "Settings",
       icon: Settings,
       navlink: "settings"
@@ -56,10 +61,10 @@ const Sidebar = () => {
 
         return (
 
-          <NavLink to={`/${item.navlink}`}>
+          <NavLink to={`/${item.navlink}`} key={item.id} >
 
             {({ isActive }) => (
-              <div key={item.name} className='flex gap-2.5 items-center mb-2.5 cursor-pointer hover:rounded-full hover:bg-gray-900 px-3 py-3 w-fit'>
+              <div className='flex gap-2.5 items-center mb-2.5 cursor-pointer hover:rounded-full hover:bg-gray-900 px-3 py-3 w-fit'>
                 <Icon className={`h-6 w-6 ${isActive ? "text-blue-300" : "text-gray-300"} `} />
                 <span className={`font-inter text-[15px] pr-10 font-semibold ${isCollapsed ? "hidden" : ""} ${isActive ? "text-blue-300" : "text-gray-300"}`}>{item.name}</span>
               </div>
