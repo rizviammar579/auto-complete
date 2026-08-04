@@ -22,6 +22,13 @@ const SystemStatus = () => {
         </li>
         <li className='flex justify-between'>
             <div className='flex gap-1 items-center'>
+                <img src="../../mongodb.png" alt="" className='w-[24px] h-[24px]' />
+                <div>MongoDB</div>
+            </div>
+            <div className='text-green-500 text-[14px] font-bold'>Connected</div>
+        </li>
+        <li className='flex justify-between'>
+            <div className='flex gap-1 items-center'>
                 <img src="../../geminiai.png" alt="" className='w-[24px] h-[24px]' />
                 <div>Gemini AI</div>
             </div>
@@ -29,8 +36,8 @@ const SystemStatus = () => {
         </li>
         <li className='flex justify-between'>
             <div className='flex gap-2 items-center'>
-             <div className='ml-1 w-4 h-4 bg-green-500 text-green-500 rounded-full'></div>
-                <div>Scheduler</div>
+             <img src="../../automation.png" alt="" className='w-[24px] h-[24px]' />
+                <div>Automation</div>
             </div>
             <div className='text-green-500 text-[14px] font-bold'>Running</div>
         </li>
@@ -39,7 +46,7 @@ const SystemStatus = () => {
              <img src="../../sync.png" alt="" className='w-[24px] h-[24px]' />
                 <div>Last Sync</div>
             </div>
-            <div className='text-green-500 text-[14px] font-bold'>Running</div>
+            <div className='text-green-500 text-[14px] font-bold'>10 min ago</div>
         </li>
         
       </ul>

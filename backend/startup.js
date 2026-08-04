@@ -7,10 +7,13 @@ import { scheduler } from './scheduler/scheduler.js';
 import { Assignment } from '../models/assignmentSchema.js';
 import { canUseAI } from './functions/canUseAI.js';
 import connectDB from './services/mongoose/connectDB.js';
+import { runtimeState } from './utils/runtimeState.js';
 
 
 
 export async function startup() {
+
+  runtimeState.automationRunning = true;
 
   await connectDB()
 
@@ -45,6 +48,9 @@ export async function startup() {
     await scheduler()
 
   }
+
+  runtimeState.automationRunning = false;
+  runtimeState.lastSync = new Date();
 
 
 }

@@ -1,12 +1,12 @@
 import express from "express";
 import {
-  
+  fetchDashboardData
 } from "../services/dashboardServices.js";
 
 const router = express.Router();
 
-// GET 
-router.get("/", );
+ 
+router.get("/" , fetchDashboardData);
 
 
 export default router;
