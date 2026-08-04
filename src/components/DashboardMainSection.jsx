@@ -4,7 +4,7 @@ import AssignmentCardSection from './AssignmentCardSection'
 
 const DashboardMainSection = () => {
   return (
-    <div className='w-[70%] px-5 h-[83vh]'>
+    <div className='w-[70%] px-5 h-[89vh] overflow-y-auto no-scrollbar'>
       <GreetingSection/>
       <div className='h-[1px] bg-gray-300'></div>
       <AssignmentCardSection/>

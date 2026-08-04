@@ -18,7 +18,7 @@ const Notifications = () => {
 
 
   return (
-    <div className='p-5 w-full flex flex-col gap-6 font-inter'>
+    <div className='p-5 w-full flex flex-col gap-6 font-inter h-[90vh]'>
 
       <div className='flex justify-between items-center '>
         <h1 className='text-[28px] font-bold'>Notifications Centre</h1>

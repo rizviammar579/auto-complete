@@ -10,7 +10,7 @@ import AssignmentsPage from '../pages/AssignmentsPage.jsx'
 
 const DisplaySection = () => {
   return (
-    <div className='bg-gray-100 w-full rounded-xl h-[90vh]'>
+    <div className='bg-gray-100 w-full rounded-xl h-[97vh]'>
 
       <Navbar />
 

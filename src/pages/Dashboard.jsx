@@ -6,7 +6,7 @@ const Dashboard = () => {
   return (
 
     <div className=''>
-      <div className='flex overflow-y-scroll'>
+      <div className='flex h-[90vh]'>
       <DashboardMainSection/>
       <DashboardSideSection/>
     </div>

@@ -6,7 +6,9 @@ const AssignmentCardSection = () => {
         <div className=''>
 
             <h1 className='font-inter text-[20px] font-semibold my-4 mt-8'>Today's Focus</h1>
-            <div className='grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-5'>
+            <div className='grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-5 mb-10'>
+                <AssignmentCard />
+                <AssignmentCard />
                 <AssignmentCard />
                 <AssignmentCard />
                 <AssignmentCard />

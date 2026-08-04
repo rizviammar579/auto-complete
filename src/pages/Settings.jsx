@@ -6,7 +6,7 @@ import AIConfiguration from '../components/AIConfiguration'
 
 const Settings = () => {
   return (
-    <div className='font-inter p-5'>
+    <div className='font-inter p-5 h-[90vh]'>
       <div className='text-[28px] font-bold'>Settings</div>
       <div className='text-[15px] font-semibold text-gray-500 mb-8'>Manage your personal productivity stack</div>
 
