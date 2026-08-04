@@ -1,10 +1,10 @@
-import { canUseFileUpload } from "./canUseFileUpload.js";
-import { getPendingAssignments } from "./getPendingAssignments.js";
-import { processWithFileUpload } from "./processWithFileUpload.js";
-import { enoughTimeForDeadline } from "./enoughTimeForDeadline.js";
-import { processWithTextExtraction } from "./processWithTextExtraction.js";
-import { getAssignment } from "./getAssignment.js";
-import { getCourseDetails } from "./getCourseDetails.js"
+import { canUseFileUpload } from "../functions/canUseFileUpload.js";
+import { getPendingAssignments } from "../functions/getPendingAssignments.js";
+import { processWithFileUpload } from "../functions/processWithFileUpload.js";
+import { enoughTimeForDeadline } from "../functions/enoughTimeForDeadline.js";
+import { processWithTextExtraction } from "../functions/processWithTextExtraction.js";
+import { getAssignment } from "../functions/getAssignment.js";
+import { getCourseDetails } from "../functions/getCourseDetails.js"
 
 
 export async function scheduler() {

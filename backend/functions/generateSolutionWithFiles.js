@@ -1,4 +1,4 @@
-import ai from "../services/AI/geminiService.js";
+import ai from "../services/ai/geminiService.js";
 import { createPartFromUri } from "@google/genai"
 import { uploadPDF } from './uploadPDF.js'
 import mammoth from "mammoth";
@@ -8,7 +8,7 @@ import fs from 'fs'
 import { assignmentProcessing } from "../../models/assignmentProcessingSchema.js";
 import uploadSolnToDrive from "./uploadSolnToDrive.js";
 import { classroom } from "../services/google/googleService.js";
-import getPrompt from "../services/AI/prompt.js";
+import getPrompt from "../services/ai/prompt.js";
 import { aiStatus } from '../../models/aiStatusSchema.js'
 import { processWithTextExtraction } from "./processWithTextExtraction.js";
 

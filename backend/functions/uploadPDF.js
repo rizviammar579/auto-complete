@@ -1,4 +1,4 @@
-import ai from "../services/AI/geminiService.js";
+import ai from "../services/ai/geminiService.js";
 
 export async function uploadPDF(url, displayName) {
 

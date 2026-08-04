@@ -1,4 +1,4 @@
-import ai from "../services/AI/geminiService.js";
+import ai from "../services/ai/geminiService.js";
 import mammoth from "mammoth";
 import { PDFParse } from "pdf-parse";
 import path from "path";
@@ -9,7 +9,7 @@ import { assignmentProcessing } from "../../models/assignmentProcessingSchema.js
 import { generateDocx } from "./generateDocx.js";
 import uploadSolnToDrive from "./uploadSolnToDrive.js";
 import { classroom } from "../services/google/googleService.js";
-import getPrompt from "../services/AI/prompt.js";
+import getPrompt from "../services/ai/prompt.js";
 
 export async function processWithTextExtraction(pendingAssignment, assignment, course) {
 
