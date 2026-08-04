@@ -5,7 +5,7 @@ const SystemStatus = () => {
     <div className='font-inter p-5 border border-gray-300 border-[2px] rounded-2xl bg-white'>
       <h1 className='text-[25px] font-semibold mb-4'>System Status</h1>
 
-      <ul className='flex flex-col gap-2 justify-center'>
+      <ul className='flex flex-col gap-3 justify-center'>
         <li className='flex justify-between'>
             <div className='flex gap-1 items-center'>
                 <img src="../../googledrive.png" alt="" className='w-[23px] h-[23px]' />
@@ -29,7 +29,7 @@ const SystemStatus = () => {
         </li>
         <li className='flex justify-between'>
             <div className='flex gap-2 items-center'>
-             <div className='w-3 h-3 bg-green-500 text-green-500 rounded-full'></div>
+             <div className='ml-1 w-4 h-4 bg-green-500 text-green-500 rounded-full'></div>
                 <div>Scheduler</div>
             </div>
             <div className='text-green-500 text-[14px] font-bold'>Running</div>
