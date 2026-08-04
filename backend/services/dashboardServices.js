@@ -1,17 +1,22 @@
-import { aiStatus } from "../../models/aiStatusSchema";
-import { runtimeState } from "../utils/runtimeState";
+import { aiStatus } from "../../models/aiStatusSchema.js";
+import { runtimeState } from "../utils/runtimeState.js";
+import { aggregateQuery } from "../utils/aggregateQuery.js";
 
 export async function fetchDashboardData(req, res) {
 
     try {
 
-        const quota = await aiStatus.findOne()
+        const quota = await aiStatus.findOne();
+
+        const assignments = await aggregateQuery({submissionStatus: false})
+
+
 
         const data = {
 
             systemStatus: {
 
-                googleDriveConnected: runtimeState.googleDriveConnectedConnected,
+                googleDriveConnected: runtimeState.googleDriveConnected,
                 googleClassroomConnected: runtimeState.googleClassroomConnected,
                 mongoDBConnected: runtimeState.mongoDBConnected,
                 automationRunning: runtimeState.automationRunning,
@@ -19,6 +24,10 @@ export async function fetchDashboardData(req, res) {
                 aiAvailable: !quota.aiQuotaExceeded
 
             },
+
+            notSubmittedAssignments: assignments,
+
+            
 
 
 
@@ -35,3 +44,64 @@ export async function fetchDashboardData(req, res) {
     }
 
 }
+
+
+
+/*
+ [
+  {
+    _id: ObjectId("..."),
+
+    assignmentId: "A101",
+    courseId: "CSE101",
+
+    dueDate: {...},
+    dueTime: {...},
+
+    aiStatus: "completed",
+    submissionStatus: false,
+
+    solutionPath: "/abc.docx",
+
+    solutionGeneratedAt: null,
+
+    driveFileId: "",
+    driveFileName: "",
+    driveFileLink: "",
+
+    assignment: {
+      _id: ObjectId("..."),
+
+      assignmentId: "A101",
+      courseId: "CSE101",
+
+      title: "Assignment 3",
+      description: "Solve questions",
+
+      state: "PUBLISHED",
+      workType: "ASSIGNMENT",
+
+      dueDate: {...},
+      dueTime: {...},
+
+      maxPoints: 100,
+
+      alternateLink: "...",
+
+      materials: [
+        ...
+      ]
+    },
+
+    course: {
+      _id: ObjectId("..."),
+
+      courseId: "CSE101",
+
+      courseName: "DBMS",
+
+      courseStatus: "ACTIVE"
+    }
+  }
+]
+*/
