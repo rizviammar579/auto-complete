@@ -11,6 +11,7 @@ import { classroom } from "../services/google/googleService.js";
 import getPrompt from "../services/ai/prompt.js";
 import { aiStatus } from '../../models/aiStatusSchema.js'
 import { processWithTextExtraction } from "./processWithTextExtraction.js";
+import { createNotification } from "../utils/createNotification.js";
 
 export async function generateSolutionWithFiles(filesToUpload, pendingAssignment, assignment, course) {
 
@@ -51,8 +52,22 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
 
             await quota.save();
 
-            await processWithTextExtraction(pendingAssignment, assignment, course)
+            await createNotification(
+              'File Upload Quota Exceeded',
+              `Gemini file upload quota has been exceeded. Files will be processed using text extraction until the quota resets.`,
+              'error'
+            )
+
+
           }
+
+          await createNotification(
+            'File Upload Failed',
+            `${course.courseName} - ${assignment.title} could not be uploaded. Falling back to text extraction.`,
+            'warning'
+          )
+
+          await processWithTextExtraction(pendingAssignment, assignment, course)
 
           console.log(err);
 
@@ -71,6 +86,15 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
 
         if (docxContent) {
           content.push(`DOCX:\n${docxContent}`);
+        }
+        else {
+
+          await createNotification(
+            'Text Extraction Failed',
+            `${course.courseName} - ${assignment.title} could not be processed using text extraction.`,
+            'warning'
+          )
+
         }
 
         break;
@@ -109,6 +133,12 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
       quota.aiQuotaExceeded = true;
 
       await quota.save();
+
+      await createNotification(
+        'AI Quota Exceeded',
+        `Gemini daily usage limit has been exceeded. Try again tomorrow.`,
+        'error'
+      )
     }
 
     console.log(err);
@@ -126,6 +156,13 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
     await generateDocx(jsonResponse, uploadPath)
   } catch (err) {
     console.log(err);
+
+    await createNotification(
+      "DOCX Generation Failed",
+      `Failed to generate a DOCX file for ${course.courseName} - ${assignment.title}. Manual review may be required.`,
+      "error"
+    )
+
     return
   }
 
@@ -149,10 +186,20 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
     await uploadSolnToDrive(uploadPath, assignment, course)
   } catch (err) {
     console.error(err);
+    await createNotification(
+      "Drive Upload Failed",
+      `The generated DOCX for ${course.courseName} - ${assignment.title} could not be uploaded to Google Drive. The solution was not saved to Drive.`,
+      "warning"
+    )
     return
   }
 
-  console.log('success');
+  await createNotification(
+    'AI Solution Generated',
+    `AI solution generated and uploaded to drive for ${course.courseName} - ${assignment.title}`,
+    'success'
+  )
+
 
 
 

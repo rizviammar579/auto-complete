@@ -1,47 +1,49 @@
 import { aiStatus } from "../../models/aiStatusSchema.js";
 import { runtimeState } from "../utils/runtimeState.js";
 import { aggregateQuery } from "../utils/aggregateQuery.js";
+import { notifications } from "../../models/notificationSchema.js"
+
 
 export async function fetchDashboardData(req, res) {
 
-    try {
+  try {
 
-        const quota = await aiStatus.findOne();
+    const quota = await aiStatus.findOne();
 
-        const assignments = await aggregateQuery({submissionStatus: false})
+    const assignments = await aggregateQuery({ submissionStatus: false })
 
-
-
-        const data = {
-
-            systemStatus: {
-
-                googleDriveConnected: runtimeState.googleDriveConnected,
-                googleClassroomConnected: runtimeState.googleClassroomConnected,
-                mongoDBConnected: runtimeState.mongoDBConnected,
-                automationRunning: runtimeState.automationRunning,
-                lastSync: runtimeState.lastSync,
-                aiAvailable: !quota.aiQuotaExceeded
-
-            },
-
-            notSubmittedAssignments: assignments,
-
-            
+    const Notifications = await notifications.find().sort({createdAt: -1}).limit(4)
+      
 
 
+    const data = {
 
-        }
+      systemStatus: {
 
-        res.status(200).json(data);
+        googleDriveConnected: runtimeState.googleDriveConnected,
+        googleClassroomConnected: runtimeState.googleClassroomConnected,
+        mongoDBConnected: runtimeState.mongoDBConnected,
+        automationRunning: runtimeState.automationRunning,
+        lastSync: runtimeState.lastSync,
+        aiAvailable: !quota.aiQuotaExceeded
 
-    } catch (err) {
+      },
 
-        res.status(500).json({
-            message: err.message
-        });
+      notSubmittedAssignments: assignments,
+
+      notifications: Notifications 
 
     }
+
+    res.status(200).json(data);
+
+  } catch (err) {
+
+    res.status(500).json({
+      message: err.message
+    });
+
+  }
 
 }
 
@@ -104,4 +106,13 @@ export async function fetchDashboardData(req, res) {
     }
   }
 ]
+*/
+
+/*
+"notifications": [
+    {},
+    {},
+    {},
+    {}
+  ]
 */

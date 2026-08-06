@@ -8,10 +8,11 @@ import { Assignment } from '../models/assignmentSchema.js';
 import { canUseAI } from './functions/canUseAI.js';
 import connectDB from './services/mongoose/connectDB.js';
 import { runtimeState } from './utils/runtimeState.js';
+import { createNotification } from './utils/createNotification.js';
 
 
 
-export async function startup() {
+export async function automation() {
 
   runtimeState.automationRunning = true;
 
@@ -40,10 +41,17 @@ export async function startup() {
     }
 
     console.log('DOWNLOADS SYNCED SUCCESSFULLY');
+
+    await createNotification(
+      "Google Classroom Synced",
+      "Successfully synced courses and assignments.",
+      "success"
+    )
+
   }
 
 
-  if (await canUseAI()) {  
+  if (await canUseAI()) {
 
     await scheduler()
 

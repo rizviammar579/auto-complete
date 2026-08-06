@@ -1,7 +1,11 @@
+import { createNotification } from "../utils/createNotification.js";
+
 export async function notifyForReview(assignment,course){
 
-console.log('NO MATERIALS FOUND');
-console.log('MANUAL REVIEW REQUIRED');
-console.log(course.courseName,"\n",assignment.title);
+  await createNotification(
+    `Manual Review Required`,
+    `${course.courseName} - ${assignment.title} cannot be processed automatically because it has no downloadable material.`,
+    'info'
+  )
 
 }

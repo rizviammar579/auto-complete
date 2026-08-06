@@ -79,17 +79,28 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
         switch (extension) {
             case ".pdf":
 
-                const pdfBuffer = fs.readFileSync(fileToUpload);
+                try {
+                    const pdfBuffer = fs.readFileSync(fileToUpload);
 
-                const parser = new PDFParse({
-                    data: pdfBuffer
-                });
+                    const parser = new PDFParse({
+                        data: pdfBuffer
+                    });
 
-                const result = await parser.getText();
+                    const result = await parser.getText();
 
-                await parser.destroy();
+                    await parser.destroy();
 
-                content.push(`PDF:\n${result.text}`);
+                    content.push(`PDF:\n${result.text}`);
+                } catch (err) {
+                    console.log(err);
+
+                    await createNotification(
+                        'Text Extraction Failed',
+                        `${course.courseName} - ${assignment.title} could not be processed using text extraction.`,
+                        'warning'
+                    )
+
+                }
 
                 break;
 
@@ -103,6 +114,13 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
 
                 if (docxContent) {
                     content.push(`DOCX:\n${docxContent}`);
+                } else {
+
+                    await createNotification(
+                        'Text Extraction Failed',
+                        `${course.courseName} - ${assignment.title} could not be processed using text extraction.`,
+                        'warning'
+                    )
                 }
 
                 break;
@@ -140,6 +158,12 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
             quota.aiQuotaExceeded = true;
 
             await quota.save();
+
+            await createNotification(
+                'AI Quota Exceeded',
+                `Gemini daily usage limit has been exceeded. Try again tomorrow.`,
+                'error'
+            )
         }
 
         console.log(err)
@@ -157,6 +181,11 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
         await generateDocx(jsonResponse, uploadPath)
     } catch (err) {
         console.log(err);
+        await createNotification(
+            "DOCX Generation Failed",
+            `Failed to generate a DOCX file for ${course.courseName} - ${assignment.title}. Manual review may be required.`,
+            "error"
+        )
         return
     }
 
@@ -180,10 +209,19 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
         await uploadSolnToDrive(uploadPath, assignment, course)
     } catch (err) {
         console.error(err);
+        await createNotification(
+            "Drive Upload Failed",
+            `The generated DOCX for ${course.courseName} - ${assignment.title} could not be uploaded to Google Drive. The solution was not saved to Drive.`,
+            "warning"
+        )
         return
     }
 
-    console.log('success');
+    await createNotification(
+        'AI Solution Generated',
+        `AI solution generated and uploaded to drive for ${course.courseName} - ${assignment.title}`,
+        'success'
+    )
 
 
 

@@ -18,6 +18,12 @@ const DashboardNotification = () => {
         </li>
         <li className='flex justify-between'>
             <div className='flex gap-1 items-center'>
+                <img src="../../notification.png" alt="" className='w-[20px] h-[20px]' />
+                <div>{`Solution Ready (DBMS Lab)`}</div>
+            </div>
+        </li>
+        <li className='flex justify-between'>
+            <div className='flex gap-1 items-center'>
                 <img src="../../warning-red.png" alt="" className='w-[20px] h-[20px]' />
                 <div>{`AI Quota Exceeded (DSA)`}</div>
             </div>
