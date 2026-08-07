@@ -20,7 +20,9 @@ export async function automation() {
 
   try {
 
-    await sync()
+    // await sync()
+    console.log('hi');
+    
 
   } catch (err) {
 
@@ -28,7 +30,7 @@ export async function automation() {
 
   }
 
-  startScheduler()
+  // startScheduler()
 
 
 }

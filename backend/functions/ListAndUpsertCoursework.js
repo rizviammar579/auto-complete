@@ -5,7 +5,7 @@ import { upsertCoursework } from "./upsertCoursework.js";
 
 export async function ListAndUpsertCoursework(courses) {
 
-    if(courses.length === 0) return
+    if (courses.length === 0) return
 
     for (const course of courses) {
 
@@ -16,23 +16,16 @@ export async function ListAndUpsertCoursework(courses) {
                 const result = await listCoursework(course)
 
 
+                if (Object.keys(result.data).length === 0) continue;
 
-                if (Object.keys(result.data).length === 0) {
-                    console.log('No assignments found for : ', course.name, " (", course.id, ")");
-
-                }
-                else {
-
-                    const assignments = result.data.courseWork
-
-                    await upsertCoursework(assignments)
+                const assignments = result.data.courseWork
+                await upsertCoursework(assignments)
 
 
-                }
+            } catch (err) {
 
-            } catch(err) {
                 //  console.log(err);
-                 
+
                 console.log("CANNOT FETCH ASSIGNMENTS FOR : ", course.name, " (", course.id, ")")
 
             }

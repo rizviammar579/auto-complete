@@ -2,7 +2,7 @@ import { authenticate } from '@google-cloud/local-auth';
 import { google } from 'googleapis';
 import path from 'node:path';
 import process from 'node:process';
-import { runtimeState } from '../../utils/runtimeState';
+import { runtimeState } from '../../utils/runtimeState.js';
 
 
 // The scope for reading Classroom courses,courseworks and driveFiles.

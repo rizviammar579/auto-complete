@@ -1,9 +1,9 @@
-import { sync } from "../functions/sync";
+import { sync } from "../functions/sync.js";
 import nodeCron from "node-cron";
 
 export function startScheduler() {
 
-    nodeCron.schedule("*/3 * * * *", async () => {
+    nodeCron.schedule("*/10 * * * *", async () => {
 
         try {
 

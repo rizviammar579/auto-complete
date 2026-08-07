@@ -1,4 +1,4 @@
-import { auth } from './services/google/googleService.js'
+import { auth } from '../services/google/googleService.js'
 import { ListAndUpsertCourses } from './ListAndUpsertCourses.js'
 import { ListAndUpsertCoursework } from './ListAndUpsertCoursework.js'
 import { Assignment } from '../../models/assignmentSchema.js';
@@ -39,6 +39,6 @@ export async function sync() {
 
     }
 
-    runtimeState.lastSync = new date()
+    runtimeState.lastSync = new Date()
 
 }
