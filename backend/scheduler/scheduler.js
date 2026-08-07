@@ -1,35 +1,20 @@
-import { canUseFileUpload } from "../functions/canUseFileUpload.js";
-import { getPendingAssignments } from "../functions/getPendingAssignments.js";
-import { processWithFileUpload } from "../functions/processWithFileUpload.js";
-import { enoughTimeForDeadline } from "../functions/enoughTimeForDeadline.js";
-import { processWithTextExtraction } from "../functions/processWithTextExtraction.js";
-import { getAssignment } from "../functions/getAssignment.js";
-import { getCourseDetails } from "../functions/getCourseDetails.js"
+import { sync } from "../functions/sync";
+import nodeCron from "node-cron";
 
+export function startScheduler() {
 
-export async function scheduler() {
+    nodeCron.schedule("*/3 * * * *", async () => {
 
-    const pendingAssignments = await getPendingAssignments()
+        try {
 
-    if (pendingAssignments.length === 0) return
+            await sync();
 
-    for (const pendingAssignment of pendingAssignments) {
+        } catch (err) {
 
-    const now = new Date()
-    const assignment = await getAssignment(pendingAssignment.assignmentId);
-    const course = await getCourseDetails(pendingAssignment.courseId)
+            console.error(err);
 
-    if (canUseFileUpload()) {
+        }
 
-        await processWithFileUpload(pendingAssignment, assignment, course)
-
-    } else if (!enoughTimeForDeadline(pendingAssignment, now)) {
-
-        await processWithTextExtraction(pendingAssignment, assignment, course);
-
-    }
-
-
-    }
+    });
 
 }
