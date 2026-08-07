@@ -1,15 +1,13 @@
 import { auth } from './services/google/googleService.js'
 import fs from 'fs'
 import connectDB from './services/mongoose/connectDB.js';
+import { automation } from './functions/automation.js';
 import { startScheduler } from './scheduler/scheduler.js';
-import { sync } from './functions/sync.js';
 import { runtimeState } from './utils/runtimeState.js';
 
 
 
-export async function automation() {
-
-  runtimeState.automationRunning = true
+export async function startup() {
 
   await connectDB()
 
@@ -20,8 +18,11 @@ export async function automation() {
 
   try {
 
-    // await sync()
+    // await automation()
     console.log('hi');
+
+    runtimeState.lastSync = new Date()
+    runtimeState.automationRunning = true
     
 
   } catch (err) {

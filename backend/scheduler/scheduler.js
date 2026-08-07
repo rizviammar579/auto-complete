@@ -1,4 +1,4 @@
-import { sync } from "../functions/sync.js";
+import { automation } from "../functions/automation.js";
 import nodeCron from "node-cron";
 
 export function startScheduler() {
@@ -7,7 +7,7 @@ export function startScheduler() {
 
         try {
 
-            await sync();
+            await automation();
 
         } catch (err) {
 

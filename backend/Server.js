@@ -1,7 +1,7 @@
 import app from "./app.js";
-import { automation } from "./automation.js";
+import { startup } from "./startup.js";
 
-await automation();
+await startup();
 
 const PORT = process.env.PORT || 3000;
 
