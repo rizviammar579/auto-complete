@@ -4,7 +4,7 @@ import DisplaySection from "./components/DisplaySection.jsx"
 function App() {
 
   return (
-    <div className="bg-black h-[100vh] flex p-3 z-50">
+    <div className="bg-black h-[100vh] flex p-3 z-50 overflow-hidden">
       <Sidebar/>
       <DisplaySection/>
     </div>

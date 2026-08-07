@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from 'lucide-react';
 
-const GreetingSection = () => {
+const GreetingSection = ({dashboardData}) => {
 
   const navigate = useNavigate();
 
@@ -10,7 +10,7 @@ const GreetingSection = () => {
     <div className='flex justify-between py-8'>
       <div className='flex flex-col gap-3 font-inter'>
         <h1 className='text-4xl font-semibold font-inter text-gray-950'>Welcome Back, Ammar.</h1>
-        <p className='font-inter text-gray-700'>You have 3 assignments waiting for review.</p>
+        <p className='font-inter text-gray-700'>{`You have ${dashboardData.notSubmittedAssignments.length} assignments waiting for review.`}</p>
       </div>
       <div>
         <button className='text-white bg-gray-950 p-2 rounded-xl px-10 text-[18px] cursor-pointer flex gap-1.5 items-center' onClick={()=>{navigate('/assignments')}}>

@@ -1,21 +1,21 @@
 import React from 'react'
 import AssignmentCard from './AssignmentCard.jsx'
 
-const AssignmentCardSection = () => {
+const AssignmentCardSection = ({ dashboardData }) => {
+
+    const assignments = dashboardData?.notSubmittedAssignments
+
     return (
         <div className=''>
 
             <h1 className='font-inter text-[20px] font-semibold my-4 mt-8'>Today's Focus</h1>
             <div className='grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-5 mb-10'>
-                <AssignmentCard />
-                <AssignmentCard />
-                <AssignmentCard />
-                <AssignmentCard />
-                <AssignmentCard />
-                <AssignmentCard />
-                <AssignmentCard />
-                <AssignmentCard />
-                
+
+                {assignments.map((assignment) => {
+                    return <AssignmentCard assignment={assignment} key={assignment.assignmentId} />
+                })}
+
+
             </div>
         </div>
     )

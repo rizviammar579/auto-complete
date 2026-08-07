@@ -26,16 +26,16 @@ const Dashboard = () => {
 
   }, []);
 
-   if (!dashboardData) {
-        return <Loader/>     
-    }
+  if (!dashboardData) {
+    return <Loader />
+  }
 
   return (
 
     <div className=''>
       <div className='flex h-[90vh]'>
-        <DashboardMainSection dashboardData={dashboardData}/>
-        <DashboardSideSection dashboardData={dashboardData}/>
+        <DashboardMainSection dashboardData={dashboardData} />
+        <DashboardSideSection dashboardData={dashboardData} />
       </div>
     </div>
   )

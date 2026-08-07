@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const DashboardNotification = ({ dashboardData }) => {
 
-    const notifications = dashboardData.notifications
+    const notifications = dashboardData?.notifications
 
     const notificationIcons = {
         success: "../../public/success.png",
