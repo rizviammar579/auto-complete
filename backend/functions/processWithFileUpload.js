@@ -11,13 +11,6 @@ export async function processWithFileUpload(pendingAssignment, assignment, cours
 
     if (!materials.length) {
 
-        await assignmentProcessing.updateOne({ assignmentId: assignment.assignmentId },
-            {
-                $set: {
-                    aiStatus: "manual review required",
-                }
-            }
-        )
         await notifyForReview(assignment, course)
 
         return

@@ -159,7 +159,7 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
 
     await createNotification(
       "DOCX Generation Failed",
-      `Failed to generate a DOCX file for ${course.courseName} - ${assignment.title}. Manual review may be required.`,
+      `Failed to generate a DOCX file for ${course.courseName} - ${assignment.title}. Gemini gave an invalid JSON response`,
       "error"
     )
 
@@ -170,7 +170,7 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
 
     {
       $set: {
-        aiStatus: "completed",
+        aiStatus: "GENERATED",
         solutionGeneratedAt: new Date(),
         solutionPath: uploadPath
 

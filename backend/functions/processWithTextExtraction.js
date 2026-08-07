@@ -19,13 +19,6 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
 
     if (!materials.length) {
 
-        await assignmentProcessing.updateOne({ assignmentId: assignment.assignmentId },
-            {
-                $set: {
-                    aiStatus: "manual review required",
-                }
-            }
-        )
         await notifyForReview(assignment, course)
 
         return
@@ -183,7 +176,7 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
         console.log(err);
         await createNotification(
             "DOCX Generation Failed",
-            `Failed to generate a DOCX file for ${course.courseName} - ${assignment.title}. Manual review may be required.`,
+            `Failed to generate a DOCX file for ${course.courseName} - ${assignment.title}. Gemini gave an invalid JSON response`,
             "error"
         )
         return
@@ -193,7 +186,7 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
 
         {
             $set: {
-                aiStatus: "completed",
+                aiStatus: "GENERATED",
                 solutionGeneratedAt: new Date(),
                 solutionPath: uploadPath
 

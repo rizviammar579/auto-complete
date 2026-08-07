@@ -4,6 +4,7 @@ import AssignmentCard from './AssignmentCard.jsx'
 const AssignmentCardSection = ({ dashboardData }) => {
 
     const assignments = dashboardData?.notSubmittedAssignments
+    console.log(assignments)
 
     return (
         <div className=''>

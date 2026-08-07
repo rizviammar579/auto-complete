@@ -88,7 +88,7 @@ export async function upsertCoursework(assignments) {
           courseId: assignment.courseId,
           dueDate: assignment.dueDate,
           dueTime: assignment.dueTime,
-          aiStatus: "pending"
+          aiStatus: 'GENERATED'
         }
 
       },

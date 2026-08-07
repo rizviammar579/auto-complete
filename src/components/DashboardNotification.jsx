@@ -22,14 +22,13 @@ const DashboardNotification = ({ dashboardData }) => {
             <ul className='flex flex-col gap-3 justify-center'>
 
                 {notifications.map(notification => {
-                    return <>
-                        <li className='flex justify-between'>
+                    return <li className='flex justify-between' key={notification._id}>
                             <div className='flex gap-1 items-center'>
                                 <img src={notificationIcons[notification.type]} alt="" className='w-[20px] h-[20px]' />
                                 <div >{notification.title}</div>
                             </div>
-                        </li>
-                    </>
+                        </li> 
+                    
                 })}
 
 

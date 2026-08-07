@@ -15,6 +15,10 @@ const AssignmentCard = ({ assignment }) => {
       </div>
 
       <div className=' flex gap-5'>
+        <button className='bg-gray-950 text-white text-[13px] px-3 py-1.5 rounded-xl cursor-pointer'><a href="">Open Assigment</a></button>
+        <button className='bg-gray-950 text-white text-[13px] px-3 py-1.5 rounded-xl cursor-pointer'>Copy Drive Link</button>
+      </div>
+      <div className=' flex gap-5'>
         <button className='bg-gray-950 text-white text-[13px] px-3 py-1.5 rounded-xl cursor-pointer'>Review Solution</button>
         <button className='bg-gray-950 text-white text-[13px] px-3 py-1.5 rounded-xl cursor-pointer'>Copy Drive Link</button>
       </div>

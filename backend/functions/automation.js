@@ -13,7 +13,7 @@ export async function automation() {
 
     runtimeState.automationRunning = true;
 
-    try {
+  
 
         // Calls API for list of courses and upserts course details in DB
         const courses = await ListAndUpsertCourses()
@@ -45,21 +45,7 @@ export async function automation() {
         }
 
         runtimeState.lastSync = new Date();
-
-    } catch (err) {
-
-        console.error(err);
-
-        await createNotification(
-            "Automation Failed",
-            "An error occurred during synchronization.",
-            "error"
-        );
-
-    } finally {
-
         runtimeState.automationRunning = false;
-
-    }
+    
 
 }

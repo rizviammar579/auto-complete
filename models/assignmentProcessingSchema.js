@@ -32,7 +32,8 @@ const assignmentProcessingSchema = new mongoose.Schema({
 
     aiStatus: {
         type: String,
-        default: "pending"
+        enum: ["PENDING", "GENERATED"],
+        default: "PENDING"
     },
 
     
