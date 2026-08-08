@@ -15,7 +15,7 @@ export default async function uploadSolnToDrive(filePath, assignment, course) {
   );
 
 
-  const driveFileName = `${course.courseName}-${assignment.title}-${assignment.assignmentId}`
+  const driveFileName = `2501030021-${assignment.title}-B1`
   // The request body for the file to be uploaded.
   const requestBody = {
     name: driveFileName,
