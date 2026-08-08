@@ -1,7 +1,7 @@
 import React from 'react'
 import AssignmentCard from './AssignmentCard.jsx'
 
-const AssignmentCardSection = ({ dashboardData }) => {
+const AssignmentCardSection = ({ dashboardData , fetchDashboardData }) => {
 
     const assignments = dashboardData?.notSubmittedAssignments
     console.log(assignments)
@@ -13,7 +13,7 @@ const AssignmentCardSection = ({ dashboardData }) => {
             <div className='grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-5 mb-10'>
 
                 {assignments.map((assignment) => {
-                    return <AssignmentCard assignment={assignment} key={assignment.assignmentId} />
+                    return <AssignmentCard assignment={assignment} key={assignment.assignmentId} fetchDashboardData={fetchDashboardData}/>
                 })}
 
 

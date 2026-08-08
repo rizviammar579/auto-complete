@@ -9,20 +9,20 @@ const Dashboard = () => {
 
   const [dashboardData, setDashboardData] = useState(null)
 
-  useEffect(() => {
-
-    async function fetchDashboardData() {
+  async function fetchDashboardData() {
 
       const response = await axios.get(
         "http://localhost:3000/"
       );
 
+
       setDashboardData(response.data);
 
     }
 
-    fetchDashboardData();
+  useEffect(() => {
 
+    fetchDashboardData();
 
   }, []);
 
@@ -34,7 +34,7 @@ const Dashboard = () => {
 
     <div className=''>
       <div className='flex h-[90vh]'>
-        <DashboardMainSection dashboardData={dashboardData} />
+        <DashboardMainSection dashboardData={dashboardData} fetchDashboardData={fetchDashboardData} />
         <DashboardSideSection dashboardData={dashboardData} />
       </div>
     </div>

@@ -2,6 +2,7 @@ import { aiStatus } from "../../models/aiStatusSchema.js";
 import { runtimeState } from "../utils/runtimeState.js";
 import { aggregateQuery } from "../utils/aggregateQuery.js";
 import { notifications } from "../../models/notificationSchema.js"
+import { assignmentProcessing } from "../../models/assignmentProcessingSchema.js"
 
 
 export async function fetchDashboardData(req, res) {
@@ -12,8 +13,7 @@ export async function fetchDashboardData(req, res) {
 
     const assignments = await aggregateQuery({ submissionStatus: false })
 
-    const Notifications = await notifications.find().sort({createdAt: -1}).limit(4)
-      
+    const Notifications = await notifications.find().sort({ createdAt: -1 }).limit(4)
 
 
     const data = {
@@ -31,7 +31,7 @@ export async function fetchDashboardData(req, res) {
 
       notSubmittedAssignments: assignments,
 
-      notifications: Notifications 
+      notifications: Notifications
 
     }
 
@@ -46,6 +46,32 @@ export async function fetchDashboardData(req, res) {
   }
 
 }
+
+export async function markAsTurnedIn(req, res) {
+
+  try {
+
+    const { assignmentId } = req.body;
+
+    const data = await assignmentProcessing.updateOne(
+      { assignmentId: assignmentId },
+      {
+        $set: { submissionStatus: true }
+      }
+    );
+
+    res.status(200).json(data);
+
+  } catch (err) {
+
+    res.status(500).json({
+      message: err.message
+    });
+
+  }
+
+}
+
 
 
 
