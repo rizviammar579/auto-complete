@@ -86,11 +86,13 @@ const AssignmentCard = ({ assignment , fetchDashboardData }) => {
           <img src="../../public/googleclassroom.png" alt="" className='w-[24px] h-[24px]' /> Open Classroom
         </a>
 
-        <button className='bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full flex-col border border-gray-400' onClick={() => { handleCopy(assignment.driveFileLink) }}>
+        <button className='bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full flex-col border border-gray-400' onClick={()=>{
+          assignment.driveFileLink === '' ? toast.error("Nothing to copy"): handleCopy(assignment.driveFileLink)
+        }}>
           <img src="../../public/googledrive.png" alt="" className='w-[24px] h-[24px]' />Copy Drive Link
         </button>
 
-        <button className='bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full flex-col border border-gray-400' onClick={()=>{handleTurnIn(assignment.assignmentId)}}>
+        <button className='bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full flex-col border border-gray-400' onClick={() => { handleTurnIn(assignment.assignmentId) }}>
           <img src="../../public/turnedin.png" alt="" className='w-[24px] h-[24px]' /> Mark as Turned In
         </button>
 

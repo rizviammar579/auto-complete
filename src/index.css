@@ -17,7 +17,7 @@
 
   .subtle-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #888 transparent;
+  scrollbar-color: #0d60dd transparent;
 }
 
 .subtle-scrollbar::-webkit-scrollbar {
