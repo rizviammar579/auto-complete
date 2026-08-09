@@ -4,6 +4,7 @@ import { ChevronDown, ChevronRight } from 'lucide-react'
 import { timeAgo } from '../../backend/utils/timeAgo.js'
 import toast from 'react-hot-toast'
 import axios from 'axios'
+import { Trash2 } from 'lucide-react'
 
 const NotificationComponent = ({ notification ,fetchNotificationData }) => {
 
@@ -34,11 +35,25 @@ const NotificationComponent = ({ notification ,fetchNotificationData }) => {
     }
   };
 
+  const deleteOne = async(id)=>{
+
+      try {
+
+      await axios.delete(`http://localhost:3000/notifications/delete/${id}`);
+
+      fetchNotificationData();
+      
+    } catch (error) {
+    }
+  };
+
 
 
 
   return (
-    <div className={`flex justify-between items-center p-3 border border-[1px] border-gray-300 rounded-[8px] hover:bg-gray-200 ${border[notification.type]} border-l-[5px]`} onClick={()=>{markAsRead(notification._id)}}>
+    
+  
+     <div className={`group flex justify-between items-center p-3 border border-[1px] border-gray-300 rounded-[8px] hover:bg-gray-200 ${border[notification.type]} border-l-[5px]`} onClick={()=>{markAsRead(notification._id)}}>
 
       <div className='flex gap-2 items-center py-1 w-[90%]'>
 
@@ -55,15 +70,20 @@ const NotificationComponent = ({ notification ,fetchNotificationData }) => {
 
         </div>
       </div>
-      <div className='flex gap-5 items-center w-[10%]'>
+      <div className='flex gap-3 items-center w-[10%]'>
         <div className='w-fit'>{timeAgo(notification.createdAt)}</div>
         <div>
           <div className={`${notification.read ? 'hidden' : 'block'} relative top-1.5 w-3 h-3 bg-blue-500 text-blue-500 rounded-full`}></div>
           <div className={`w-3 h-3 bg-blue-500 text-blue-500 rounded-full opacity-0 `}></div>
         </div>
+
       </div>
 
+      <Trash2 className='opacity-0 group-hover:opacity-100 transition-opacity duration-400' onClick={()=>{deleteOne(notification._id)}}/>
     </div>
+  
+
+   
   )
 }
 

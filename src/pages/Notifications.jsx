@@ -4,6 +4,7 @@ import NotificationComponent from '../components/NotificationComponent.jsx'
 import { Loader } from '../components/Loader.jsx'
 import axios from 'axios'
 import { Bell } from 'lucide-react'
+import toast from 'react-hot-toast'
 
 
 const Notifications = () => {
@@ -48,6 +49,20 @@ const Notifications = () => {
       await axios.patch("http://localhost:3000/notifications/read-all");
 
       fetchNotificationData();
+      toast.success("All notifications marked as read")
+      
+    } catch (error) {
+    }
+  };
+
+    const deleteAll = async()=>{
+
+      try {
+
+      await axios.delete("http://localhost:3000/notifications/delete-all");
+
+      fetchNotificationData();
+      toast.error("All notifications deleted")
       
     } catch (error) {
     }
@@ -89,7 +104,11 @@ const Notifications = () => {
         
         </div>
 
+        <div className='flex gap-5'>
+          <button className='text-[15px]  text-gray-100 bg-red-600 w-fit rounded-[8px] border-[2px] py-1.5 px-4 cursor-pointer' onClick={()=>{deleteAll()}} >Delete All</button>
+        
         <button className='text-[15px]  text-gray-100 bg-black w-fit rounded-[8px] border-[2px] py-1.5 px-4 cursor-pointer' onClick={()=>{markAllAsRead()}} >Mark all as read</button>
+        </div>
 
       </div>
 

@@ -19,7 +19,6 @@ export async function startup() {
   try {
 
     // await automation()
-    console.log('hi');
 
     runtimeState.lastSync = new Date()
     runtimeState.automationRunning = true

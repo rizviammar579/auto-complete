@@ -51,15 +51,52 @@ export async function markAsRead(req, res) {
 
   try {
 
-    const { id } = req.params
-    console.log(id)
-    console.log('hi');
-    
+    const { id } = req.params    
 
     const data = await notifications.updateOne(
     { _id : id },
     { $set: { read: true } }
 );
+
+    res.status(200).json(data);
+
+  } catch (err) {
+
+    res.status(500).json({
+      message: err.message
+    });
+
+  }
+
+}
+
+
+export async function deleteAllNotifications(req, res) {
+
+  try { 
+
+    const data = await notifications.deleteMany({});
+
+    res.status(200).json(data);
+
+  } catch (err) {
+
+    res.status(500).json({
+      message: err.message
+    });
+
+  }
+
+}
+
+
+export async function deleteNotification(req, res) {
+
+  try { 
+
+    const { id } = req.params
+
+    const data = await notifications.deleteOne({_id : id});
 
     res.status(200).json(data);
 
