@@ -1,56 +1,118 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState , useEffect } from 'react'
 import NotificationComponent from '../components/NotificationComponent.jsx'
+import { Loader } from '../components/Loader.jsx'
+import axios from 'axios'
+import { Bell } from 'lucide-react'
+
 
 const Notifications = () => {
 
-  const [allRead, setallRead] = useState(false)
-  const [filter, setfilter] = useState('all')
 
+  const [notifications, setNotifications] = useState(null)
+  const [currentFilter, setCurrentFilter] = useState('All')
 
-  const Notifications = [
-    { id: 1, course: 'DBMS', assignment: 'Assignment-3', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim suscipit numquam nulla. Maxime non magnam quia blanditiis explicabo nostrum dolorum?', message: 'solution is ready for review.' },
-    { id: 2, course: 'DBMS', assignment: 'Assignment-3', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim suscipit numquam nulla. Maxime non magnam quia blanditiis explicabo nostrum dolorum?', message: 'solution is ready for review.' },
-    { id: 3, course: 'DBMS', assignment: 'Assignment-3', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim suscipit numquam nulla. Maxime non magnam quia blanditiis explicabo nostrum dolorum?', message: 'solution is ready for review.' },
-    { id: 4, course: 'DBMS', assignment: 'Assignment-3', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim suscipit numquam nulla. Maxime non magnam quia blanditiis explicabo nostrum dolorum?', message: 'solution is ready for review.' },
-    { id: 5, course: 'DBMS', assignment: 'Assignment-3', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim suscipit numquam nulla. Maxime non magnam quia blanditiis explicabo nostrum dolorum?', message: 'solution is ready for review.' }
+  const filters = [
+    { text: 'All' },
+    { text: 'Unread' },
+    { text: 'Success' },
+    { text: 'Info' },
+    { text: 'Warning' },
+    { text: 'Error' },
   ]
+  
+    async function fetchNotificationData() {
+  
+        const response = await axios.get(
+          "http://localhost:3000/notifications/"
+        );
+  
+  
+        setNotifications(response.data.notifications);
+        console.log(response.data.notifications)
+  
+      }
+  
+    useEffect(() => {
+  
+      fetchNotificationData();
+    
+  
+    }, []);
+
+
+    const markAllAsRead = async()=>{
+
+      try {
+
+      await axios.patch("http://localhost:3000/notifications/read-all");
+
+      fetchNotificationData();
+      
+    } catch (error) {
+    }
+  };
+
+
+  const filteredNotifications = notifications?.filter(notification=>{
+    if(currentFilter === 'All') return true;
+    if(currentFilter === 'Unread') return !notification.read;
+    return notification.type === currentFilter.toLowerCase()
+  })
+
+
+   if (!notifications) {
+      return <Loader />
+    }
+  
 
 
   return (
-    <div className='p-5 w-full flex flex-col gap-6 font-inter h-[90vh]'>
+    <div className='p-5 w-full flex flex-col gap-6 font-inter h-[90vh] overflow-auto '>
 
-      <div className='flex justify-between items-center '>
+      <div className='flex gap-3 items-center '>
+        <Bell size={30}/>
         <h1 className='text-[28px] font-bold'>Notifications Centre</h1>
-        <h2 className='text-[16px] font-semibold text-gray-500'>Updated 10 mins ago</h2>
+        
       </div>
 
-      <div className='flex justify-between items-center w-full'>
+      <div className='flex justify-between items-center w-full mb-10'>
 
-        <ul className='border border-gray-300 w-fit rounded-[8px] border-[2px]'>
-          <button className={`text-[16px] font-semibold text-gray-950 w-fit rounded-[8px] py-1 px-3 cursor-pointer ${filter === 'all' ? 'bg-gray-300' : ''}`} onClick={() => { setfilter('all') }}>All</button>
-          <button className={`text-[16px] font-semibold text-gray-950 w-fit rounded-[8px] py-1 px-3 cursor-pointer ${filter === 'unread' ? 'bg-gray-300' : ''}`} onClick={() => { setfilter('unread') }}>Unread</button>
-          <button className={`text-[16px] font-semibold text-gray-950 w-fit rounded-[8px] py-1 px-3 cursor-pointer ${filter === 'assignments' ? 'bg-gray-300' : ''}`} onClick={() => { setfilter('assignments') }}>Assignments</button>
-          <button className={`text-[16px] font-semibold text-gray-950 w-fit rounded-[8px] py-1 px-3 cursor-pointer ${filter === 'forms' ? 'bg-gray-300' : ''}`} onClick={() => { setfilter('forms') }}>Forms</button>
-        </ul>
+        <div className='border border-gray-300 w-fit rounded-[8px] border-[2px]'>
 
-        <button className='text-[16px] font-semibold text-gray-950 border border-gray-300 w-fit rounded-[8px] border-[2px] py-1 px-3 cursor-pointer hover:bg-gray-300' onClick={() => setallRead(true)}>Mark all as read</button>
+          {filters.map(filter=>{
+
+          return <button key={filter.text}  className={`text-[15px]  w-fit rounded-[8px] py-1 px-3 cursor-pointer ${filter.text === currentFilter ? 'bg-gray-950 text-gray-100 ':'text-gray-950 bg-gray-100 font-semibold'}`} onClick={()=>setCurrentFilter(filter.text)}>{filter.text}</button>
+
+          })}
+
+        
+        </div>
+
+        <button className='text-[15px]  text-gray-100 bg-black w-fit rounded-[8px] border-[2px] py-1.5 px-4 cursor-pointer' onClick={()=>{markAllAsRead()}} >Mark all as read</button>
 
       </div>
 
       <div className='border-gray-300 w-fit w-full flex flex-col gap-5'>
 
-        {Notifications.map((Notification) => {
+        {filteredNotifications.map((filteredNotification) => {
 
-          return <NotificationComponent key={Notification.id} Notification={Notification} allRead={allRead} setallRead={setallRead} />
+          return <NotificationComponent key={filteredNotification._id} notification={filteredNotification} fetchNotificationData={fetchNotificationData}/>
 
         })}
 
       </div>
 
+      <p className='text-gray-500 w-full gap-2 items-center flex justify-center my-5'><Bell size={20} color='gray'/> You're all caught up!</p>
+
 
     </div>
   )
-}
+
+    }
+  
+   
+
+
 
 export default Notifications

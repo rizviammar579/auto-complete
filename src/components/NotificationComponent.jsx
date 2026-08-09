@@ -1,32 +1,64 @@
 import React from 'react'
 import { useState } from 'react'
 import { ChevronDown, ChevronRight } from 'lucide-react'
+import { timeAgo } from '../../backend/utils/timeAgo.js'
+import toast from 'react-hot-toast'
+import axios from 'axios'
 
-const NotificationComponent = ({ Notification, allRead, setallRead }) => {
+const NotificationComponent = ({ notification ,fetchNotificationData }) => {
 
-  const [show, setshow] = useState(false)
+  const border = {
+    success: 'border-l-green-500',
+    error: 'border-l-red-500',
+    warning: 'border-l-yellow-500',
+    info: 'border-l-blue-500',
+  }
+
+  const notificationIcons = {
+    success: "../../public/success.png",
+    error: "../../public/error.png",
+    warning: "../../public/warning.png",
+    info: "../../public/info.png"
+  };
+
+  const markAsRead = async(id)=>{
+
+      try {
+      
+      await axios.patch(`http://localhost:3000/notifications/read/${id}`);
+
+      fetchNotificationData();
+      
+    } catch (error) {
+
+    }
+  };
+
+
+
 
   return (
-    <div className={`flex justify-between items-center p-3 border border-[1px] border-gray-300 rounded-[8px] hover:bg-gray-200 ${show ? 'bg-gray-200' : ''}`} onClick={() => { setshow(!show) }}>
+    <div className={`flex justify-between items-center p-3 border border-[1px] border-gray-300 rounded-[8px] hover:bg-gray-200 ${border[notification.type]} border-l-[5px]`} onClick={()=>{markAsRead(notification._id)}}>
 
       <div className='flex gap-2 items-center py-1 w-[90%]'>
 
-        <div className='flex gap-1.5 flex-col'>
-          <div className='flex gap-1.5 w-fit'>
-            <button>{show ? <ChevronDown className="w-6 h-6 text-gray-500" /> : <ChevronRight className="w-6 h-6 text-gray-500" />}</button>
-            <h1 className='font-semibold'>{Notification.course} {Notification.assignment}</h1>
-            <p>{Notification.message}</p>
+        <div className='flex gap-1.5 flex-col w-full'>
+          <div className='flex gap-1.5 w-full items-center'>
+
+            <img src={notificationIcons[notification.type]} alt="" className='w-[20px] h-[20px]' />
+            <h1 className={`font-bold`}>{notification.title}</h1>
+
           </div>
-          <div className={`${show ? '' : 'hidden'}`}>
-            <p className='w-[90%]'>{Notification.content}</p>
+          <div>
+            <p className='w-[90%] text-gray-700 relative left-6'>{notification.message}</p>
           </div>
 
         </div>
       </div>
       <div className='flex gap-5 items-center w-[10%]'>
-        <div className='w-fit'>5 mins ago</div>
+        <div className='w-fit'>{timeAgo(notification.createdAt)}</div>
         <div>
-          <div className={`relative top-1.5 w-3 h-3 bg-blue-500 text-blue-500 rounded-full ${allRead ? 'hidden' : ''}`}></div>
+          <div className={`${notification.read ? 'hidden' : 'block'} relative top-1.5 w-3 h-3 bg-blue-500 text-blue-500 rounded-full`}></div>
           <div className={`w-3 h-3 bg-blue-500 text-blue-500 rounded-full opacity-0 `}></div>
         </div>
       </div>
