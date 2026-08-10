@@ -10,42 +10,40 @@ import { runtimeState } from '../utils/runtimeState.js';
 
 export async function automation() {
 
-
     runtimeState.automationRunning = true;
-
-  
-
-        // Calls API for list of courses and upserts course details in DB
-        const courses = await ListAndUpsertCourses()
-
-
-        // Calls API for coursework of each course and upsert coursework details in DB
-        await ListAndUpsertCoursework(courses)
-
-
-
-        // Download coursework 
-        const DB_assignments = await Assignment.find()
-
-        for (const DB_assignment of DB_assignments) {
-            await downloadCoursework(DB_assignment)
-        }
-
-        await createNotification(
-            "Google Classroom Synced",
-            "Successfully synced courses and assignments.",
-            "success"
-        )
-
-
-        if (await canUseAI()) {
-
-            await generateSolution()
-
-        }
-
-        runtimeState.lastSync = new Date();
-        runtimeState.automationRunning = false;
     
+
+    // Calls API for list of courses and upserts course details in DB
+    const courses = await ListAndUpsertCourses()
+
+
+    // Calls API for coursework of each course and upsert coursework details in DB
+    await ListAndUpsertCoursework(courses)
+
+
+
+    // Download coursework 
+    const DB_assignments = await Assignment.find()
+
+    for (const DB_assignment of DB_assignments) {
+        await downloadCoursework(DB_assignment)
+    }
+
+    await createNotification(
+        "Google Classroom Synced",
+        "Successfully synced courses and assignments.",
+        "success"
+    )
+
+
+    if (await canUseAI()) {
+
+        await generateSolution()
+
+    }
+
+    runtimeState.lastSync = new Date();
+    runtimeState.automationRunning = false;
+
 
 }

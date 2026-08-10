@@ -18,7 +18,8 @@ import {
 
 export async function generateDocx(content, outputPath) {
 
-    const FONT = "Calibri";
+   try{
+     const FONT = "Calibri";
 
     const TITLE_SIZE = 40;
     const HEADING_SIZE = 32;
@@ -493,6 +494,10 @@ export async function generateDocx(content, outputPath) {
     const buffer = await Packer.toBuffer(doc);
 
     await fs.writeFile(outputPath, buffer);
+
+   }catch(err){
+    throw err;
+   }
 
 }
 

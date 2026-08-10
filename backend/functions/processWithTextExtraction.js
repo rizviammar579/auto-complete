@@ -85,13 +85,15 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
 
                     content.push(`PDF:\n${result.text}`);
                 } catch (err) {
-                    console.log(err);
+                    // console.log(err);
 
                     await createNotification(
                         'Text Extraction Failed',
                         `${course.courseName} - ${assignment.title} could not be processed using text extraction.`,
                         'warning'
                     )
+
+                    return;
 
                 }
 
@@ -99,22 +101,32 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
 
             case ".docx":
 
-                const response = await mammoth.extractRawText({
-                    path: fileToUpload
-                });
+                try {
+                    const response = await mammoth.extractRawText({
+                        path: fileToUpload
+                    });
 
-                const docxContent = response.value.trim();
+                    const docxContent = response.value.trim();
 
-                if (docxContent) {
-                    content.push(`DOCX:\n${docxContent}`);
-                } else {
+                    if (docxContent) {
+                        content.push(`DOCX:\n${docxContent}`);
+
+                    }
+                } catch (err) {
+                    // console.log(err);
 
                     await createNotification(
                         'Text Extraction Failed',
                         `${course.courseName} - ${assignment.title} could not be processed using text extraction.`,
                         'warning'
                     )
+
+                    return;
+
                 }
+
+
+
 
                 break;
 
@@ -159,7 +171,7 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
             )
         }
 
-        console.log(err)
+        // console.log(err)
 
         return
     }
@@ -168,15 +180,16 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
     fs.mkdirSync(uploadDir, { recursive: true });
 
     const uploadPath = `${uploadDir}/solution.docx`;
-    const jsonResponse = JSON.parse(result);
+
 
     try {
+        const jsonResponse = JSON.parse(result);
         await generateDocx(jsonResponse, uploadPath)
     } catch (err) {
         console.log(err);
         await createNotification(
             "DOCX Generation Failed",
-            `Failed to generate a DOCX file for ${course.courseName} - ${assignment.title}. Gemini gave an invalid JSON response`,
+            `Failed to generate a DOCX file for ${course.courseName} - ${assignment.title}. Most likely Gemini gave an invalid JSON response`,
             "error"
         )
         return

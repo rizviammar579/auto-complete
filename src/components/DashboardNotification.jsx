@@ -6,10 +6,10 @@ const DashboardNotification = ({ dashboardData }) => {
     const notifications = dashboardData?.notifications
 
     const notificationIcons = {
-        success: "../../public/success.png",
-        error: "../../public/error.png",
-        warning: "../../public/warning.png",
-        info: "../../public/info.png"
+        success: "../../success.png",
+        error: "../../error.png",
+        warning: "../../warning.png",
+        info: "../../info.png"
     };
 
 

@@ -4,6 +4,7 @@ import connectDB from './services/mongoose/connectDB.js';
 import { automation } from './functions/automation.js';
 import { startScheduler } from './scheduler/scheduler.js';
 import { runtimeState } from './utils/runtimeState.js';
+import { createNotification } from './utils/createNotification.js';
 
 
 
@@ -20,13 +21,15 @@ export async function startup() {
 
     // await automation()
 
-    runtimeState.lastSync = new Date()
-    runtimeState.automationRunning = true
-    
-
   } catch (err) {
 
     console.error(err)
+
+    await createNotification(
+      "Unexpected Error",
+      "An unexpected error occurred while running automation. Please check the console for more details.",
+      "error"
+    );
 
   }
 

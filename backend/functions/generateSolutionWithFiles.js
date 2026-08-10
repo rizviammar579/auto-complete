@@ -63,13 +63,15 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
 
           await createNotification(
             'File Upload Failed',
-            `${course.courseName} - ${assignment.title} could not be uploaded. Falling back to text extraction.`,
+            `${course.courseName} - ${assignment.title} could not be uploaded. The assignment will be processed using text extraction instead.`,
             'warning'
           )
 
           await processWithTextExtraction(pendingAssignment, assignment, course)
 
-          console.log(err);
+          // console.log(err);
+
+          return;
 
 
         }
@@ -78,7 +80,8 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
 
       case ".docx":
 
-        const response = await mammoth.extractRawText({
+        try{
+          const response = await mammoth.extractRawText({
           path: fileToUpload
         });
 
@@ -87,15 +90,15 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
         if (docxContent) {
           content.push(`DOCX:\n${docxContent}`);
         }
-        else {
-
+        }catch(err){
           await createNotification(
             'Text Extraction Failed',
             `${course.courseName} - ${assignment.title} could not be processed using text extraction.`,
             'warning'
           )
-
         }
+        
+        
 
         break;
 
@@ -141,7 +144,7 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
       )
     }
 
-    console.log(err);
+    // console.log(err);
 
     return
   }
@@ -150,19 +153,19 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
   fs.mkdirSync(uploadDir, { recursive: true });
 
   const uploadPath = `${uploadDir}/solution.docx`;
-  const jsonResponse = JSON.parse(result);
-
+  
   try {
+    const jsonResponse = JSON.parse(result);
     await generateDocx(jsonResponse, uploadPath)
   } catch (err) {
 
     await createNotification(
       "DOCX Generation Failed",
-      `Failed to generate a DOCX file for ${course.courseName} - ${assignment.title}. Gemini gave an invalid JSON response`,
+      `Failed to generate a DOCX file for ${course.courseName} - ${assignment.title}. Most likely Gemini gave an invalid JSON response.`,
       "error"
     )
 
-    console.log(err);
+    // console.log(err);
 
     return
   }
@@ -186,7 +189,7 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
   try {
     await uploadSolnToDrive(uploadPath, assignment, course)
   } catch (err) {
-    console.error(err);
+    // console.error(err);
     await createNotification(
       "Drive Upload Failed",
       `The generated DOCX for ${course.courseName} - ${assignment.title} could not be uploaded to Google Drive. The solution was not saved to Drive.`,

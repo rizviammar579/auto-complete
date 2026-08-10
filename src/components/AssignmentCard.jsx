@@ -3,7 +3,13 @@ import { formatDueDateTime } from '../../backend/utils/formatDueDateTime.js'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 
-const AssignmentCard = ({ assignment , fetchDashboardData }) => {
+const AssignmentCard = ({ assignment, fetchDashboardData }) => {
+
+  const status = {
+    'GENERATED': { bg: 'bg-green-500', text: 'text-green-500', message: 'Solution Generated' },
+    'PENDING': { bg: 'bg-orange-400', text: 'text-orange-400', message: 'Solution Pending' },
+    'MANUAL REVIEW REQUIRED': { bg: 'bg-blue-500', text: 'text-blue-500', message: 'Manual Review Required' }
+  }
 
   const handleCopy = async (link) => {
     await navigator.clipboard.writeText(link);
@@ -20,8 +26,8 @@ const AssignmentCard = ({ assignment , fetchDashboardData }) => {
       fetchDashboardData();
 
       toast.success("Assignment marked as turned in");
-      
-      
+
+
     } catch (error) {
       toast.error("Failed to turn in assignment");
     }
@@ -40,13 +46,10 @@ const AssignmentCard = ({ assignment , fetchDashboardData }) => {
 
         <p className='text-[14px] font-semibold text-gray-600'>{formatDueDateTime(assignment.dueDate, assignment.dueTime)}</p>
 
-        {assignment.aiStatus === "GENERATED" ? <div className='flex gap-1 items-center'>
-          <div className='w-3 h-3 bg-green-500 text-green-500 rounded-full'></div>
-          <p className='text-[13px] text-green-500 font-semibold'>Solution Generated</p>
-        </div> : <div className='flex gap-1 items-center'>
-          <div className='w-3 h-3 bg-orange-400 text-orange-400 rounded-full'></div>
-          <p className='text-[13px] text-orange-400 font-semibold'>Solution Pending</p>
-        </div>}
+        <div className='flex gap-1 items-center'>
+          <div className={`w-3 h-3 ${status[assignment.aiStatus].bg} rounded-full`}></div>
+          <p className={`text-[13px] ${status[assignment.aiStatus].text} font-semibold`}>{status[assignment.aiStatus].message}</p>
+        </div>
 
       </div>
 
@@ -60,7 +63,7 @@ const AssignmentCard = ({ assignment , fetchDashboardData }) => {
           className={`bg-gray-950 text-white text-[14px] px-3 py-1.5 rounded-lg flex gap-2 items-center justify-center w-full ${assignment.assignment.materials[0]?.localPath === ''
             ? "pointer-events-none"
             : "cursor-pointer"}`}>
-          <img src="../../public/open.png" alt="" className='w-[24px] h-[24px]' /> Open Assignment
+          <img src="../../open.png" alt="" className='w-[24px] h-[24px]' /> Open Assignment
         </a>
 
         <a href={assignment.driveFileLink}
@@ -69,7 +72,7 @@ const AssignmentCard = ({ assignment , fetchDashboardData }) => {
           className={`bg-gray-950 text-white text-[14px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-2 items-center justify-center w-full ${assignment.driveFileLink === ''
             ? "pointer-events-none"
             : "cursor-pointer"}`}>
-          <img src="../../public/view.png" alt="" className='w-[20px] h-[20px]' /> Review Solution
+          <img src="../../view.png" alt="" className='w-[20px] h-[20px]' /> Review Solution
         </a>
 
 
@@ -83,17 +86,17 @@ const AssignmentCard = ({ assignment , fetchDashboardData }) => {
           className={`bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full flex-col border border-gray-400 ${assignment.assignment.alternateLink === ''
             ? "pointer-events-none"
             : "cursor-pointer"}`}>
-          <img src="../../public/googleclassroom.png" alt="" className='w-[24px] h-[24px]' /> Open Classroom
+          <img src="../../googleclassroom.png" alt="" className='w-[24px] h-[24px]' /> Open Classroom
         </a>
 
-        <button className='bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full flex-col border border-gray-400' onClick={()=>{
-          assignment.driveFileLink === '' ? toast.error("Nothing to copy"): handleCopy(assignment.driveFileLink)
+        <button className='bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full flex-col border border-gray-400' onClick={() => {
+          assignment.driveFileLink === '' ? toast.error("Nothing to copy") : handleCopy(assignment.driveFileLink)
         }}>
-          <img src="../../public/googledrive.png" alt="" className='w-[24px] h-[24px]' />Copy Drive Link
+          <img src="../../googledrive.png" alt="" className='w-[24px] h-[24px]' />Copy Drive Link
         </button>
 
         <button className='bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full flex-col border border-gray-400' onClick={() => { handleTurnIn(assignment.assignmentId) }}>
-          <img src="../../public/turnedin.png" alt="" className='w-[24px] h-[24px]' /> Mark as Turned In
+          <img src="../../turnedin.png" alt="" className='w-[24px] h-[24px]' /> Mark as Turned In
         </button>
 
 

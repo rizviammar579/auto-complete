@@ -5,29 +5,39 @@ import { enoughTimeForDeadline } from "./enoughTimeForDeadline.js";
 import { processWithTextExtraction } from "./processWithTextExtraction.js";
 import { getAssignment } from "./getAssignment.js";
 import { getCourseDetails } from "./getCourseDetails.js"
+import { createNotification } from "../utils/createNotification.js";
 
 
 export async function generateSolution() {
 
     const pendingAssignments = await getPendingAssignments()
 
-    if (pendingAssignments.length === 0) return
+    if (pendingAssignments.length === 0) {
+
+        await createNotification(
+            "No Pending Assignments",
+            "There are no pending assignments available for solution generation.",
+            "info"
+        );
+
+        return
+    }
 
     for (const pendingAssignment of pendingAssignments) {
 
-    const now = new Date()
-    const assignment = await getAssignment(pendingAssignment.assignmentId);
-    const course = await getCourseDetails(pendingAssignment.courseId)
+        const now = new Date()
+        const assignment = await getAssignment(pendingAssignment.assignmentId);
+        const course = await getCourseDetails(pendingAssignment.courseId)
 
-    if (canUseFileUpload()) {
+        if (canUseFileUpload()) {
 
-        await processWithFileUpload(pendingAssignment, assignment, course)
+            await processWithFileUpload(pendingAssignment, assignment, course)
 
-    } else if (!enoughTimeForDeadline(pendingAssignment, now)) {
+        } else if (!enoughTimeForDeadline(pendingAssignment, now)) {
 
-        await processWithTextExtraction(pendingAssignment, assignment, course);
+            await processWithTextExtraction(pendingAssignment, assignment, course);
 
-    }
+        }
 
 
     }
