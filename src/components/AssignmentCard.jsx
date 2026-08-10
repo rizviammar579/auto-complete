@@ -54,10 +54,10 @@ const AssignmentCard = ({ assignment , fetchDashboardData }) => {
 
       <div className=' flex gap-5'>
 
-        <a href={assignment.assignment.materials[0].localPath}
+        <a href={assignment.assignment.materials[0]?.localPath}
           target="_blank"
           rel="noopener noreferrer"
-          className={`bg-gray-950 text-white text-[14px] px-3 py-1.5 rounded-lg flex gap-2 items-center justify-center w-full ${assignment.assignment.materials[0].localPath === ''
+          className={`bg-gray-950 text-white text-[14px] px-3 py-1.5 rounded-lg flex gap-2 items-center justify-center w-full ${assignment.assignment.materials[0]?.localPath === ''
             ? "pointer-events-none"
             : "cursor-pointer"}`}>
           <img src="../../public/open.png" alt="" className='w-[24px] h-[24px]' /> Open Assignment

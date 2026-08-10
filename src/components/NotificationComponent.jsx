@@ -70,7 +70,7 @@ const NotificationComponent = ({ notification ,fetchNotificationData }) => {
 
         </div>
       </div>
-      <div className='flex gap-3 items-center w-[10%]'>
+      <div className='flex gap-3 items-center w-[15%]'>
         <div className='w-fit'>{timeAgo(notification.createdAt)}</div>
         <div>
           <div className={`${notification.read ? 'hidden' : 'block'} relative top-1.5 w-3 h-3 bg-blue-500 text-blue-500 rounded-full`}></div>

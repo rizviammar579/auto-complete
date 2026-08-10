@@ -155,13 +155,14 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
   try {
     await generateDocx(jsonResponse, uploadPath)
   } catch (err) {
-    console.log(err);
 
     await createNotification(
       "DOCX Generation Failed",
       `Failed to generate a DOCX file for ${course.courseName} - ${assignment.title}. Gemini gave an invalid JSON response`,
       "error"
     )
+
+    console.log(err);
 
     return
   }
