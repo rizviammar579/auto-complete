@@ -30,7 +30,6 @@ const Notifications = () => {
   
   
         setNotifications(response.data.notifications);
-        console.log(response.data.notifications)
   
       }
   

@@ -1,13 +1,16 @@
 import React from 'react'
 import AssignmentTable from '../components/AssignmentTable'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Loader } from '../components/Loader'
+import axios from 'axios'
+import  SelectedAssignmentLayout  from '../components/SelectedAssignmentLayout'
 
 const AssignmentsPage = () => {
 
-   
-  const [assignmentData, setAssignmentData] = useState([])
-  const [currentFilter, setCurrentFilter] = useState('All')
+
+  const [assignmentData, setAssignmentData] = useState(null)
+  const [currentFilter, setCurrentFilter] = useState('unsubmitted')
+  const [activeAssignment, setActiveAssignment] = useState()
 
   const filters = [
     { text: 'All' },
@@ -18,35 +21,63 @@ const AssignmentsPage = () => {
     { text: 'Manual Review' },
   ]
 
+ 
+  async function fetchAssignments(filter) {
+
+    const response = await axios.get(
+      `http://localhost:3000/assignments?filter=${filter}`
+    );
+
+
+    setAssignmentData(response.data.assignments);
+    console.log(response.data.assignments)
+    setActiveAssignment(response.data.assignments[0])
+
+  }
+
+  useEffect(() => {
+
+    fetchAssignments(currentFilter);
+
+  }, []);
+
+
 
   if (!assignmentData) {
-        return <Loader />
-      }
+    return <Loader />
+  }
 
   return (
-    <div className='font-inter flex gap-5 overflow-x-auto'>
+    <div className='font-inter flex'>
 
 
-      <div className='w-[60%] flex flex-col gap-10 m-5'>
+      <div className='w-fit flex flex-col gap-10 m-5 w-[58vw]'>
 
         <div className='border border-gray-300 w-fit rounded-[8px] border-[2px] mt-5'>
 
           {filters.map(filter => {
 
-            return <button key={filter.text} className={`text-[14px]  w-fit rounded-[8px] py-1 px-3 cursor-pointer ${filter.text === currentFilter ? 'bg-gray-800 text-gray-100 ' : 'text-gray-800 bg-gray-100 font-semibold'}`} onClick={() => setCurrentFilter(filter.text)}>{filter.text}</button>
+            return <button key={filter.text} className={`text-[14px]  w-fit rounded-[8px] py-1 px-3 cursor-pointer ${filter.text.toLowerCase() === currentFilter ? 'bg-gray-800 text-gray-100 ' : 'text-gray-800 bg-gray-100 font-semibold'}`} onClick={async () => {
+              await fetchAssignments(filter.text.toLowerCase().replace(/\s+/g, "_"))
+              setCurrentFilter(filter.text.toLowerCase())
+            }}>{filter.text}</button>
 
           })}
 
 
         </div>
 
-        <AssignmentTable />
+        <div className='w-[58vw]'>
+          <AssignmentTable assignments={assignmentData} activeAssignment={activeAssignment} setActiveAssignment={setActiveAssignment} />
+        </div>
 
       </div>
 
 
 
-      <div className='border w-[40%] '>hi</div>
+      <div className='w-[30vw] h-[87vh]'>
+        <SelectedAssignmentLayout assignment={activeAssignment}/>
+      </div>
 
 
 
