@@ -1,8 +1,11 @@
 import React from 'react'
 import { CalendarDays } from 'lucide-react'
 import { formatDueDateTime } from '../../backend/utils/formatDueDateTime'
+import { Search, FileText, Check, RefreshCw } from 'lucide-react'
+import toast from 'react-hot-toast'
+import axios from 'axios'
 
-const SelectedAssignmentLayout = ({ assignment }) => {
+const SelectedAssignmentLayout = ({ assignment , fetchAssignments , currentFilter }) => {
 
     const status = {
         'GENERATED': { bg: 'bg-purple-100', text: 'text-purple-500', border: 'border-purple-300' },
@@ -10,8 +13,31 @@ const SelectedAssignmentLayout = ({ assignment }) => {
         'MANUAL REVIEW REQUIRED': { bg: 'bg-blue-100', text: 'text-blue-500', border: 'border-blue-300' }
     }
 
+    const handleCopy = async (link) => {
+        await navigator.clipboard.writeText(link);
+        toast.success("Copied to Clipboard")
+    }
+
+     const handleTurnIn = async (id) => {
+    try {
+
+      await axios.patch("http://localhost:3000/assignments", {
+        assignmentId: id
+      });
+
+      fetchAssignments(currentFilter)
+
+      toast.success("Assignment marked as turned in");
+
+
+    } catch (error) {
+      toast.error("Failed to turn in assignment");
+    }
+  };
+
+
     return (
-        <div className='bg-white w-[350px] h-full mt-2 rounded-xl p-5 w-[350px]'>
+        <div className='bg-white w-[350px] h-full rounded-xl p-5 w-fit m-2 mt-6'>
 
             <div className='flex'>
                 <div className='w-[80%] flex flex-col gap-3'>
@@ -44,7 +70,7 @@ const SelectedAssignmentLayout = ({ assignment }) => {
                         <div className='max-w-[100px]'>
                             <a target="_blank"
                                 onClick={(e) => e.stopPropagation()}
-                                rel="noopener noreferrer" href={assignment.assignment.alternateLink} className='text-blue-500 font-bold text-[12px]'>
+                                rel="noopener noreferrer" href={assignment.assignment.alternateLink} className='text-blue-500 font-semibold text-[12px]'>
                                 Open Classroom
                             </a>
                         </div>
@@ -76,20 +102,45 @@ const SelectedAssignmentLayout = ({ assignment }) => {
 
             <div className='flex flex-col gap-2.5  justify-start w-full'>
 
-                <a href={assignment.assignment.materials[0]?.localPath}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className='cursor-pointer rounded-sm p-1 border border-gray-500 text-gray-500 bg-gray-50'>Open Assignment</a>
 
-                <a href={assignment.driveFileLink}
-                    target="_blank"
-                    rel="noopener noreferrer" className='cursor-pointer rounded-sm p-1 border border-blue-300 text-blue-500 bg-blue-100'>Review Solution</a>
 
-                <button className='cursor-pointer text-start rounded-sm p-1 border border-purple-300 text-purple-500 bg-purple-100'>Regenerate Solution</button>
+                <div className='flex flex-col gap-2.5  justify-start w-full'>
 
-                <button className='cursor-pointer text-start rounded-sm p-1 border border-green-300 text-green-500 bg-green-100'>Mark as Turned In</button>
+                    <a href={assignment.assignment.materials[0]?.localPath}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full  border border-gray-400 ${assignment.assignment.materials[0]?.localPath === ''
+                            ? "pointer-events-none"
+                            : "cursor-pointer"}`}>
+                        <FileText size={20} />
+                        Open Assignment</a>
 
-                <button className='cursor-pointer text-start rounded-sm p-1 border border-red-300 text-red-500 bg-red-100'>Delete Assignment</button>
+                    <a href={assignment.driveFileLink}
+                        target="_blank"
+                        rel="noopener noreferrer" className={`bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full  border border-gray-400 ${assignment.driveFileLink === ''
+                            ? "pointer-events-none"
+                            : "cursor-pointer"}`}>
+
+                        <Search size={18} />
+                        Review Solution</a>
+
+                   
+
+                        {assignment.submissionStatus ? '' :  <button className='bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full  border border-gray-400'>
+                        <RefreshCw size={18} />
+                        Regenerate Solution</button>}
+
+                    <button className='bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full  border border-gray-400' onClick={() => {
+                        assignment.driveFileLink === '' ? toast.error("Nothing to copy") : handleCopy(assignment.driveFileLink)
+                    }}>
+                        <img src="../../googledrive.png" alt="" className='w-[24px] h-[24px]' />Copy Drive Link
+                    </button>
+
+                    {assignment.submissionStatus ? '' : <button className='bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full flex border border-gray-400' onClick={() => { handleTurnIn(assignment.assignmentId) }}>
+                        <img src="../../turnedin.png" alt="" className='w-[24px] h-[24px]' /> Mark as Turned In
+                    </button>}
+
+                </div>
 
             </div>
 

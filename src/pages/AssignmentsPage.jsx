@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Loader } from '../components/Loader'
 import axios from 'axios'
 import  SelectedAssignmentLayout  from '../components/SelectedAssignmentLayout'
+import NoAssignments from '../components/NoAssignments'
 
 const AssignmentsPage = () => {
 
@@ -47,11 +48,13 @@ const AssignmentsPage = () => {
     return <Loader />
   }
 
+ 
+
   return (
     <div className='font-inter flex'>
 
 
-      <div className='w-fit flex flex-col gap-10 m-5 w-[58vw]'>
+      <div className='w-fit flex flex-col gap-10 m-5 w-full'>
 
         <div className='border border-gray-300 w-fit rounded-[8px] border-[2px] mt-5'>
 
@@ -67,16 +70,18 @@ const AssignmentsPage = () => {
 
         </div>
 
-        <div className='w-[58vw]'>
-          <AssignmentTable assignments={assignmentData} activeAssignment={activeAssignment} setActiveAssignment={setActiveAssignment} />
+        <div className='w-full'>
+        {assignmentData.length === 0 ? '' :   <AssignmentTable assignments={assignmentData} activeAssignment={activeAssignment} setActiveAssignment={setActiveAssignment} />}
         </div>
 
       </div>
 
 
 
-      <div className='w-[30vw] h-[87vh]'>
-        <SelectedAssignmentLayout assignment={activeAssignment}/>
+      <div className='w-[33vw] h-[87vh] flex justify-center items-center'>
+
+        {assignmentData.length === 0 ? <NoAssignments/> :   <SelectedAssignmentLayout assignment={activeAssignment} fetchAssignments={fetchAssignments} currentFilter={currentFilter}/>}
+        
       </div>
 
 
