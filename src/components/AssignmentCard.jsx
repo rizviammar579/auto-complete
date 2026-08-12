@@ -2,6 +2,7 @@ import React from 'react'
 import { formatDueDateTime } from '../../backend/utils/formatDueDateTime.js'
 import toast from 'react-hot-toast'
 import axios from 'axios'
+import { RefreshCw } from 'lucide-react'
 
 const AssignmentCard = ({ assignment, fetchDashboardData }) => {
 
@@ -57,14 +58,7 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
 
       <div className=' flex gap-5'>
 
-        <a href={assignment.assignment.materials[0]?.localPath}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`bg-gray-950 text-white text-[14px] px-3 py-1.5 rounded-lg flex gap-2 items-center justify-center w-full ${assignment.assignment.materials[0]?.localPath === ''
-            ? "pointer-events-none"
-            : "cursor-pointer"}`}>
-          <img src="../../open.png" alt="" className='w-[24px] h-[24px]' /> Open Assignment
-        </a>
+        
 
         <a href={assignment.driveFileLink}
           target="_blank"
@@ -74,6 +68,10 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
             : "cursor-pointer"}`}>
           <img src="../../view.png" alt="" className='w-[20px] h-[20px]' /> Review Solution
         </a>
+
+        <button className='cursor-pointer bg-gray-950 text-white text-[14px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full '>
+          <RefreshCw size={18}/>
+          Regenerate Solution</button>
 
 
       </div>

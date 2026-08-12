@@ -4,7 +4,13 @@ import nodeCron from "node-cron";
 
 export function startScheduler() {
 
-    nodeCron.schedule("*/10 * * * *", async () => {
+    let automationRunning = false
+
+    nodeCron.schedule("*/5 * * * *", async () => {
+
+        if(automationRunning)  return;
+
+        automationRunning  = true
 
         try {
 
@@ -20,6 +26,8 @@ export function startScheduler() {
                 "error"
             );
 
+        } finally{
+            automationRunning = false;
         }
 
     });

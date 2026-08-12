@@ -106,14 +106,9 @@ const SelectedAssignmentLayout = ({ assignment , fetchAssignments , currentFilte
 
                 <div className='flex flex-col gap-2.5  justify-start w-full'>
 
-                    <a href={assignment.assignment.materials[0]?.localPath}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full  border border-gray-400 ${assignment.assignment.materials[0]?.localPath === ''
-                            ? "pointer-events-none"
-                            : "cursor-pointer"}`}>
-                        <FileText size={20} />
-                        Open Assignment</a>
+                    <div className='mb-2 font-semibold'>
+                        Actions
+                    </div>
 
                     <a href={assignment.driveFileLink}
                         target="_blank"
