@@ -51,7 +51,7 @@ const SystemStatus = ({dashboardData}) => {
              <img src="../../sync.png" alt="" className='w-[24px] h-[24px]' />
                 <div>Last Sync</div>
             </div>
-            <div className='text-green-500 text-[14px] font-bold'>{timeAgo(systemStatus.lastSync)}</div>
+            <div className='text-green-500 text-[14px] font-bold'>{systemStatus.lastSync === null ? '': timeAgo(systemStatus.lastSync)}</div>
         </li>
         
       </ul>

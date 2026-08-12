@@ -3,5 +3,6 @@ export const runtimeState = {
     googleClassroomConnected: false,
     mongoDBConnected: false,
     automationRunning: false,
-    lastSync: null
+    lastSync: null,
+    interval: 15
 };
