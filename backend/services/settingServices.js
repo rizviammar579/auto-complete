@@ -4,6 +4,7 @@ import { google } from "googleapis";
 import { auth } from "../services/google/googleService.js";
 import { runtimeState } from "../utils/runtimeState.js";
 import { aiStatus } from '../../models/aiStatusSchema.js'
+import { runAutomation } from '../scheduler/runAutomation.js'
 
 export async function fetchSettingsData(req, res) {
     
@@ -52,3 +53,32 @@ export async function fetchSettingsData(req, res) {
     }
 
 }
+
+
+export async function runAutomationManually(req, res) {
+  
+    console.log('hello');
+    
+
+    try {
+        const success = await runAutomation();
+
+        if (!success) {
+            return res.status(409).json({
+                message: "Automation is already running."
+            });
+        }
+
+        res.status(200).json({
+            message: "Automation completed successfully."
+        });
+
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        });
+    }
+
+}
+
+

@@ -1,11 +1,17 @@
 import React from 'react'
 import { timeAgo } from '../../backend/utils/timeAgo.js'
+import axios from 'axios'
 
-const Scheduler = ({data}) => {
+const Scheduler = ({data , fetchSettingsData}) => {
 
-   async function runAutomation() {
+   async function runAutomationManually() {
 
-    console.log('hi')
+    const response = await axios.post(
+      "http://localhost:3000/settings/run-automation"
+    );
+
+    fetchSettingsData()
+
     
    }
 
@@ -21,7 +27,7 @@ const Scheduler = ({data}) => {
             <div className='flex flex-col gap-5'>
                 <div className='flex justify-between'>
                     <h1 className='text-[16px] font-semibold'>Last Sync:</h1>
-                    {data.lastSync === null ? '' : <p className='text-[16px] text-gray-500'>{timeAgo(data.lastSync)}</p>}
+                    {data.lastSync === null ? '-' : <p className='text-[16px] text-gray-500'>{timeAgo(data.lastSync)}</p>}
                 </div>
                 <div className='flex justify-between'>
                     <h1 className='text-[16px] font-semibold'>Interval</h1>
@@ -30,7 +36,10 @@ const Scheduler = ({data}) => {
 
             </div>
 
-            <button className='p-2 border font-semibold rounded-xl cursor-pointer border border-gray-500  hover:bg-white transition-colors' onClick={()=>{runAutomation()}}>Run Automation Now</button>
+            <button disabled={data.automationRunning} className='p-2 border font-semibold rounded-xl cursor-pointer border border-gray-500  hover:bg-white transition-colors' onClick={()=>{
+                runAutomationManually()
+                fetchSettingsData()
+                }}>{data.automationRunning ? 'Automation Running...' : 'Run Automation Now'}</button>
 
         </div>
     )

@@ -3,6 +3,7 @@ import { createNotification } from "../utils/createNotification.js";
 import { automation } from "../functions/automation.js";
 
 export async function runAutomation() {
+
     if (runtimeState.automationRunning) {
         return false;
     }

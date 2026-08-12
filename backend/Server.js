@@ -11,6 +11,7 @@ app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`);
 
     automation().catch(async (err) => {
+        
         console.error(err);
 
         await createNotification(

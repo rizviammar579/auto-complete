@@ -10,6 +10,7 @@ import { runtimeState } from '../utils/runtimeState.js';
 
 export async function automation() {
 
+    
     runtimeState.automationRunning = true;
     
 

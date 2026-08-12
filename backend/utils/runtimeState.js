@@ -4,5 +4,5 @@ export const runtimeState = {
     mongoDBConnected: false,
     automationRunning: false,
     lastSync: null,
-    interval: 15
+    interval: 10
 };

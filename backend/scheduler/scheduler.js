@@ -5,7 +5,7 @@ import { runtimeState } from "../utils/runtimeState.js";
 export function startScheduler() {
 
     nodeCron.schedule(`*/${runtimeState.interval} * * * *`, async () => {
-
+        
         await runAutomation()
 
     });
