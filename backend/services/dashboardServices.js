@@ -3,6 +3,7 @@ import { runtimeState } from "../utils/runtimeState.js";
 import { aggregateQuery } from "../utils/aggregateQuery.js";
 import { notifications } from "../../models/notificationSchema.js"
 import { assignmentProcessing } from "../../models/assignmentProcessingSchema.js"
+import { cleanup } from "../functions/cleanup.js"
 
 
 export async function fetchDashboardData(req, res) {
@@ -77,8 +78,9 @@ export async function regenerateSolution(req, res) {
 
   try {
 
+    const { assignment } = req.body
     
-    
+    await cleanup(assignment.assignmentId , assignment.driveFileId , assignment.solutionPath)
 
     res.status(200).json({message: 'Solution Regenerated Successfully'});
 

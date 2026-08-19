@@ -51,8 +51,11 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
       // });
 
       const response = await axios.post(
-        "http://localhost:3000/regenerate-solution"
+        "http://localhost:3000/regenerate-solution",
+       { assignment }
       );
+
+      fetchDashboardData()
 
       toast.success(response.data.message)
 
