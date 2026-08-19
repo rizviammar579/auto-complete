@@ -57,10 +57,7 @@ export async function fetchSettingsData(req, res) {
 
 export async function runAutomationManually(req, res) {
   
-    console.log('hello');
-    
-
-    try {
+       try {
         const success = await runAutomation();
 
         if (!success) {

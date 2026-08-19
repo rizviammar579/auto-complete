@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState } from 'react'
 import { formatDueDateTime } from '../../backend/utils/formatDueDateTime.js'
 import toast from 'react-hot-toast'
 import axios from 'axios'
@@ -35,6 +36,37 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
   };
 
 
+  const [regeneratingId, setRegeneratingId] = useState(null)
+
+  async function regenerateSolution(assignment) {
+
+    try {
+
+      setRegeneratingId(assignment.assignmentId)
+
+      //  await new Promise((resolve) => {
+      //   setTimeout(() => {
+      //     resolve();
+      //   }, 2000);
+      // });
+
+      const response = await axios.post(
+        "http://localhost:3000/regenerate-solution"
+      );
+
+      toast.success(response.data.message)
+
+
+    } catch (err) {
+      console.log(err)
+      toast.error('Solution Regeneration Failed')
+    } finally {
+      setRegeneratingId(null)
+    }
+
+  }
+
+
 
   return (
     <div className='flex flex-col gap-6 font-inter border-[2px] border-gray-300 rounded-2xl min-w-[300px] bg-white p-4 z-0 max-w-[450px]'>
@@ -58,7 +90,7 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
 
       <div className=' flex gap-5'>
 
-        
+
 
         <a href={assignment.driveFileLink}
           target="_blank"
@@ -69,9 +101,11 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
           <img src="../../view.png" alt="" className='w-[20px] h-[20px]' /> Review Solution
         </a>
 
-        <button className='cursor-pointer bg-gray-950 text-white text-[14px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full '>
-          <RefreshCw size={18}/>
-          Regenerate Solution</button>
+        <button disabled={regeneratingId ? true : false} className={`${regeneratingId ? 'pointer-events-none' : 'cursor-pointer'} bg-gray-950 text-white text-[14px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full`} onClick={() => {
+          regenerateSolution(assignment);
+        }}>
+          <RefreshCw size={18} />
+          {regeneratingId == assignment.assignmentId ? 'Regenerating' : 'Regenerate Solution'}</button>
 
 
       </div>

@@ -73,6 +73,26 @@ export async function markAsTurnedIn(req, res) {
 }
 
 
+export async function regenerateSolution(req, res) {
+
+  try {
+
+    
+    
+
+    res.status(200).json({message: 'Solution Regenerated Successfully'});
+
+  } catch (err) {
+
+    res.status(500).json({
+      message: err.message
+    });
+
+  }
+
+}
+
+
 
 
 /*
