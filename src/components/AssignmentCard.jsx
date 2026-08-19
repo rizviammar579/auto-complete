@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState ,useRef } from 'react'
 import { formatDueDateTime } from '../../backend/utils/formatDueDateTime.js'
 import toast from 'react-hot-toast'
 import axios from 'axios'
@@ -35,24 +35,17 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
     }
   };
 
-
-  const [regeneratingId, setRegeneratingId] = useState(null)
+  const regeneratingId = useRef(null)
 
   async function regenerateSolution(assignment) {
 
     try {
 
-      setRegeneratingId(assignment.assignmentId)
-
-      //  await new Promise((resolve) => {
-      //   setTimeout(() => {
-      //     resolve();
-      //   }, 2000);
-      // });
+      regeneratingId.current = assignment.assignmentId
 
       const response = await axios.post(
         "http://localhost:3000/regenerate-solution",
-       { assignment }
+       { Assignment : assignment }
       );
 
       fetchDashboardData()
@@ -64,7 +57,7 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
       console.log(err)
       toast.error('Solution Regeneration Failed')
     } finally {
-      setRegeneratingId(null)
+      regeneratingId.current = null
     }
 
   }
@@ -104,11 +97,11 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
           <img src="../../view.png" alt="" className='w-[20px] h-[20px]' /> Review Solution
         </a>
 
-        <button disabled={regeneratingId ? true : false} className={`${regeneratingId ? 'pointer-events-none' : 'cursor-pointer'} bg-gray-950 text-white text-[14px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full`} onClick={() => {
+        <button disabled={regeneratingId ? true : false} className={`${regeneratingId.current ? 'pointer-events-none' : 'cursor-pointer'} bg-gray-950 text-white text-[14px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full`} onClick={() => {
           regenerateSolution(assignment);
         }}>
           <RefreshCw size={18} />
-          {regeneratingId == assignment.assignmentId ? 'Regenerating' : 'Regenerate Solution'}</button>
+          {regeneratingId.current == assignment.assignmentId ? 'Regenerating' : 'Regenerate Solution'}</button>
 
 
       </div>

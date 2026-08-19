@@ -4,6 +4,9 @@ import { aggregateQuery } from "../utils/aggregateQuery.js";
 import { notifications } from "../../models/notificationSchema.js"
 import { assignmentProcessing } from "../../models/assignmentProcessingSchema.js"
 import { cleanup } from "../functions/cleanup.js"
+import { canUseFileUpload } from "../functions/canUseFileUpload.js";
+import { processWithFileUpload } from "../functions/processWithFileUpload.js";
+import { processWithTextExtraction } from "../functions/processWithTextExtraction.js";
 
 
 export async function fetchDashboardData(req, res) {
@@ -78,11 +81,28 @@ export async function regenerateSolution(req, res) {
 
   try {
 
-    const { assignment } = req.body
-    
-    await cleanup(assignment.assignmentId , assignment.driveFileId , assignment.solutionPath)
+    const { Assignment } = req.body
 
-    res.status(200).json({message: 'Solution Regenerated Successfully'});
+    await cleanup(Assignment.assignmentId, Assignment.driveFileId, Assignment.solutionPath);
+
+
+    const { assignment, course, ...pendingAssignment } = Assignment
+
+    if (canUseFileUpload()) {
+
+      console.log('hi');
+
+      await processWithFileUpload(pendingAssignment, Assignment.assignment, Assignment.course)
+      console.log('hello');
+
+    } else {
+
+      await processWithTextExtraction(pendingAssignment, Assignment.assignment, Assignment.course);
+
+    }
+
+
+    res.status(200).json({ message: 'Solution Regenerated Successfully' });
 
   } catch (err) {
 
