@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState ,useRef } from 'react'
+import { useState, useRef } from 'react'
 import { formatDueDateTime } from '../../backend/utils/formatDueDateTime.js'
 import toast from 'react-hot-toast'
 import axios from 'axios'
@@ -35,29 +35,33 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
     }
   };
 
-  const regeneratingId = useRef(null)
+
+  const [regeneratingId, setRegeneratingId] = useState(assignment.aiStatus === 'REGENERATING' ? assignment.assignmentId : null)
 
   async function regenerateSolution(assignment) {
 
     try {
+      console.log(assignment.assignmentId)
 
-      regeneratingId.current = assignment.assignmentId
+      setRegeneratingId(assignment.assignmentId)
 
       const response = await axios.post(
         "http://localhost:3000/regenerate-solution",
-       { Assignment : assignment }
+        { Assignment: assignment }
       );
+
 
       fetchDashboardData()
 
-      toast.success(response.data.message)
 
+      if (response.data.success) toast.success('Solution Regenerated Successfully')
+      else toast.error('Solution Regeneration Failed')
 
     } catch (err) {
       console.log(err)
       toast.error('Solution Regeneration Failed')
     } finally {
-      regeneratingId.current = null
+      setRegeneratingId(null)
     }
 
   }
@@ -76,8 +80,10 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
         <p className='text-[14px] font-semibold text-gray-600'>{formatDueDateTime(assignment.dueDate, assignment.dueTime)}</p>
 
         <div className='flex gap-1 items-center'>
-          <div className={`w-3 h-3 ${status[assignment.aiStatus].bg} rounded-full`}></div>
-          <p className={`text-[13px] ${status[assignment.aiStatus].text} font-semibold`}>{status[assignment.aiStatus].message}</p>
+          <div className={`w-3 h-3 ${regeneratingId ? `bg-purple-500` : `${status[assignment.aiStatus].bg}`} rounded-full`}></div>
+          <p className={`text-[13px] ${regeneratingId ? `text-purple-500` : `${status[assignment.aiStatus].text}`} font-semibold`}>
+            {regeneratingId ? `Solution Regenerating` : `${status[assignment.aiStatus].message}`}
+          </p>
         </div>
 
       </div>
@@ -97,11 +103,12 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
           <img src="../../view.png" alt="" className='w-[20px] h-[20px]' /> Review Solution
         </a>
 
-        <button disabled={regeneratingId ? true : false} className={`${regeneratingId.current ? 'pointer-events-none' : 'cursor-pointer'} bg-gray-950 text-white text-[14px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full`} onClick={() => {
+        <button disabled={regeneratingId ? true : false} className={`${regeneratingId ? 'pointer-events-none' : 'cursor-pointer'} bg-gray-950 text-white text-[14px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full`} onClick={() => {
           regenerateSolution(assignment);
         }}>
-          <RefreshCw size={18} />
-          {regeneratingId.current == assignment.assignmentId ? 'Regenerating' : 'Regenerate Solution'}</button>
+
+          {regeneratingId == assignment.assignmentId ? '' : <RefreshCw size={18} />}
+          {regeneratingId == assignment.assignmentId ? 'Regenerating...' : 'Regenerate Solution'}</button>
 
 
       </div>

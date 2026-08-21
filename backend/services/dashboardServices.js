@@ -7,6 +7,7 @@ import { cleanup } from "../functions/cleanup.js"
 import { canUseFileUpload } from "../functions/canUseFileUpload.js";
 import { processWithFileUpload } from "../functions/processWithFileUpload.js";
 import { processWithTextExtraction } from "../functions/processWithTextExtraction.js";
+import { createNotification } from "../utils/createNotification.js";
 
 
 export async function fetchDashboardData(req, res) {
@@ -83,17 +84,14 @@ export async function regenerateSolution(req, res) {
 
     const { Assignment } = req.body
 
-    await cleanup(Assignment.assignmentId, Assignment.driveFileId, Assignment.solutionPath);
+    await cleanup(Assignment);
 
 
     const { assignment, course, ...pendingAssignment } = Assignment
 
     if (canUseFileUpload()) {
 
-      console.log('hi');
-
       await processWithFileUpload(pendingAssignment, Assignment.assignment, Assignment.course)
-      console.log('hello');
 
     } else {
 
@@ -101,8 +99,38 @@ export async function regenerateSolution(req, res) {
 
     }
 
+    const updatedAssignment = await assignmentProcessing.findOne({ assignmentId: Assignment.assignmentId })
 
-    res.status(200).json({ message: 'Solution Regenerated Successfully' });
+    if (updatedAssignment.aiStatus === "GENERATED") {
+
+      await createNotification(
+        'Solution Regenerated',
+        `Solution regenerated successfully for ${Assignment.course.courseName} - ${Assignment.assignment.title}`,
+        'info'
+      )
+
+      res.status(200).json({ success: true });
+
+    } else {
+
+      await assignmentProcessing.updateOne({ assignmentId: Assignment.assignmentId },
+        {
+          $set: {
+            aiStatus: "PENDING"
+          }
+        }
+      )
+
+      await createNotification(
+        'Solution Regeneration Failed',
+        `Solution regeneration failed for ${Assignment.course.courseName} - ${Assignment.assignment.title}`,
+        'error'
+      )
+
+      res.status(200).json({ success: false });
+
+    }
+
 
   } catch (err) {
 

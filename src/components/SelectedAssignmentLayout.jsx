@@ -86,7 +86,7 @@ const SelectedAssignmentLayout = ({ assignment , fetchAssignments , currentFilte
 
                 <div><img src="../../public/geminiai.png" alt="" className='w-[20px] h-[20px]' /></div>
                 <div className='font font-semibold'>AI Status</div>
-                <div className={`px-2 rounded-sm text-[13px] font-semibold ml-5 border ${status[assignment.aiStatus].border} ${status[assignment.aiStatus].bg} ${status[assignment.aiStatus].text}`}>{assignment.aiStatus}</div>
+                <div className={`px-2 rounded-sm text-[13px] font-semibold ml-5 border ${status[assignment.aiStatus]?.border} ${status[assignment.aiStatus].bg} ${status[assignment.aiStatus]?.text}`}>{assignment.aiStatus}</div>
 
             </div>
 

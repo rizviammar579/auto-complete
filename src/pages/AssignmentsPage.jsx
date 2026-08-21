@@ -31,7 +31,6 @@ const AssignmentsPage = () => {
 
 
     setAssignmentData(response.data.assignments);
-    console.log(response.data.assignments)
     setActiveAssignment(response.data.assignments[0])
 
   }

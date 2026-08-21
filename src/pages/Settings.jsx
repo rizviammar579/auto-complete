@@ -20,7 +20,6 @@ const Settings = () => {
 
     setSettingsData(response.data);
 
-    console.log(response.data)
 
   }
 
