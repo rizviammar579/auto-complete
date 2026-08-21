@@ -30,7 +30,7 @@ const AssignmentsPage = () => {
     );
 
 
-    setAssignmentData(response.data.assignments);
+    setAssignmentData(response.data.assignments); 
     setActiveAssignment(response.data.assignments[0])
 
   }

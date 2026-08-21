@@ -1,11 +1,12 @@
 import React from 'react'
+import { useState } from 'react'
 import { CalendarDays } from 'lucide-react'
 import { formatDueDateTime } from '../../backend/utils/formatDueDateTime'
 import { Search, FileText, Check, RefreshCw } from 'lucide-react'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 
-const SelectedAssignmentLayout = ({ assignment , fetchAssignments , currentFilter }) => {
+const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter }) => {
 
     const status = {
         'GENERATED': { bg: 'bg-purple-100', text: 'text-purple-500', border: 'border-purple-300' },
@@ -18,22 +19,55 @@ const SelectedAssignmentLayout = ({ assignment , fetchAssignments , currentFilte
         toast.success("Copied to Clipboard")
     }
 
-     const handleTurnIn = async (id) => {
-    try {
+    const handleTurnIn = async (id) => {
+        try {
 
-      await axios.patch("http://localhost:3000/assignments", {
-        assignmentId: id
-      });
+            await axios.patch("http://localhost:3000/assignments", {
+                assignmentId: id
+            });
 
-      fetchAssignments(currentFilter)
+            fetchAssignments(currentFilter)
 
-      toast.success("Assignment marked as turned in");
+            toast.success("Assignment marked as turned in");
 
 
-    } catch (error) {
-      toast.error("Failed to turn in assignment");
+        } catch (error) {
+            toast.error("Failed to turn in assignment");
+        }
+    };
+
+
+
+    const [regeneratingId, setRegeneratingId] = useState(assignment.aiStatus === 'REGENERATING' ? assignment.assignmentId : null)
+
+    async function regenerateSolution(assignment) {
+
+        try {
+            console.log(assignment.assignmentId)
+
+            setRegeneratingId(assignment.assignmentId)
+
+            const response = await axios.post(
+                "http://localhost:3000/regenerate-solution",
+                { Assignment: assignment }
+            );
+
+
+          fetchAssignments()
+
+
+            if (response.data.success) toast.success('Solution Regenerated Successfully')
+            else toast.error('Solution Regeneration Failed')
+
+        } catch (err) {
+            console.log(err)
+            toast.error('Solution Regeneration Failed')
+        } finally {
+            setRegeneratingId(null)
+        }
+
     }
-  };
+
 
 
     return (
@@ -86,7 +120,7 @@ const SelectedAssignmentLayout = ({ assignment , fetchAssignments , currentFilte
 
                 <div><img src="../../public/geminiai.png" alt="" className='w-[20px] h-[20px]' /></div>
                 <div className='font font-semibold'>AI Status</div>
-                <div className={`px-2 rounded-sm text-[13px] font-semibold ml-5 border ${status[assignment.aiStatus]?.border} ${status[assignment.aiStatus].bg} ${status[assignment.aiStatus]?.text}`}>{assignment.aiStatus}</div>
+                <div className={`px-2 rounded-sm text-[13px] font-semibold ml-5 border ${regeneratingId ? 'border-purple-300 , bg-purple-100 text-purple-500' : `${status[assignment.aiStatus]?.border} , ${status[assignment.aiStatus]?.bg} , ${status[assignment.aiStatus]?.text}`} `}>{regeneratingId ? 'REGENERATING' : assignment.aiStatus}</div>
 
             </div>
 
@@ -119,11 +153,18 @@ const SelectedAssignmentLayout = ({ assignment , fetchAssignments , currentFilte
                         <Search size={18} />
                         Review Solution</a>
 
-                   
 
-                        {assignment.submissionStatus ? '' :  <button className='bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full  border border-gray-400'>
-                        <RefreshCw size={18} />
-                        Regenerate Solution</button>}
+
+                    {assignment.submissionStatus ? '' :
+
+                        <button disabled={regeneratingId ? true : false} className={`${regeneratingId ? 'pointer-events-none' : 'cursor-pointer'} bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full  border border-gray-400`} onClick={() => { regenerateSolution(assignment) }}>
+
+                            {regeneratingId == assignment.assignmentId ? '' : <RefreshCw size={18} />}
+                            {regeneratingId == assignment.assignmentId ? 'Regenerating...' : 'Regenerate Solution'}
+
+                        </button>
+
+                    }
 
                     <button className='bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full  border border-gray-400' onClick={() => {
                         assignment.driveFileLink === '' ? toast.error("Nothing to copy") : handleCopy(assignment.driveFileLink)
