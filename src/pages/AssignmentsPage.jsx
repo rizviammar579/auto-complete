@@ -3,7 +3,7 @@ import AssignmentTable from '../components/AssignmentTable'
 import { useState, useEffect } from 'react'
 import { Loader } from '../components/Loader'
 import axios from 'axios'
-import  SelectedAssignmentLayout  from '../components/SelectedAssignmentLayout'
+import SelectedAssignmentLayout from '../components/SelectedAssignmentLayout'
 import NoAssignments from '../components/NoAssignments'
 
 const AssignmentsPage = () => {
@@ -12,6 +12,8 @@ const AssignmentsPage = () => {
   const [assignmentData, setAssignmentData] = useState(null)
   const [currentFilter, setCurrentFilter] = useState('unsubmitted')
   const [activeAssignment, setActiveAssignment] = useState()
+  const [regeneratingId, setRegeneratingId] = useState(null)
+
 
   const filters = [
     { text: 'All' },
@@ -22,16 +24,20 @@ const AssignmentsPage = () => {
     { text: 'Manual Review' },
   ]
 
- 
+
   async function fetchAssignments(filter) {
 
     const response = await axios.get(
       `http://localhost:3000/assignments?filter=${filter}`
     );
 
+    const assignments = response.data.assignments;
 
-    setAssignmentData(response.data.assignments); 
-    setActiveAssignment(response.data.assignments[0])
+    const regeneratingAssignment = assignments.find(a => a.aiStatus === 'REGENERATING');
+    if (regeneratingAssignment) setRegeneratingId(regeneratingAssignment.assignmentId);
+
+    setAssignmentData(assignments);
+    setActiveAssignment(regeneratingAssignment || assignments[0])
 
   }
 
@@ -47,7 +53,7 @@ const AssignmentsPage = () => {
     return <Loader />
   }
 
- 
+
 
   return (
     <div className='font-inter flex'>
@@ -70,7 +76,7 @@ const AssignmentsPage = () => {
         </div>
 
         <div className='w-full'>
-        {assignmentData.length === 0 ? '' :   <AssignmentTable assignments={assignmentData} activeAssignment={activeAssignment} setActiveAssignment={setActiveAssignment} />}
+          {assignmentData.length === 0 ? '' : <AssignmentTable assignments={assignmentData} activeAssignment={activeAssignment} setActiveAssignment={setActiveAssignment} />}
         </div>
 
       </div>
@@ -79,7 +85,7 @@ const AssignmentsPage = () => {
 
       <div className='w-[33vw] h-[87vh] flex justify-center items-center'>
 
-        {assignmentData.length === 0 ? <NoAssignments/> :   <SelectedAssignmentLayout assignment={activeAssignment} fetchAssignments={fetchAssignments} currentFilter={currentFilter}/>}
+        {assignmentData.length === 0 ? <NoAssignments/> :   <SelectedAssignmentLayout assignment={activeAssignment} fetchAssignments={fetchAssignments} currentFilter={currentFilter} regeneratingId={regeneratingId} setRegeneratingId={setRegeneratingId}/>}
         
       </div>
 

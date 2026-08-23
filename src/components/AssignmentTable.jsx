@@ -5,7 +5,6 @@ import { CalendarDays } from 'lucide-react'
 const AssignmentTable = ({ assignments, activeAssignment, setActiveAssignment }) => {
 
 
-
   return (
     <div className='overflow-x-auto max-h-[70vh] overflow-x-auto '>
       <table className='w-full border-collapse overflow-hidden rounded-xl'>
@@ -23,6 +22,7 @@ const AssignmentTable = ({ assignments, activeAssignment, setActiveAssignment })
 
           {assignments.map((assignment) => (
             <tr key={assignment.assignmentId} className={` ${activeAssignment === assignment ? 'border-gray-200 rounded-full border-l-[#2563EB] bg-[#E8F1FF] border-l-[4px]' : 'border border-gray-200 hover:bg-gray-50 transition'}`} onClick={() => { setActiveAssignment(assignment) }}>
+
               <td className="px-6 py-4 font-semibold text-gray-800">{assignment.course.courseName}</td>
               <td className="px-6 py-4 font-semibold text-gray-800">{assignment.assignment.title}</td>
               <td className="px-6 py-4 font-semibold text-[#374151] text-gray-500 ">

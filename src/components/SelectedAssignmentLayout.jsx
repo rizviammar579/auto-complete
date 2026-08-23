@@ -6,12 +6,13 @@ import { Search, FileText, Check, RefreshCw } from 'lucide-react'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 
-const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter }) => {
+const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter, regeneratingId, setRegeneratingId }) => {
 
     const status = {
         'GENERATED': { bg: 'bg-purple-100', text: 'text-purple-500', border: 'border-purple-300' },
         'PENDING': { bg: 'bg-orange-100', text: 'text-orange-400', border: 'border-orange-300' },
-        'MANUAL REVIEW REQUIRED': { bg: 'bg-blue-100', text: 'text-blue-500', border: 'border-blue-300' }
+        'MANUAL REVIEW REQUIRED': { bg: 'bg-blue-100', text: 'text-blue-500', border: 'border-blue-300' },
+        'REGENERATING': { bg: 'bg-purple-100', text: 'text-purple-500', border: 'border-purple-300' }
     }
 
     const handleCopy = async (link) => {
@@ -36,14 +37,14 @@ const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter 
         }
     };
 
+    console.log(regeneratingId)
 
 
-    const [regeneratingId, setRegeneratingId] = useState(assignment.aiStatus === 'REGENERATING' ? assignment.assignmentId : null)
 
     async function regenerateSolution(assignment) {
 
         try {
-            console.log(assignment.assignmentId)
+
 
             setRegeneratingId(assignment.assignmentId)
 
@@ -53,11 +54,11 @@ const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter 
             );
 
 
-          fetchAssignments()
-
+            fetchAssignments(currentFilter)
 
             if (response.data.success) toast.success('Solution Regenerated Successfully')
             else toast.error('Solution Regeneration Failed')
+
 
         } catch (err) {
             console.log(err)
@@ -120,7 +121,7 @@ const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter 
 
                 <div><img src="../../public/geminiai.png" alt="" className='w-[20px] h-[20px]' /></div>
                 <div className='font font-semibold'>AI Status</div>
-                <div className={`px-2 rounded-sm text-[13px] font-semibold ml-5 border ${regeneratingId ? 'border-purple-300 , bg-purple-100 text-purple-500' : `${status[assignment.aiStatus]?.border} , ${status[assignment.aiStatus]?.bg} , ${status[assignment.aiStatus]?.text}`} `}>{regeneratingId ? 'REGENERATING' : assignment.aiStatus}</div>
+                <div className={`px-2 rounded-sm text-[13px] font-semibold ml-5 border ${regeneratingId === assignment.assignmentId ? 'border-purple-300 , bg-purple-100 text-purple-500' : `${status[assignment.aiStatus]?.border} , ${status[assignment.aiStatus]?.bg} , ${status[assignment.aiStatus]?.text}`} `}>{regeneratingId === assignment.assignmentId ? 'REGENERATING' : assignment.aiStatus}</div>
 
             </div>
 
