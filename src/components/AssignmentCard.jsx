@@ -41,7 +41,6 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
   async function regenerateSolution(assignment) {
 
     try {
-      console.log(assignment.assignmentId)
 
       setRegeneratingId(assignment.assignmentId)
 
@@ -54,8 +53,8 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
       fetchDashboardData()
 
 
-      if (response.data.success) toast.success('Solution Regenerated Successfully')
-      else toast.error('Solution Regeneration Failed')
+      if (response.data.success) toast.success(response.data.message)
+      else toast.error(response.data.message)
 
     } catch (err) {
       console.log(err)

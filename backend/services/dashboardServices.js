@@ -8,6 +8,7 @@ import { canUseFileUpload } from "../functions/canUseFileUpload.js";
 import { processWithFileUpload } from "../functions/processWithFileUpload.js";
 import { processWithTextExtraction } from "../functions/processWithTextExtraction.js";
 import { createNotification } from "../utils/createNotification.js";
+import { canUseAI } from "../functions/canUseAI.js";
 
 
 export async function fetchDashboardData(req, res) {
@@ -84,6 +85,21 @@ export async function regenerateSolution(req, res) {
 
     const { Assignment } = req.body
 
+    if (!await canUseAI()) {
+
+      await createNotification(
+        'Solution cannot be regenerated',
+        `Solution cannot be regenerated for ${Assignment.course.courseName} - ${Assignment.assignment.title}. Gemini is not available. Try again tomorrow.`,
+        'info'
+      )
+
+      res.status(200).json({ success: false, message: 'Solution cannot be regenerated' });
+
+      return
+    }
+
+
+
     await cleanup(Assignment);
 
 
@@ -109,7 +125,7 @@ export async function regenerateSolution(req, res) {
         'info'
       )
 
-      res.status(200).json({ success: true });
+      res.status(200).json({ success: true, message: 'Solution Regenerated Successfully' });
 
     } else {
 
@@ -127,7 +143,7 @@ export async function regenerateSolution(req, res) {
         'error'
       )
 
-      res.status(200).json({ success: false });
+      res.status(200).json({ success: false, message: 'Solution Regeneration Failed' });
 
     }
 
