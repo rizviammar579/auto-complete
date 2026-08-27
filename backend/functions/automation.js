@@ -10,9 +10,9 @@ import { runtimeState } from '../utils/runtimeState.js';
 
 export async function automation() {
 
-    
+
     runtimeState.automationRunning = true;
-    
+
 
     // Calls API for list of courses and upserts course details in DB
     const courses = await ListAndUpsertCourses()
@@ -40,6 +40,14 @@ export async function automation() {
     if (await canUseAI()) {
 
         await generateSolution()
+
+    } else {
+
+        await createNotification(
+            'AI Quota Exceeded',
+            `Gemini daily usage limit has been exceeded. Try again tomorrow.`,
+            'error'
+        )
 
     }
 

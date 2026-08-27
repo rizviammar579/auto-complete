@@ -37,7 +37,7 @@ const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter,
         }
     };
 
-    console.log(regeneratingId)
+   
 
 
 

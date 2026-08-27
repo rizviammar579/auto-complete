@@ -1,11 +1,16 @@
 import mongoose from 'mongoose';
 import { runtimeState } from '../../utils/runtimeState.js';
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export default async function connectDB() {
 
-    // Connecting to mongoDB compass
-    mongoose.connect("mongodb://localhost:27017/assignment-automation-database") 
-    
+    // Connecting to mongoDB atlas
+    mongoose.connect(process.env.MONGODB_URI, {
+        dbName: "assignment-automation-database"
+    })
+
     runtimeState.mongoDBConnected = true;
-    
+
 }

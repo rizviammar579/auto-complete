@@ -89,7 +89,7 @@ export async function regenerateSolution(req, res) {
 
     const { assignment, course, ...pendingAssignment } = Assignment
 
-    if (canUseFileUpload()) {
+    if (await canUseFileUpload()) {
 
       await processWithFileUpload(pendingAssignment, Assignment.assignment, Assignment.course)
 

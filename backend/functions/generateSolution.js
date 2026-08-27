@@ -29,7 +29,7 @@ export async function generateSolution() {
         const assignment = await getAssignment(pendingAssignment.assignmentId);
         const course = await getCourseDetails(pendingAssignment.courseId)
 
-        if (canUseFileUpload()) {
+        if (await canUseFileUpload()) {
 
             await processWithFileUpload(pendingAssignment, assignment, course)
 
