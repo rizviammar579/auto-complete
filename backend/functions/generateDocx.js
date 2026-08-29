@@ -18,389 +18,334 @@ import {
 
 export async function generateDocx(content, outputPath) {
 
-   try{
-     const FONT = "Calibri";
+    try {
+        const FONT = "Calibri";
 
-    const TITLE_SIZE = 40;
-    const HEADING_SIZE = 32;
-    const BODY_SIZE = 24;
-    const TABLE_SIZE = 22;
+        const TITLE_SIZE = 40;
+        const HEADING_SIZE = 32;
+        const BODY_SIZE = 24;
+        const TABLE_SIZE = 22;
 
-    const LINE_SPACING = 276;
-    const PARAGRAPH_AFTER = 120;
-
-
-    const children = [];
+        const LINE_SPACING = 276;
+        const PARAGRAPH_AFTER = 120;
 
 
-
-    children.push(
-
-        new Paragraph({
-
-            alignment: AlignmentType.CENTER,
-
-            spacing: {
-                after: 400
-            },
-
-            children: [
-
-                new TextRun({
-
-                    text: content.title,
-
-                    allCaps: true,
-
-                    bold: true,
-
-                    font: FONT,
-
-                    size: TITLE_SIZE
-
-                })
-
-            ]
-
-        })
-
-    );
+        const children = [];
 
 
 
-    for (const element of content.elements) {
+        children.push(
 
-        switch (element.type) {
+            new Paragraph({
 
-            case "code_block": {
+                alignment: AlignmentType.CENTER,
 
-                const codeRuns = [];
+                spacing: {
+                    after: 400
+                },
 
-                const lines = element.code.split("\n");
+                children: [
 
-                lines.forEach((line, index) => {
+                    new TextRun({
 
-                    codeRuns.push(
-                        new TextRun({
-                            text: line,
-                            font: "Consolas",
-                            size: 20,
-                            noProof: true,
-                            break: index === lines.length - 1 ? 0 : 1
+                        text: content.title,
+
+                        allCaps: true,
+
+                        bold: true,
+
+                        font: FONT,
+
+                        size: TITLE_SIZE
+
+                    })
+
+                ]
+
+            })
+
+        );
+
+
+
+        for (const element of content.elements) {
+
+            switch (element.type) {
+
+                case "code_block": {
+
+                    const codeRuns = [];
+
+                    const lines = element.code.split("\n");
+
+                    lines.forEach((line, index) => {
+
+                        codeRuns.push(
+                            new TextRun({
+                                text: line,
+                                font: "Consolas",
+                                size: 20,
+                                noProof: true,
+                                break: index === lines.length - 1 ? 0 : 1
+                            })
+                        );
+
+                    });
+
+                    children.push(
+                        new Paragraph({
+
+                            spacing: {
+                                before: 0,
+                                after: 200,
+                            },
+
+                            children: codeRuns,
+
                         })
                     );
 
-                });
+                    break;
+                }
 
-                children.push(
-                    new Paragraph({
+                case "heading":
 
-                        spacing: {
-                            before: 0,
-                            after: 200,
-                        },
+                    children.push(
 
-                        children: codeRuns,
+                        new Paragraph({
 
-                    })
-                );
+                            heading:
 
-                break;
-            }
+                                element.level === 1
+                                    ? HeadingLevel.HEADING_1
+                                    : element.level === 2
+                                        ? HeadingLevel.HEADING_2
+                                        : HeadingLevel.HEADING_3,
 
-            case "heading":
+                            spacing: {
 
-                children.push(
+                                before: 300,
 
-                    new Paragraph({
+                                after: 160
 
-                        heading:
+                            },
 
-                            element.level === 1
-                                ? HeadingLevel.HEADING_1
-                                : element.level === 2
-                                    ? HeadingLevel.HEADING_2
-                                    : HeadingLevel.HEADING_3,
+                            children: [
 
-                        spacing: {
+                                new TextRun({
 
-                            before: 300,
+                                    text: element.text,
 
-                            after: 160
+                                    bold: true,
 
-                        },
+                                    font: FONT,
 
-                        children: [
+                                    size: HEADING_SIZE,
 
-                            new TextRun({
+                                    color: "404040"
 
-                                text: element.text,
+                                })
 
-                                bold: true,
+                            ]
 
-                                font: FONT,
+                        })
 
-                                size: HEADING_SIZE
+                    );
+
+                    break;
+
+
+
+                case "paragraph":
+
+                    children.push(
+
+                        new Paragraph({
+
+                            alignment: AlignmentType.JUSTIFIED,
+
+                            spacing: {
+
+                                after: PARAGRAPH_AFTER,
+
+                                line: LINE_SPACING
+
+                            },
+
+                            children:
+
+                                element.runs.map(run =>
+
+                                    new TextRun({
+
+                                        text: run.text,
+
+                                        bold: run.bold ?? false,
+
+                                        italic: run.italic ?? false,
+
+                                        underline: run.underline
+                                            ? {}
+                                            : undefined,
+
+                                        color: run.color,
+
+                                        font: FONT,
+
+                                        size: BODY_SIZE
+
+                                    })
+
+                                )
+
+                        })
+
+                    );
+
+                    break;
+
+
+
+                case "bullet_list":
+
+                    for (const item of element.items) {
+
+                        children.push(
+
+                            new Paragraph({
+
+                                bullet: {
+
+                                    level: 0
+
+                                },
+
+                                alignment: AlignmentType.JUSTIFIED,
+
+                                spacing: {
+
+                                    after: 60,
+
+                                    line: LINE_SPACING
+
+                                },
+
+                                children: [
+
+                                    new TextRun({
+
+                                        text: item,
+
+                                        font: FONT,
+
+                                        size: BODY_SIZE
+
+                                    })
+
+                                ]
 
                             })
 
-                        ]
+                        );
 
-                    })
-
-                );
-
-                break;
-
-
-
-            case "paragraph":
-
-                children.push(
-
-                    new Paragraph({
-
-                        alignment: AlignmentType.JUSTIFIED,
-
-                        spacing: {
-
-                            after: PARAGRAPH_AFTER,
-
-                            line: LINE_SPACING
-
-                        },
-
-                        children:
-
-                            element.runs.map(run =>
-
-                                new TextRun({
-
-                                    text: run.text,
-
-                                    bold: run.bold ?? false,
-
-                                    italic: run.italic ?? false,
-
-                                    underline: run.underline
-                                        ? {}
-                                        : undefined,
-
-                                    color: run.color,
-
-                                    font: FONT,
-
-                                    size: BODY_SIZE
-
-                                })
-
-                            )
-
-                    })
-
-                );
-
-                break;
-
-
-
-            case "bullet_list":
-
-                for (const item of element.items) {
+                    }
 
                     children.push(
 
                         new Paragraph({
 
-                            bullet: {
-
-                                level: 0
-
-                            },
-
-                            alignment: AlignmentType.JUSTIFIED,
-
                             spacing: {
 
-                                after: 60,
+                                after: 150
 
-                                line: LINE_SPACING
-
-                            },
-
-                            children: [
-
-                                new TextRun({
-
-                                    text: item,
-
-                                    font: FONT,
-
-                                    size: BODY_SIZE
-
-                                })
-
-                            ]
+                            }
 
                         })
 
                     );
 
-                }
-
-                children.push(
-
-                    new Paragraph({
-
-                        spacing: {
-
-                            after: 150
-
-                        }
-
-                    })
-
-                );
-
-                break;
+                    break;
 
 
-            case "numbered_list":
+                case "numbered_list":
 
-                element.items.forEach((item, index) => {
+                    element.items.forEach((item, index) => {
+
+                        children.push(
+
+                            new Paragraph({
+
+                                alignment: AlignmentType.JUSTIFIED,
+
+                                spacing: {
+
+                                    after: 60,
+
+                                    line: LINE_SPACING
+
+                                },
+
+                                children: [
+
+                                    new TextRun({
+
+                                        text: `${index + 1}. ${item}`,
+
+                                        font: FONT,
+
+                                        size: BODY_SIZE
+
+                                    })
+
+                                ]
+
+                            })
+
+                        );
+
+                    });
 
                     children.push(
 
                         new Paragraph({
 
-                            alignment: AlignmentType.JUSTIFIED,
-
                             spacing: {
 
-                                after: 60,
+                                after: 150
 
-                                line: LINE_SPACING
-
-                            },
-
-                            children: [
-
-                                new TextRun({
-
-                                    text: `${index + 1}. ${item}`,
-
-                                    font: FONT,
-
-                                    size: BODY_SIZE
-
-                                })
-
-                            ]
+                            }
 
                         })
 
                     );
 
-                });
-
-                children.push(
-
-                    new Paragraph({
-
-                        spacing: {
-
-                            after: 150
-
-                        }
-
-                    })
-
-                );
-
-                break;
+                    break;
 
 
 
-            case "table":
+                case "table":
 
-                children.push(
+                    children.push(
 
-                    new Table({
+                        new Table({
 
-                        width: {
+                            width: {
 
-                            size: 100,
+                                size: 100,
 
-                            type: WidthType.PERCENTAGE
+                                type: WidthType.PERCENTAGE
 
-                        },
+                            },
 
-                        rows: [
-
-
-
-                            new TableRow({
-
-                                children:
-
-                                    element.headers.map(header =>
-
-                                        new TableCell({
-
-                                            verticalAlign: VerticalAlign.CENTER,
-
-                                            borders: {
-
-                                                top: { style: BorderStyle.SINGLE, size: 1 },
-
-                                                bottom: { style: BorderStyle.SINGLE, size: 1 },
-
-                                                left: { style: BorderStyle.SINGLE, size: 1 },
-
-                                                right: { style: BorderStyle.SINGLE, size: 1 }
-
-                                            },
-
-                                            children: [
-
-                                                new Paragraph({
-
-                                                    alignment: AlignmentType.CENTER,
-
-                                                    children: [
-
-                                                        new TextRun({
-
-                                                            text: header,
-
-                                                            bold: true,
-
-                                                            font: FONT,
-
-                                                            size: TABLE_SIZE
-
-                                                        })
-
-                                                    ]
-
-                                                })
-
-                                            ]
-
-                                        })
-
-                                    )
-
-                            }),
+                            rows: [
 
 
-                            ...element.rows.map(row =>
 
                                 new TableRow({
 
                                     children:
 
-                                        row.map(cell =>
+                                        element.headers.map(header =>
 
                                             new TableCell({
 
@@ -428,7 +373,9 @@ export async function generateDocx(content, outputPath) {
 
                                                             new TextRun({
 
-                                                                text: cell,
+                                                                text: header,
+
+                                                                bold: true,
 
                                                                 font: FONT,
 
@@ -446,58 +393,113 @@ export async function generateDocx(content, outputPath) {
 
                                         )
 
-                                })
-
-                            )
-
-                        ]
-
-                    })
-
-                );
-
-                children.push(
-
-                    new Paragraph({
-
-                        spacing: {
-
-                            after: 250
-
-                        }
-
-                    })
-
-                );
-
-                break;
-
-        }
-
-    }
+                                }),
 
 
-    const doc = new Document({
+                                ...element.rows.map(row =>
 
-        sections: [
+                                    new TableRow({
 
-            {
+                                        children:
 
-                children
+                                            row.map(cell =>
+
+                                                new TableCell({
+
+                                                    verticalAlign: VerticalAlign.CENTER,
+
+                                                    borders: {
+
+                                                        top: { style: BorderStyle.SINGLE, size: 1 },
+
+                                                        bottom: { style: BorderStyle.SINGLE, size: 1 },
+
+                                                        left: { style: BorderStyle.SINGLE, size: 1 },
+
+                                                        right: { style: BorderStyle.SINGLE, size: 1 }
+
+                                                    },
+
+                                                    children: [
+
+                                                        new Paragraph({
+
+                                                            alignment: AlignmentType.CENTER,
+
+                                                            children: [
+
+                                                                new TextRun({
+
+                                                                    text: cell,
+
+                                                                    font: FONT,
+
+                                                                    size: TABLE_SIZE
+
+                                                                })
+
+                                                            ]
+
+                                                        })
+
+                                                    ]
+
+                                                })
+
+                                            )
+
+                                    })
+
+                                )
+
+                            ]
+
+                        })
+
+                    );
+
+                    children.push(
+
+                        new Paragraph({
+
+                            spacing: {
+
+                                after: 250
+
+                            }
+
+                        })
+
+                    );
+
+                    break;
 
             }
 
-        ]
+        }
 
-    });
 
-    const buffer = await Packer.toBuffer(doc);
+        const doc = new Document({
 
-    await fs.writeFile(outputPath, buffer);
+            sections: [
 
-   }catch(err){
-    throw err;
-   }
+                {
+
+                    children
+
+                }
+
+            ]
+
+        });
+
+        const buffer = await Packer.toBuffer(doc);
+
+        await fs.writeFile(outputPath, buffer);
+
+    } catch (err) {
+        throw err;
+    }
 
 }
 

@@ -1,6 +1,6 @@
 export default function getPrompt(assignment, course) {
 
-    const prompt = `
+  const prompt = `
     Course: ${course.courseName}
 
 Assignment: ${assignment.title}
@@ -39,6 +39,20 @@ CONTENT RULES:
 * Do NOT repeat assignment instructions unless they are necessary to answer a question.
 * Do not add unnecessary introductions or concluding remarks.
 * Do not include greetings, acknowledgements, or conversational phrases.
+
+PROGRAMMING LANGUAGE REQUIREMENT:
+
+For programming questions, use the following default language based on the course:
+
+* DSA: C++
+* OOP: Java
+* Unix: C and Shell scripting
+* DBMS: SQL
+
+If the assignment explicitly specifies a programming language, follow the language specified in the assignment instead of the default course language.
+
+Never use a different programming language when a language has been explicitly specified.
+
 
 DOCUMENT FORMATTING RULES:
 
@@ -254,7 +268,7 @@ Return exactly one valid JSON object.
 
     `;
 
-    return prompt
+  return prompt
 
 
 }

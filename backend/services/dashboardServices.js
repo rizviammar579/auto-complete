@@ -90,10 +90,10 @@ export async function regenerateSolution(req, res) {
       await createNotification(
         'Solution cannot be regenerated',
         `Solution cannot be regenerated for ${Assignment.course.courseName} - ${Assignment.assignment.title}. Gemini is not available. Try again tomorrow.`,
-        'info'
+        'warning'
       )
 
-      res.status(200).json({ success: false, message: 'Solution cannot be regenerated' });
+      res.status(200).json({ success: false, message: 'Gemini Unavailable' });
 
       return
     }
