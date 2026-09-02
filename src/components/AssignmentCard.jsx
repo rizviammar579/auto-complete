@@ -49,12 +49,11 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
         { Assignment: assignment }
       );
 
+      if (response.data.success) toast.success(response.data.message)
+      else toast.error(response.data.message)
 
       fetchDashboardData()
 
-
-      if (response.data.success) toast.success(response.data.message)
-      else toast.error(response.data.message)
 
     } catch (err) {
       console.log(err)

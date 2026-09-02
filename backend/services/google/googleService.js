@@ -3,6 +3,7 @@ import { google } from 'googleapis';
 import path from 'node:path';
 import process from 'node:process';
 import { runtimeState } from '../../utils/runtimeState.js';
+import open from 'open'
 
 
 // The scope for reading Classroom courses,courseworks and driveFiles.
@@ -22,6 +23,8 @@ const auth = await authenticate({
     scopes: SCOPES,
     keyfilePath: CREDENTIALS_PATH,
 });
+
+open('http://localhost:5173')
 
 
 // Create a new Classroom API client.

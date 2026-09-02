@@ -27,6 +27,7 @@ dist-ssr
 *.sln
 *.sw?
 credentials.json
+oauth.json
 gitcommands.md
 downloads/
 solutions/
