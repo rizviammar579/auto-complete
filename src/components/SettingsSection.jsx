@@ -7,8 +7,8 @@ import Scheduler from '../components/Scheduler'
 import AIConfiguration from '../components/AIConfiguration'
 import { Loader } from '../components/Loader'
 
-const Settings = () => {
-
+const SettingsSection = () => {
+ 
   const [settingsData, setSettingsData] = useState(null)
 
   async function fetchSettingsData() {
@@ -56,4 +56,4 @@ const Settings = () => {
   )
 }
 
-export default Settings
+export default SettingsSection

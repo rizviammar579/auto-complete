@@ -6,10 +6,8 @@ import axios from 'axios'
 import { Bell } from 'lucide-react'
 import toast from 'react-hot-toast'
 
-
-const Notifications = () => {
-
-
+const NotificationsSection = () => {
+  
   const [notifications, setNotifications] = useState(null)
   const [currentFilter, setCurrentFilter] = useState('All')
 
@@ -127,10 +125,6 @@ const Notifications = () => {
     </div>
   )
 
-    }
-  
-   
+}
 
-
-
-export default Notifications
+export default NotificationsSection

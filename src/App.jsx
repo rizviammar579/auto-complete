@@ -1,12 +1,10 @@
 import { Routes, Route } from 'react-router-dom'
-
-import Sidebar from "./components/Sidebar.jsx"
-import DisplaySection from "./components/DisplaySection.jsx"
-import Dashboard from './pages/Dashboard.jsx'
-import History from './pages/History.jsx'
-import Settings from './pages/Settings.jsx'
-import Notifications from './pages/Notifications.jsx'
+import DashboardPage from './pages/DashboardPage.jsx'
+import HistoryPage from './pages/HistoryPage.jsx'
+import SettingsPage from './pages/SettingsPage.jsx'
+import NotificationsPage from './pages/NotificationsPage.jsx'
 import AssignmentsPage from './pages/AssignmentsPage.jsx'
+import LandingPage from './pages/LandingPage.jsx'
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -16,42 +14,18 @@ function App() {
     <>
 
       <Routes>
-        <Route path="/" element={<>landing page</>}/>
 
-        <Route path="/dashboard" element={<>
-          <div className="bg-black h-[100vh] flex p-3 z-50 overflow-hidden">
-            <Sidebar />
-            <DisplaySection component={<Dashboard/>}/>
-          </div>
-        </>} />
+        <Route path="/" element={<LandingPage/>}/>
 
-        <Route path="/assignments" element={<>
-          <div className="bg-black h-[100vh] flex p-3 z-50 overflow-hidden">
-            <Sidebar />
-            <DisplaySection component={<AssignmentsPage />}/>
-          </div>
-        </>} />
+        <Route path="/dashboard" element={<DashboardPage/>} />
+
+        <Route path="/assignments" element={<AssignmentsPage/>} />
         
-        <Route path="/settings" element={<>
-          <div className="bg-black h-[100vh] flex p-3 z-50 overflow-hidden">
-            <Sidebar />
-            <DisplaySection component={<Settings />}/>
-          </div>
-        </>} />
+        <Route path="/settings" element={<SettingsPage />} />
 
-        <Route path="/history" element={<>
-          <div className="bg-black h-[100vh] flex p-3 z-50 overflow-hidden">
-            <Sidebar />
-            <DisplaySection component={<History />}/>
-          </div>
-        </>} />
+        <Route path="/history" element={<HistoryPage />} />
 
-        <Route path="/notifications" element={<>
-          <div className="bg-black h-[100vh] flex p-3 z-50 overflow-hidden">
-            <Sidebar />
-            <DisplaySection component={<Notifications />}/>
-          </div>
-        </>} />
+        <Route path="/notifications" element={<NotificationsPage />} />
      
       </Routes>
 

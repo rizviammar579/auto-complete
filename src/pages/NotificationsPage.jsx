@@ -1,16 +1,19 @@
 import React from 'react'
-import AssignmentsSection from '../components/AssignmentsSection'
 import Sidebar from '../components/Sidebar'
 import DisplaySection from '../components/DisplaySection'
+import NotificationsSection from '../components/NotificationsSection'
 
-const AssignmentsPage = () => {
-  return (
+
+const NotificationsPage = () => {
+
+return (
     <div className="bg-black h-[100vh] flex p-3 z-50 overflow-hidden">
       <Sidebar />
-      <DisplaySection component={<AssignmentsSection />} />
+      <DisplaySection component={<NotificationsSection/>} />
     </div>
   )
+
 }
 
-export default AssignmentsPage
 
+export default NotificationsPage

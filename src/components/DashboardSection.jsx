@@ -4,9 +4,8 @@ import DashboardSideSection from '../components/DashboardSideSection'
 import axios from 'axios'
 import { Loader } from '../components/Loader'
 
-
-const Dashboard = () => {
-
+const DashboardSection = () => {
+  
   const [dashboardData, setDashboardData] = useState(null)
 
   async function fetchDashboardData() {
@@ -41,4 +40,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default DashboardSection
