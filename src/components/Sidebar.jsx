@@ -18,7 +18,7 @@ const Sidebar = () => {
       id:1,
       name: "Dashboard",
       icon: Grid2X2,
-      navlink: ""
+      navlink: "dashboard"
     },
     { 
       id:2,
