@@ -6,6 +6,7 @@ import NotificationsPage from './pages/NotificationsPage.jsx'
 import AssignmentsPage from './pages/AssignmentsPage.jsx'
 import LandingPage from './pages/LandingPage.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
+import Custom404 from './components/Custom404.jsx'
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -17,6 +18,8 @@ function App() {
       <Routes>
 
         <Route path="/" element={<LandingPage />} />
+
+        <Route path="/:slug" element={<Custom404 />} />
 
 
         <Route element={<ProtectedRoute />}>
@@ -30,8 +33,6 @@ function App() {
           <Route path="/history" element={<HistoryPage />} />
 
           <Route path="/notifications" element={<NotificationsPage />} />
-
-          <Route path="/:slug" element={<DashboardPage />} />
 
         </Route>
 
