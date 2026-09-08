@@ -21,6 +21,7 @@
     "docx": "^9.7.1",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "googleapis": "^95.0.0",
     "lucide-react": "^1.26.0",
     "mammoth": "^1.12.0",

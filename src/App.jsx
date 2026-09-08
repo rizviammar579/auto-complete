@@ -5,6 +5,7 @@ import SettingsPage from './pages/SettingsPage.jsx'
 import NotificationsPage from './pages/NotificationsPage.jsx'
 import AssignmentsPage from './pages/AssignmentsPage.jsx'
 import LandingPage from './pages/LandingPage.jsx'
+import ProtectedRoute from './components/ProtectedRoute.jsx'
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -15,18 +16,26 @@ function App() {
 
       <Routes>
 
-        <Route path="/" element={<LandingPage/>}/>
+        <Route path="/" element={<LandingPage />} />
 
-        <Route path="/dashboard" element={<DashboardPage/>} />
 
-        <Route path="/assignments" element={<AssignmentsPage/>} />
-        
-        <Route path="/settings" element={<SettingsPage />} />
+        <Route element={<ProtectedRoute />}>
 
-        <Route path="/history" element={<HistoryPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
 
-        <Route path="/notifications" element={<NotificationsPage />} />
-     
+          <Route path="/assignments" element={<AssignmentsPage />} />
+
+          <Route path="/settings" element={<SettingsPage />} />
+
+          <Route path="/history" element={<HistoryPage />} />
+
+          <Route path="/notifications" element={<NotificationsPage />} />
+
+          <Route path="/:slug" element={<DashboardPage />} />
+
+        </Route>
+
+
       </Routes>
 
 

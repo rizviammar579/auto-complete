@@ -7,7 +7,7 @@ dotenv.config()
 export default async function connectDB() {
 
     // Connecting to mongoDB atlas
-    mongoose.connect(process.env.MONGODB_URI, {
+    await mongoose.connect(process.env.MONGODB_URI, {
         dbName: "assignment-automation-database"
     })
 

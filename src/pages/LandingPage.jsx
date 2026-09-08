@@ -75,7 +75,7 @@ const LandingPage = () => {
           </div>
 
           <div className='flex flex-col gap-5'>
-            <button className='flex gap-3 justify-center items-center cursor-pointer border border-gray-400 p-3 rounded-xl hover:bg-white '>
+            <button className='flex gap-3 justify-center items-center cursor-pointer border border-gray-400 p-3 rounded-xl hover:bg-white' onClick={()=>{window.location.href="http://localhost:3000/auth/google"}}>
               <img src="../google.png" alt="" className='w-[40px]' /> Sign in with Google</button>
             <p className='font-light text-gray-500'>Get started with your Google account</p>
           </div>
