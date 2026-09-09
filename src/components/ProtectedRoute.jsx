@@ -18,11 +18,9 @@ function ProtectedRoute() {
                 return response.json();
             })
             .then(() => {
-                console.log("AUTH CHECK: SUCCESS");
                 setIsAuthenticated(true);
             })
             .catch(() => {
-                console.log("AUTH CHECK: FAILED");
                 setIsAuthenticated(false);
             });
     }, []);

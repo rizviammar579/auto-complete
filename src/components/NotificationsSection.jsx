@@ -43,7 +43,9 @@ const NotificationsSection = () => {
 
       try {
 
-      await axios.patch("http://localhost:3000/notifications/read-all");
+      await axios.patch("http://localhost:3000/notifications/read-all",{},{
+        withCredentials: true
+      });
 
       fetchNotificationData();
       toast.success("All notifications marked as read")
@@ -56,7 +58,9 @@ const NotificationsSection = () => {
 
       try {
 
-      await axios.delete("http://localhost:3000/notifications/delete-all");
+      await axios.delete("http://localhost:3000/notifications/delete-all",{
+        withCredentials: true
+      });
 
       fetchNotificationData();
       toast.error("All notifications deleted")

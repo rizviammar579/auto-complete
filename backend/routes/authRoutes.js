@@ -38,6 +38,15 @@ router.get("/google/callback", async (req, res) => {
             name: data.name
         }
 
+        req.session.save((err) => {
+
+            if (err) {
+                console.error(err);
+                return res.status(500).send("Session save failed");
+            }
+
+        });
+
         res.redirect("http://localhost:5173/dashboard");
 
     } catch (error) {

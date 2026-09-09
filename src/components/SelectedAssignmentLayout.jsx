@@ -25,6 +25,8 @@ const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter,
 
             await axios.patch("http://localhost:3000/assignments", {
                 assignmentId: id
+            }, {
+                withCredentials: true
             });
 
             fetchAssignments(currentFilter)
@@ -37,7 +39,7 @@ const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter,
         }
     };
 
-   
+
 
 
 
@@ -50,7 +52,9 @@ const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter,
 
             const response = await axios.post(
                 "http://localhost:3000/regenerate-solution",
-                { Assignment: assignment }
+                { Assignment: assignment }, {
+                withCredentials: true
+            }
             );
 
 

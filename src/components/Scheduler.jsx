@@ -7,12 +7,13 @@ const Scheduler = ({data , fetchSettingsData}) => {
    async function runAutomationManually() {
 
     const response = await axios.post(
-      "http://localhost:3000/settings/run-automation"
+      "http://localhost:3000/settings/run-automation",{},{
+        withCredentials: true
+      }
     );
 
     fetchSettingsData()
-
-    
+ 
    }
 
     return (

@@ -23,6 +23,8 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
 
       await axios.patch("http://localhost:3000/", {
         assignmentId: id
+      }, {
+        withCredentials: true
       });
 
       fetchDashboardData();
@@ -46,7 +48,9 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
 
       const response = await axios.post(
         "http://localhost:3000/regenerate-solution",
-        { Assignment: assignment }
+        { Assignment: assignment }, {
+        withCredentials: true
+      }
       );
 
       if (response.data.success) toast.success(response.data.message)
