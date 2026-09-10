@@ -5,8 +5,11 @@ import { timeAgo } from '../../backend/utils/timeAgo.js'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import { Trash2 } from 'lucide-react'
+import { useAccessDenied } from '../context/AccessDeniedContext.jsx'
 
 const NotificationComponent = ({ notification ,fetchNotificationData }) => {
+
+  const { showAccessDenied } = useAccessDenied();
 
   const border = {
     success: 'border-l-green-500',
@@ -33,7 +36,11 @@ const NotificationComponent = ({ notification ,fetchNotificationData }) => {
       fetchNotificationData();
       
     } catch (error) {
-
+        if (error.response?.status === 403) {
+               showAccessDenied();
+             } else {
+               toast.error("Failed to mark this notification as read");
+             }
     }
   };
 
@@ -48,6 +55,11 @@ const NotificationComponent = ({ notification ,fetchNotificationData }) => {
       fetchNotificationData();
       
     } catch (error) {
+       if (error.response?.status === 403) {
+        showAccessDenied();
+      } else {
+        toast.error("Failed to delete this notification");
+      }
     }
   };
 

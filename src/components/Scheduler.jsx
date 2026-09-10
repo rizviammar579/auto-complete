@@ -1,20 +1,35 @@
 import React from 'react'
 import { timeAgo } from '../../backend/utils/timeAgo.js'
 import axios from 'axios'
+import { useAccessDenied } from '../context/AccessDeniedContext.jsx'
 
-const Scheduler = ({data , fetchSettingsData}) => {
+const Scheduler = ({ data, fetchSettingsData }) => {
 
-   async function runAutomationManually() {
+    const { showAccessDenied } = useAccessDenied();
 
-    const response = await axios.post(
-      "http://localhost:3000/settings/run-automation",{},{
-        withCredentials: true
-      }
-    );
+    async function runAutomationManually() {
 
-    fetchSettingsData()
- 
-   }
+        try {
+
+            const response = await axios.post(
+                "http://localhost:3000/settings/run-automation", {}, {
+                withCredentials: true
+            }
+            );
+
+            fetchSettingsData()
+
+        } catch (error) {
+            if (error.response?.status === 403) {
+                showAccessDenied();
+            } else {
+                console.log(error)
+                toast.error('Failed to run automation')
+            }
+        }
+
+
+    }
 
     return (
         <div className='font-inter border w-min-fit p-5 rounded-2xl flex flex-col gap-5 w-[33%]'>
@@ -37,10 +52,10 @@ const Scheduler = ({data , fetchSettingsData}) => {
 
             </div>
 
-            <button disabled={data.automationRunning} className='p-2 border font-semibold rounded-xl cursor-pointer border border-gray-500  hover:bg-white transition-colors' onClick={()=>{
+            <button disabled={data.automationRunning} className='p-2 border font-semibold rounded-xl cursor-pointer border border-gray-500  hover:bg-white transition-colors' onClick={() => {
                 runAutomationManually()
                 fetchSettingsData()
-                }}>{data.automationRunning ? 'Automation Running...' : 'Run Automation Now'}</button>
+            }}>{data.automationRunning ? 'Automation Running...' : 'Run Automation Now'}</button>
 
         </div>
     )

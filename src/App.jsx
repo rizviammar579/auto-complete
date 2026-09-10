@@ -8,6 +8,8 @@ import LandingPage from './pages/LandingPage.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import Custom404 from './components/Custom404.jsx'
 import { Toaster } from "react-hot-toast";
+import AccessDenied from './components/AccessDenied.jsx'
+import { AccessDeniedProvider } from './context/AccessDeniedContext.jsx'
 
 function App() {
 
@@ -15,32 +17,38 @@ function App() {
 
     <>
 
-      <Routes>
+      <AccessDeniedProvider>
 
-        <Route path="/" element={<LandingPage />} />
+        <Routes>
 
-        <Route path="/:slug" element={<Custom404 />} />
+          <Route path="/" element={<LandingPage />} />
 
-
-        <Route element={<ProtectedRoute />}>
-
-          <Route path="/dashboard" element={<DashboardPage />} />
-
-          <Route path="/assignments" element={<AssignmentsPage />} />
-
-          <Route path="/settings" element={<SettingsPage />} />
-
-          <Route path="/history" element={<HistoryPage />} />
-
-          <Route path="/notifications" element={<NotificationsPage />} />
-
-        </Route>
+          <Route path="/:slug" element={<Custom404 />} />
 
 
-      </Routes>
+          <Route element={<ProtectedRoute />}>
+
+            <Route path="/dashboard" element={<DashboardPage />} />
+
+            <Route path="/assignments" element={<AssignmentsPage />} />
+
+            <Route path="/settings" element={<SettingsPage />} />
+
+            <Route path="/history" element={<HistoryPage />} />
+
+            <Route path="/notifications" element={<NotificationsPage />} />
+
+          </Route>
 
 
-      <Toaster position="top-right" />
+        </Routes>
+
+        <AccessDenied />
+
+        <Toaster position="top-right" />
+
+      </AccessDeniedProvider>
+
     </>
 
   )

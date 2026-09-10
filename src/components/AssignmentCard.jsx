@@ -4,8 +4,11 @@ import { formatDueDateTime } from '../../backend/utils/formatDueDateTime.js'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import { RefreshCw } from 'lucide-react'
+import { useAccessDenied } from '../context/AccessDeniedContext.jsx'
 
 const AssignmentCard = ({ assignment, fetchDashboardData }) => {
+
+  const { showAccessDenied } = useAccessDenied();
 
   const status = {
     'GENERATED': { bg: 'bg-green-500', text: 'text-green-500', message: 'Solution Generated' },
@@ -33,7 +36,13 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
 
 
     } catch (error) {
-      toast.error("Failed to turn in assignment");
+
+      if (error.response?.status === 403) {
+        showAccessDenied();
+      } else {
+        toast.error("Failed to turn in assignment");
+      }
+
     }
   };
 
@@ -59,9 +68,15 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
       fetchDashboardData()
 
 
-    } catch (err) {
-      console.log(err)
-      toast.error('Solution Regeneration Failed')
+    } catch (error) {
+
+      if (error.response?.status === 403) {
+        showAccessDenied();
+      } else {
+        console.log(error)
+        toast.error('Solution Regeneration Failed')
+      }
+
     } finally {
       setRegeneratingId(null)
     }
