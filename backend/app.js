@@ -7,6 +7,7 @@ import assignmentRoutes from './routes/assignmentRoutes.js'
 import notificationRoutes from './routes/notificationRoutes.js'
 import settingsRoutes from './routes/settingsRoutes.js'
 import authRoutes from './routes/authRoutes.js'
+import healthRoutes from './routes/healthRoutes.js'
 // import historyRoutes from './routes/historyRoutes.js'
 
 dotenv.config()
@@ -37,6 +38,7 @@ app.use("/assignments", assignmentRoutes);
 app.use("/notifications", notificationRoutes);
 app.use("/settings", settingsRoutes);
 // app.use("/history", historyRoutes);
+app.use("/health", healthRoutes);
 app.use("/auth", authRoutes);
 
 export default app;
