@@ -1,5 +1,6 @@
 import express from "express";
 import cors from 'cors'
+import MongoStore from "connect-mongo";
 import session from "express-session";
 import dotenv from 'dotenv'
 import dashboardRoutes from './routes/dashboardRoutes.js'
@@ -26,6 +27,9 @@ app.use(
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
+        store: MongoStore.create({
+            mongoUrl: process.env.MONGODB_URI
+        }),
         cookie: {
             maxAge: 7 * 24 * 60 * 60 * 1000
         }
