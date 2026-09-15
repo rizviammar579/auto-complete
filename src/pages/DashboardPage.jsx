@@ -6,7 +6,7 @@ import DashboardSection from '../components/DashboardSection'
 
 const DashboardPage = () => {
 return (
-    <div className="bg-black h-[100vh] flex p-3 z-50 overflow-hidden">
+    <div className="bg-black h-[100vh] flex px-2 py-2 dx:p-3 z-50 overflow-hidden">
       <Sidebar />
       <DisplaySection component={<DashboardSection/>} />
     </div>

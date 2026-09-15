@@ -33,8 +33,13 @@ const DashboardSection = () => {
 
     <div className=''>
       <div className='flex h-[90vh]'>
-        <DashboardMainSection dashboardData={dashboardData} fetchDashboardData={fetchDashboardData} />
-        <DashboardSideSection dashboardData={dashboardData} />
+        <div className='w-fit hx:w-[75%] gx:w-[70%] h-[89vh]'>
+          <DashboardMainSection dashboardData={dashboardData} fetchDashboardData={fetchDashboardData} />
+        </div>
+        <div className='w-[500px] gx:w-[30%] h-[89vh] hx:flex hx:flex-col hidden'>
+          <DashboardSideSection dashboardData={dashboardData} />
+        </div>
+        
       </div>
     </div>
   )

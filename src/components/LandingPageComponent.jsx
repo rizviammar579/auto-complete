@@ -28,6 +28,7 @@ const LandingPageComponent = () => {
           <img src="../react.png" alt="" className='w-[50px] absolute left-5/12 top-30' />
           <img src="../googleclassroom.png" alt="" className='w-[50px] absolute left-3/7 bottom-35' />
         </div> : ''}
+       
 
 
         <div className='w-[100%] ax:w-[80%] gx:w-[70%] relative bottom'>

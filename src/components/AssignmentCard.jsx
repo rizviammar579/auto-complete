@@ -86,15 +86,15 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
 
 
   return (
-    <div className='flex flex-col gap-6 font-inter border-[2px] border-gray-300 rounded-2xl min-w-[300px] bg-white p-4 z-0 max-w-[450px]'>
+    <div className='flex flex-col gap-4 dx:gap-6 font-inter border-[2px] border-gray-300 rounded-2xl min-w-[300px] bg-white p-3 z-0 max-w-[450px]'>
 
-      <p className='bg-gray-100 border border-gray-300 text-gray-700 w-fit rounded-xl px-3 text-[14px] p-0.5'>{assignment.course.courseName}</p>
+      <p className='bg-gray-100 border border-gray-300 text-gray-700 w-fit rounded-xl px-3 text-[12px] dx:text-[14px] p-0.5'>{assignment.course.courseName}</p>
 
-      <p className='text-[20px] font-semibold'>{assignment.assignment.title}</p>
+      <p className='text-[16px] dx:text-[20px] font-semibold'>{assignment.assignment.title}</p>
 
       <div className='flex justify-between'>
 
-        <p className='text-[14px] font-semibold text-gray-600'>{formatDueDateTime(assignment.dueDate, assignment.dueTime)}</p>
+        <p className='text-[13px] dx:text-[14px] font-semibold text-gray-600'>{formatDueDateTime(assignment.dueDate, assignment.dueTime)}</p>
 
         <div className='flex gap-1 items-center'>
           <div className={`w-3 h-3 ${regeneratingId ? `bg-purple-500` : `${status[assignment.aiStatus].bg}`} rounded-full`}></div>
@@ -107,20 +107,20 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
 
       <div className='h-[1px] bg-gray-200'></div>
 
-      <div className=' flex gap-5'>
+      <div className=' flex gap-2 dx:gap-5'>
 
 
 
         <a href={assignment.driveFileLink}
           target="_blank"
           rel="noopener noreferrer"
-          className={`bg-gray-950 text-white text-[14px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-2 items-center justify-center w-full ${assignment.driveFileLink === ''
+          className={`bg-gray-950 text-white text-[12px] dx:text-[14px] px-1 dx:px-3 py-1.5 rounded-lg cursor-pointer flex gap-2 items-center justify-center w-full ${assignment.driveFileLink === ''
             ? "pointer-events-none"
             : "cursor-pointer"}`}>
           <img src="../../view.png" alt="" className='w-[20px] h-[20px]' /> Review Solution
         </a>
 
-        <button disabled={regeneratingId ? true : false} className={`${regeneratingId ? 'pointer-events-none' : 'cursor-pointer'} bg-gray-950 text-white text-[14px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full`} onClick={() => {
+        <button disabled={regeneratingId ? true : false} className={`${regeneratingId ? 'pointer-events-none' : 'cursor-pointer'} bg-gray-950 text-white text-[12px] dx:text-[14px] px-1 dx:px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full`} onClick={() => {
           regenerateSolution(assignment);
         }}>
 
@@ -135,19 +135,19 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
         <a href={assignment.assignment.alternateLink}
           target="_blank"
           rel="noopener noreferrer"
-          className={`bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full flex-col border border-gray-400 ${assignment.assignment.alternateLink === ''
+          className={`bg-white text-black text-[12px] dx:text-[13px] p-1 dx:px-3 dx:py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full flex-col border border-gray-400 ${assignment.assignment.alternateLink === ''
             ? "pointer-events-none"
             : "cursor-pointer"}`}>
           <img src="../../googleclassroom.png" alt="" className='w-[24px] h-[24px]' /> Open Classroom
         </a>
 
-        <button className='bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full flex-col border border-gray-400' onClick={() => {
+        <button className='bg-white text-black text-[12px] dx:text-[13px] p-1 dx:px-3 dx:py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full flex-col border border-gray-400' onClick={() => {
           assignment.driveFileLink === '' ? toast.error("Nothing to copy") : handleCopy(assignment.driveFileLink)
         }}>
           <img src="../../googledrive.png" alt="" className='w-[24px] h-[24px]' />Copy Drive Link
         </button>
 
-        <button className='bg-white text-black text-[13px] px-3 py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full flex-col border border-gray-400' onClick={() => { handleTurnIn(assignment.assignmentId) }}>
+        <button className='bg-white text-black text-[12px] dx:text-[13px] p-1 dx:px-3 dx:py-1.5 rounded-lg cursor-pointer flex gap-1 items-center justify-center w-full flex-col border border-gray-400' onClick={() => { handleTurnIn(assignment.assignmentId) }}>
           <img src="../../turnedin.png" alt="" className='w-[24px] h-[24px]' /> Mark as Turned In
         </button>
 
