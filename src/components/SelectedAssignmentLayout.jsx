@@ -137,7 +137,7 @@ const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter,
 
             <div className='flex gap-1 items-center text-[14px]'>
 
-                <div><img src="../../public/geminiai.png" alt="" className='w-[20px] h-[20px]' /></div>
+                <div><img src="../../geminiai.png" alt="" className='w-[20px] h-[20px]' /></div>
                 <div className='font font-semibold'>AI Status</div>
                 <div className={`px-2 rounded-sm text-[13px] font-semibold ml-5 border ${regeneratingId === assignment.assignmentId ? 'border-purple-300 , bg-purple-100 text-purple-500' : `${status[assignment.aiStatus]?.border} , ${status[assignment.aiStatus]?.bg} , ${status[assignment.aiStatus]?.text}`} `}>{regeneratingId === assignment.assignmentId ? 'REGENERATING' : assignment.aiStatus}</div>
 
