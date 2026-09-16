@@ -41,8 +41,8 @@ const LandingPage = () => {
 
           <div className='flex justify-center items-center w-[90%] cx:w-[80%] ax:w-[45vw] gap-5'>
             <div className='flex flex-col gap-3'>
-              <div className='font-bold text-xl dx:text-2xl cx:text-3xl items-center justify-center '>Built for my lazy self.</div>
-              <div className='text-gray-600 font-light text-[12px] dx:text-[13px] fx:text-[16px] '>Automatically collect assignments from Google Classroom, generate AI-powered solution drafts, and keep everything organized — so I don't have to worry about assignments anymore.</div>
+              <div className='text-center dx:text-start font-bold text-xl dx:text-2xl cx:text-3xl items-center justify-center '>Built for my lazy self.</div>
+              <div className='text-center dx:text-start text-gray-600 font-light text-[12px] dx:text-[13px] fx:text-[16px] '>Automatically collect assignments from Google Classroom, generate AI-powered solution drafts, and keep everything organized — so I don't have to worry about assignments anymore.</div>
             </div>
             <div className='dx:block hidden'>
               <img src="../landing page.png" alt="" className='w-[400px] ax:w-[600px] rounded-2xl' />

@@ -6,9 +6,9 @@ const Integrations = ({data}) => {
 
       <div className='text-[20px] font-semibold'>Integrations</div>
 
-      <div className='flex gap-5'>
+      <div className='flex flex-wrap gap-5 cx:flex-nowrap justify-center'>
 
-        <div className='font-inter border w-full p-5 rounded-2xl flex flex-col gap-5 min-w-[220px]'>
+        <div className='font-inter border w-full p-5 rounded-2xl flex flex-col gap-5 max-w-[220px]'>
           <div className='flex justify-between items-center'>
             <img src="../../googleclassroom.png" alt="" className='w-[40px] h-[40px]' />
             {data.googleClassroomConnected ? <div className='w-3 h-3 bg-green-500 text-green-500 rounded-full'></div> : ''}
@@ -17,7 +17,7 @@ const Integrations = ({data}) => {
         </div>
 
 
-        <div className='font-inter border w-full p-5 rounded-2xl flex flex-col gap-5 min-w-[220px]'>
+        <div className='font-inter border w-full p-5 rounded-2xl flex flex-col gap-5 max-w-[220px]'>
           <div className='flex justify-between items-center'>
             <img src="../../googledrive.png" alt="" className='w-[40px] h-[40px]' />
             {data.googleDriveConnected ? <div className='w-3 h-3 bg-green-500 text-green-500 rounded-full'></div> : ''}
@@ -26,7 +26,7 @@ const Integrations = ({data}) => {
         </div>
 
 
-        <div className='font-inter border w-full p-5 rounded-2xl flex flex-col gap-5 min-w-[220px]'>
+        <div className='font-inter border w-full p-5 rounded-2xl flex flex-col gap-5 max-w-[220px]'>
           <div className='flex justify-between items-center'>
             <img src="../../geminiai.png" alt="" className='w-[40px] h-[40px]' />
            {data.geminiAvailable ? <div className='w-3 h-3 bg-green-500 text-green-500 rounded-full'></div> : ''}

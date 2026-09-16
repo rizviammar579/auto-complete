@@ -32,11 +32,11 @@ const Scheduler = ({ data, fetchSettingsData }) => {
     }
 
     return (
-        <div className='font-inter border w-min-fit p-5 rounded-2xl flex flex-col gap-5 w-[33%]'>
+        <div className='font-inter border w-min-fit p-5 rounded-2xl flex flex-col gap-5 w-full lx:w-fit'>
 
-            <div className='flex justify-between'>
+            <div className='flex justify-between gap-3 lx:gap-10 lx:flex-row flex-col'>
                 <h1 className='text-[20px] font-semibold'>Automation</h1>
-                <button className='border border-[1px] border-green-950 px-3 w-fit rounded-full bg-green-300 text-green-950 px-7'>
+                <button className='border border-[1px] border-green-950 px-3 w-fit rounded-full bg-green-300 text-green-950 px-7 mb-5'>
                     {data.automationRunning ? 'Running' : 'Awaiting Next Sync'}
                 </button>
             </div>

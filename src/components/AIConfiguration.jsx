@@ -7,7 +7,7 @@ const AIConfiguration = ({ data }) => {
     }
 
     return (
-        <div className='font-inter border w-min-fit p-5 rounded-2xl flex flex-col gap-5 w-[30%]'>
+        <div className='font-inter border w-min-fit p-5 rounded-2xl flex flex-col gap-5 w-fit'>
 
 
             <h1 className='text-[20px] font-semibold'>AI Configuration</h1>
