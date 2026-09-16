@@ -6,7 +6,7 @@ const LandingPage = () => {
 
   return (
 
-    <div className='bg-gray-950 font-inter ax:h-[100vh] flex justify-center ax:items-center p-3 dx:py-10 dx:px-20 ax:px-0 ax:py-0'>
+    <div className='bg-gray-950 font-inter h-fit ax:h-[100vh] flex justify-center items-center p-3 dx:py-10 dx:px-20 ax:px-0 ax:py-0 overflow-'>
 
       <div className='flex ax:flex-row flex-col bg-gray-50 rounded-xl h-fit ax:h-[82.5vh]'>
 
@@ -33,7 +33,11 @@ const LandingPage = () => {
 
 
 
+          <div className='w-[90%] ex:w-[80%] dx:w-[70%] cx:w-[60%] bg-gray-200 rounded-l-xl flex flex-col items-center justify-center ax:hidden '>
 
+            {window.innerWidth < 1300 ? <LandingPageComponent /> : ''}
+
+          </div>
 
           <div className='flex justify-center items-center w-[90%] cx:w-[80%] ax:w-[45vw] gap-5'>
             <div className='flex flex-col gap-3'>
@@ -46,11 +50,7 @@ const LandingPage = () => {
           </div>
 
 
-          <div className='w-[90%] ex:w-[80%] dx:w-[70%] cx:w-[60%] bg-gray-200 rounded-l-xl flex flex-col items-center justify-center ax:hidden '>
 
-            {window.innerWidth < 1300 ? <LandingPageComponent /> : ''}
-
-          </div>
 
           <div className='flex flex-col gap-5 items-center justify-center'>
             <button className='text-[14px] ex:text-[16px] fx:text-[18px] bx:text-[18px] ax:text-[20px] flex gap-3 justify-center items-center cursor-pointer border border-gray-400 px-3 py-2 ex:px-4 ex:py-3 rounded-xl hover:rounded-full bg-white transition-all' onClick={() => { window.location.href = "http://localhost:3000/auth/google" }}>

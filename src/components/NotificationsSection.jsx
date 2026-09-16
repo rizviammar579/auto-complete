@@ -74,7 +74,7 @@ const NotificationsSection = () => {
       toast.error("All notifications deleted")
 
     } catch (error) {
-       if (error.response?.status === 403) {
+      if (error.response?.status === 403) {
         showAccessDenied();
       } else {
         toast.error("Failed to delete all notifications");
@@ -99,26 +99,26 @@ const NotificationsSection = () => {
   return (
     <div className='p-5 w-full flex flex-col gap-6 font-inter h-[90vh] overflow-auto '>
 
-      <div className='flex gap-3 items-center '>
-        <Bell size={30} />
-        <h1 className='text-[28px] font-bold'>Notifications Centre</h1>
+      <div className='flex gap-3 items-center mb-8'>
+        <Bell className='dx:w-[35px] dx:h-[35px] w-[30px] h-[30px]' />
+        <h1 className='text-[22px] ix:text-[24px] dx:text-[28px] font-bold'>Notifications Centre</h1>
 
       </div>
 
-      <div className='flex justify-between items-center w-full mb-10'>
+      <div className='flex bx:flex-row flex-col gap-7 bx:gap-0 justify-between bx:items-center w-full bx:mb-10'>
 
-        <div className='border border-gray-300 w-fit rounded-[8px] border-[2px]'>
+        <div className='flex flex-wrap jx:border jx:border-gray-300 w-fit rounded-[8px] jx:border-[2px] gap-3 jx:gap-0.5'>
 
           {filters.map(filter => {
 
-            return <button key={filter.text} className={`text-[15px]  w-fit rounded-[8px] py-1 px-3 cursor-pointer ${filter.text === currentFilter ? 'bg-gray-950 text-gray-100 ' : 'text-gray-950 bg-gray-100 font-semibold'}`} onClick={() => setCurrentFilter(filter.text)}>{filter.text}</button>
+            return <button key={filter.text} className={`border border-gray-300 jx:border-none px-1.5 text-[15px] jx:w-fit rounded-[8px] py-1 px-0 text-[12px] dx:px-3 cursor-pointer ${filter.text === currentFilter ? 'bg-gray-950 text-gray-100 ' : 'text-gray-950 bg-gray-100 font-semibold'}`} onClick={() => setCurrentFilter(filter.text)}>{filter.text}</button>
 
           })}
 
 
         </div>
 
-        <div className='flex gap-5'>
+        <div className='flex ex:gap-5 gap-3 mt-0 bx:mb-0 mb-8'>
           <button className='text-[15px]  text-gray-100 bg-red-600 w-fit rounded-[8px] border-[2px] py-1.5 px-4 cursor-pointer' onClick={() => { deleteAll() }} >Delete All</button>
 
           <button className='text-[15px]  text-gray-100 bg-black w-fit rounded-[8px] border-[2px] py-1.5 px-4 cursor-pointer' onClick={() => { markAllAsRead() }} >Mark all as read</button>

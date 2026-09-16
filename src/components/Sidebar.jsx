@@ -50,7 +50,7 @@ const Sidebar = () => {
 
 
   return (
-    <div className='bg-gray-950 w-fit p-2 dx:p-3 h-full flex flex-col gap-3 justify-start fx:gap-2 justify-center'>
+    <div className='bg-gray-950 w-fit pr-2 pl-1 ix:p-2 dx:p-3 h-full flex flex-col gap-3 justify-start fx:gap-2 justify-center'>
 
       <div className='flex justify-end mb-15 fx:flex hidden'>
         {isCollapsed ? <ChevronRight className="h-10 w-10 text-gray-200 hover:rounded-full hover:bg-gray-900 p-1 cursor-pointer" onClick={() => { setisCollapsed(!isCollapsed) }} /> : <ChevronLeft className="h-10 w-10 text-gray-200 hover:rounded-full hover:bg-gray-900 p-1 cursor-pointer" onClick={() => { setisCollapsed(!isCollapsed) }} />}
