@@ -5,7 +5,7 @@ import DisplaySection from '../components/DisplaySection'
 
 const AssignmentsPage = () => {
   return (
-    <div className="bg-black h-[100vh] flex p-3 z-50 overflow-hidden">
+    <div className="bg-black h-[100vh] p-3 flex overflow-hidden">
       <Sidebar />
       <DisplaySection component={<AssignmentsSection />} />
     </div>

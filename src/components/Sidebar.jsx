@@ -14,39 +14,39 @@ import {
 const Sidebar = () => {
 
   const sidebarItems = [
-    { 
-      id:1,
+    {
+      id: 1,
       name: "Dashboard",
       icon: Grid2X2,
       navlink: "dashboard"
     },
-    { 
-      id:2,
+    {
+      id: 2,
       name: "Assignments",
       icon: BookOpen,
       navlink: "assignments"
     },
-    { 
-      id:3,
+    {
+      id: 3,
       name: "History",
       icon: History,
       navlink: "history"
     },
-    { 
-      id:4,
+    {
+      id: 4,
       name: "Notifications",
       icon: Bell,
       navlink: "notifications"
     },
-    { 
-      id:5,
+    {
+      id: 5,
       name: "Settings",
       icon: Settings,
       navlink: "settings"
     },
   ];
 
-  const [isCollapsed, setisCollapsed] = useState(window.innerWidth<720? true:false)
+  const [isCollapsed, setisCollapsed] = useState(window.innerWidth < 720 ? true : false)
 
 
   return (
@@ -56,7 +56,7 @@ const Sidebar = () => {
         {isCollapsed ? <ChevronRight className="h-10 w-10 text-gray-200 hover:rounded-full hover:bg-gray-900 p-1 cursor-pointer" onClick={() => { setisCollapsed(!isCollapsed) }} /> : <ChevronLeft className="h-10 w-10 text-gray-200 hover:rounded-full hover:bg-gray-900 p-1 cursor-pointer" onClick={() => { setisCollapsed(!isCollapsed) }} />}
       </div>
 
-      
+
 
       {sidebarItems.map((item) => {
         const Icon = item.icon;

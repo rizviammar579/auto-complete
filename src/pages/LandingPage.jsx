@@ -6,7 +6,7 @@ const LandingPage = () => {
 
   return (
 
-    <div className='bg-gray-950 font-inter h-fit ax:h-[100vh] flex justify-center items-center p-3 dx:py-10 dx:px-20 ax:px-0 ax:py-0 overflow-'>
+    <div className='bg-gray-950 font-inter min-h-[100vh] ax:h-[100vh] flex justify-center items-center p-3 dx:py-10 dx:px-20 ax:px-0 ax:py-0'>
 
       <div className='flex ax:flex-row flex-col bg-gray-50 rounded-xl h-fit ax:h-[82.5vh]'>
 
