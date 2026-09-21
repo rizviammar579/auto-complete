@@ -6,7 +6,6 @@ import { assignmentProcessing } from "../../models/assignmentProcessingSchema.js
 export async function processWithFileUpload(pendingAssignment, assignment, course) {
 
     const materials = assignment.materials
-    const filesToUpload = []
 
 
     if (!materials.length) {
@@ -17,6 +16,7 @@ export async function processWithFileUpload(pendingAssignment, assignment, cours
 
     }
 
+    const filesToUpload = []
 
 
     for (const material of materials) {
@@ -48,7 +48,7 @@ export async function processWithFileUpload(pendingAssignment, assignment, cours
     }
 
 
-    if (filesToUpload.length > 0) {
+    if (filesToUpload.length) {
 
         await generateSolutionWithFiles(filesToUpload, pendingAssignment, assignment, course)
     }

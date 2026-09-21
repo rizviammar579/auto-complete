@@ -39,14 +39,36 @@ export default async function uploadSolnToDrive(filePath, assignment, course) {
 
   const fileId = uploadDetails.id
 
+
   await drive.permissions.create({
     fileId,
     requestBody: {
       role: "reader",
-      type: "domain",
-      domain: "mail.jiit.ac.in"
+      type: "anyone",
     }
   });
+
+  await Promise.all([
+    drive.permissions.create({
+      fileId,
+      requestBody: {
+        role: "writer",
+        type: "user",
+        emailAddress: "rizviammar579@gmail.com"
+      }
+    }),
+
+    drive.permissions.create({
+      fileId,
+      requestBody: {
+        role: "owner",
+        type: "user",
+        emailAddress: "2501030021@mail.jiit.ac.in"
+      }
+    })
+  ]);
+
+
 
   const response = await drive.files.get({
     fileId,

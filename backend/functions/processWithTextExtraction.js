@@ -1,20 +1,22 @@
 import ai from "../services/ai/geminiService.js";
 import mammoth from "mammoth";
-import { PDFParse } from "pdf-parse";
 import path from "path";
 import fs from 'fs'
-import { notifyForForm } from "./notifyForForm.js"
-import { notifyForReview } from "./notifyForReview.js"
 import { assignmentProcessing } from "../../models/assignmentProcessingSchema.js"
+import { aiStatus } from '../../models/aiStatusSchema.js'
 import { generateDocx } from "./generateDocx.js";
 import uploadSolnToDrive from "./uploadSolnToDrive.js";
-import { classroom } from "../services/google/googleService.js";
 import getPrompt from "../services/ai/prompt.js";
+import { createNotification } from "../utils/createNotification.js";
+import { cleanupAssignmentDirectories, solutionsDir } from "./tempDirectories.js";
+import { notifyForForm } from "./notifyForForm.js"
+import { notifyForReview } from "./notifyForReview.js"
+import { PDFParse } from "pdf-parse";
+
 
 export async function processWithTextExtraction(pendingAssignment, assignment, course) {
 
     const materials = assignment.materials
-    const filesToUpload = []
 
 
     if (!materials.length) {
@@ -24,6 +26,8 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
         return
 
     }
+
+    const filesToUpload = []
 
     for (const material of materials) {
 
@@ -54,8 +58,6 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
     }
 
     if (!filesToUpload.length) return
-
-
 
 
     const content = []
@@ -176,10 +178,10 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
         return
     }
 
-    const uploadDir = `./solutions/assignment_${assignment.assignmentId}`;
-    fs.mkdirSync(uploadDir, { recursive: true });
+    const uploadDir = path.join(solutionsDir,`assignment_${assignment.assignmentId}`);
+  fs.mkdirSync(uploadDir, { recursive: true });
 
-    const uploadPath = `${uploadDir}/solution.docx`;
+  const uploadPath = path.join(uploadDir,`solution.docx`)
 
 
     try {
@@ -229,6 +231,6 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
         'success'
     )
 
-
+    await cleanupAssignmentDirectories(assignment.assignmentId)
 
 }

@@ -12,7 +12,7 @@ export async function generateSolution() {
 
     const pendingAssignments = await getPendingAssignments()
 
-    if (pendingAssignments.length === 0) {
+    if (!pendingAssignments.length) {
 
         await createNotification(
             "No Pending Assignments",

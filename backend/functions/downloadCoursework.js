@@ -1,36 +1,37 @@
-import { drive } from "../services/google/googleService.js";
-import fs from 'fs'
-import { Assignment } from '../../models/assignmentSchema.js'
+import fs from "fs";
 import path from "path";
+import { drive } from "../services/google/googleService.js";
+import { Assignment } from '../../models/assignmentSchema.js'
+import { downloadsDir } from "./tempDirectories.js";
+
 
 
 export async function downloadCoursework(assignment) {
 
+    const materials = assignment.materials
 
-    let materials = assignment.materials
+    if (!materials.length) return;
 
-    if (materials.length === 0) {
-        return
-    }
+
+    const assignmentDir = path.join(downloadsDir, `assignment_${assignment.assignmentId}`)
+    fs.mkdirSync(assignmentDir, { recursive: true })
+
 
     for (const material of materials) {
 
-        if (material.fileId === "") {
-            continue
-        }
+        if (!material.fileId) continue;
 
         const metadata = await drive.files.get({
             fileId: material.fileId,
             fields: "name,mimeType",
         });
 
-        const fileName = `${material.fileId}_${metadata.data.name}`
+        const fileName = metadata.data.name
         const mimeType = metadata.data.mimeType
         let file
         let destination
         let localPath = null
 
-        await fs.mkdirSync(`./downloads/assignment_${assignment.assignmentId}`, { recursive: true })
 
         if (mimeType.startsWith('application/vnd.google-apps.document')) {
 
@@ -47,7 +48,7 @@ export async function downloadCoursework(assignment) {
 
 
             const baseName = path.parse(fileName).name;
-            localPath = `./downloads/assignment_${assignment.assignmentId}/${baseName}.pdf`
+            localPath = path.join(assignmentDir,`${baseName}.pdf`)
 
 
         }
@@ -64,7 +65,7 @@ export async function downloadCoursework(assignment) {
             );
 
 
-            localPath = `./downloads/assignment_${assignment.assignmentId}/${fileName}`
+            localPath = path.join(assignmentDir,fileName)
 
 
         }
@@ -82,7 +83,7 @@ export async function downloadCoursework(assignment) {
 
         }
 
-                     await Assignment.updateOne(
+        await Assignment.updateOne(
             {
                 assignmentId: assignment.assignmentId,
                 "materials._id": material._id
@@ -95,7 +96,7 @@ export async function downloadCoursework(assignment) {
             }
         );
 
-        
+
     }
 
 }

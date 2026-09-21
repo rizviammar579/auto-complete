@@ -1,17 +1,17 @@
 import ai from "../services/ai/geminiService.js";
-import { createPartFromUri } from "@google/genai"
-import { uploadPDF } from './uploadPDF.js'
 import mammoth from "mammoth";
 import path from "path";
-import { generateDocx } from "./generateDocx.js";
 import fs from 'fs'
 import { assignmentProcessing } from "../../models/assignmentProcessingSchema.js";
-import uploadSolnToDrive from "./uploadSolnToDrive.js";
-import { classroom } from "../services/google/googleService.js";
-import getPrompt from "../services/ai/prompt.js";
 import { aiStatus } from '../../models/aiStatusSchema.js'
-import { processWithTextExtraction } from "./processWithTextExtraction.js";
+import { generateDocx } from "./generateDocx.js";
+import uploadSolnToDrive from "./uploadSolnToDrive.js";
+import getPrompt from "../services/ai/prompt.js";
 import { createNotification } from "../utils/createNotification.js";
+import { cleanupAssignmentDirectories, solutionsDir } from "./tempDirectories.js";
+import { processWithTextExtraction } from "./processWithTextExtraction.js";
+import { createPartFromUri } from "@google/genai"
+import { uploadPDF } from './uploadPDF.js'
 
 export async function generateSolutionWithFiles(filesToUpload, pendingAssignment, assignment, course) {
 
@@ -80,25 +80,25 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
 
       case ".docx":
 
-        try{
+        try {
           const response = await mammoth.extractRawText({
-          path: fileToUpload
-        });
+            path: fileToUpload
+          });
 
-        const docxContent = response.value.trim();
+          const docxContent = response.value.trim();
 
-        if (docxContent) {
-          content.push(`DOCX:\n${docxContent}`);
-        }
-        }catch(err){
+          if (docxContent) {
+            content.push(`DOCX:\n${docxContent}`);
+          }
+        } catch (err) {
           await createNotification(
             'Text Extraction Failed',
             `${course.courseName} - ${assignment.title} could not be processed using text extraction.`,
             'warning'
           )
         }
-        
-        
+
+
 
         break;
 
@@ -149,11 +149,11 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
     return
   }
 
-  const uploadDir = `./solutions/assignment_${assignment.assignmentId}`;
+  const uploadDir = path.join(solutionsDir, `assignment_${assignment.assignmentId}`);
   fs.mkdirSync(uploadDir, { recursive: true });
 
-  const uploadPath = `${uploadDir}/solution.docx`;
-  
+  const uploadPath = path.join(uploadDir, `solution.docx`)
+
   try {
     const jsonResponse = JSON.parse(result);
     await generateDocx(jsonResponse, uploadPath)
@@ -203,6 +203,8 @@ export async function generateSolutionWithFiles(filesToUpload, pendingAssignment
     `AI solution generated and uploaded to drive for ${course.courseName} - ${assignment.title}`,
     'success'
   )
+
+  await cleanupAssignmentDirectories(assignment.assignmentId)
 
 
 

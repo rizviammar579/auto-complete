@@ -1,20 +1,15 @@
-import { auth } from './services/google/googleService.js'
-import fs from 'fs'
 import connectDB from './services/mongoose/connectDB.js';
 import { startScheduler } from './scheduler/scheduler.js';
+import { makeTempDirectories } from './functions/tempDirectories.js';
 
 
 export async function startup() {
 
-  await connectDB()
+  await connectDB();
 
-  // Create downloads and solutions folder only once
-  fs.mkdirSync("./downloads", { recursive: true })
-  fs.mkdirSync("./solutions", { recursive: true })
+  await makeTempDirectories();
 
-
-  startScheduler()
-
+  startScheduler();
 
 }
 

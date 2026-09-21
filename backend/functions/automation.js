@@ -25,7 +25,7 @@ export async function automation() {
 
     // Download coursework 
     const DB_assignments = await Assignment.find()
-
+    
     for (const DB_assignment of DB_assignments) {
         await downloadCoursework(DB_assignment)
     }
