@@ -3,12 +3,12 @@ import { runtimeState } from "../utils/runtimeState.js";
 import { aggregateQuery } from "../utils/aggregateQuery.js";
 import { notifications } from "../../models/notificationSchema.js"
 import { assignmentProcessing } from "../../models/assignmentProcessingSchema.js"
-import { cleanup } from "../functions/cleanup.js"
-import { canUseFileUpload } from "../functions/canUseFileUpload.js";
-import { processWithFileUpload } from "../functions/processWithFileUpload.js";
-import { processWithTextExtraction } from "../functions/processWithTextExtraction.js";
+import { cleanupDriveFile } from "../automation_pipeline/cleanupDriveFile.js"
 import { createNotification } from "../utils/createNotification.js";
-import { canUseAI } from "../functions/canUseAI.js";
+import { canUseAI } from "../automation_pipeline/canUseAI.js";
+import { downloadCoursework } from "../automation_pipeline/downloadCoursework.js";
+import { generateSolution } from "../automation_pipeline/generateSolution.js";
+import { cleanupAssignmentDirectories } from "../automation_pipeline/tempDirectories.js";
 
 
 export async function fetchDashboardData(req, res) {
@@ -96,28 +96,29 @@ export async function regenerateSolution(req, res) {
       res.status(200).json({ success: false, message: 'Gemini Unavailable' });
 
       return
-    }
-
-
-
-    await cleanup(Assignment);
-
-
-    const { assignment, course, ...pendingAssignment } = Assignment
-
-    if (await canUseFileUpload()) {
-
-      await processWithFileUpload(pendingAssignment, Assignment.assignment, Assignment.course)
-
-    } else {
-
-      await processWithTextExtraction(pendingAssignment, Assignment.assignment, Assignment.course);
 
     }
 
-    const updatedAssignment = await assignmentProcessing.findOne({ assignmentId: Assignment.assignmentId })
 
-    if (updatedAssignment.aiStatus === "GENERATED") {
+    await assignmentProcessing.updateOne({ assignmentId: Assignment.assignmentId },
+      {
+        $set: {
+          aiStatus: "REGENERATING"
+        }
+      }
+    )
+
+
+    const assignment = await downloadCoursework(Assignment.assignment)
+
+    const result = await generateSolution(assignment, Assignment.course)
+
+    await cleanupAssignmentDirectories(assignment.assignmentId)
+
+
+    if (result) {
+
+      await cleanupDriveFile(Assignment);
 
       await createNotification(
         'Solution Regenerated',
@@ -132,7 +133,7 @@ export async function regenerateSolution(req, res) {
       await assignmentProcessing.updateOne({ assignmentId: Assignment.assignmentId },
         {
           $set: {
-            aiStatus: "PENDING"
+            aiStatus: "GENERATED"
           }
         }
       )
@@ -150,6 +151,15 @@ export async function regenerateSolution(req, res) {
 
   } catch (err) {
 
+    await assignmentProcessing.updateOne(
+      { assignmentId: Assignment.assignmentId },
+      {
+        $set: {
+          aiStatus: "GENERATED"
+        }
+      }
+    )
+
     res.status(500).json({
       success: false,
       message: err.message
@@ -158,74 +168,3 @@ export async function regenerateSolution(req, res) {
   }
 
 }
-
-
-
-
-/*
- [
-  {
-    _id: ObjectId("..."),
-
-    assignmentId: "A101",
-    courseId: "CSE101",
-
-    dueDate: {...},
-    dueTime: {...},
-
-    aiStatus: "completed",
-    submissionStatus: false,
-
-    solutionPath: "/abc.docx",
-
-    solutionGeneratedAt: null,
-
-    driveFileId: "",
-    driveFileName: "",
-    driveFileLink: "",
-
-    assignment: {
-      _id: ObjectId("..."),
-
-      assignmentId: "A101",
-      courseId: "CSE101",
-
-      title: "Assignment 3",
-      description: "Solve questions",
-
-      state: "PUBLISHED",
-      workType: "ASSIGNMENT",
-
-      dueDate: {...},
-      dueTime: {...},
-
-      maxPoints: 100,
-
-      alternateLink: "...",
-
-      materials: [
-        ...
-      ]
-    },
-
-    course: {
-      _id: ObjectId("..."),
-
-      courseId: "CSE101",
-
-      courseName: "DBMS",
-
-      courseStatus: "ACTIVE"
-    }
-  }
-]
-*/
-
-/*
-"notifications": [
-    {},
-    {},
-    {},
-    {}
-  ]
-*/

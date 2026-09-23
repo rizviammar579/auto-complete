@@ -9,7 +9,6 @@ export async function upsertCoursework(assignments) {
     const array = await Promise.all((assignment.materials || []).map(async (material) => {
 
 
-
       if (material.driveFile) {
 
         let mat = material.driveFile.driveFile
@@ -59,15 +58,9 @@ export async function upsertCoursework(assignments) {
 
         title: assignment.title,
 
-        state: assignment.state,
-
-        workType: assignment.workType,
-
         dueDate: assignment.dueDate,
 
         dueTime: assignment.dueTime,
-
-        maxPoints: assignment.maxPoints,
 
         alternateLink: assignment.alternateLink,
 

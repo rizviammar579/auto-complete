@@ -55,7 +55,6 @@ const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter,
 
         try {
 
-
             setRegeneratingId(assignment.assignmentId)
 
             const response = await axios.post(
@@ -99,7 +98,7 @@ const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter,
                         <div className='flex items-center'>
                             <div className='text-xl font-semibold'>{assignment.course?.courseName}</div>
                            
-                                <img src="../public/cross.png" alt="" className={`${window.innerWidth<1400?"":"hidden"} w-[20px] h-[20px] relative left-14 bottom-5 rounded-full hover:bg-gray-200`} onClick={()=>{setShow(false)}}/>
+                                <img src="../cross.png" alt="" className={`${window.innerWidth<1400?"":"hidden"} w-[20px] h-[20px] relative left-14 bottom-5 rounded-full hover:bg-gray-200`} onClick={()=>{setShow(false)}}/>
                        
                         </div>
                         <div className='px-3 w-fit font-semibold border border-[#528eee] text-[#1d4990] bg-[#E8F1FF] rounded-sm'>{assignment.assignment.title}</div>

@@ -1,6 +1,6 @@
 import app from "./app.js";
 import { startup } from "./startup.js";
-import { automation } from "./functions/automation.js";
+import { automation } from "./automation_pipeline/automation.js";
 import { createNotification } from "./utils/createNotification.js";
 
 await startup();

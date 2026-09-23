@@ -10,7 +10,7 @@ export async function downloadCoursework(assignment) {
 
     const materials = assignment.materials
 
-    if (!materials.length) return;
+    if (!materials.length) return assignment;
 
 
     const assignmentDir = path.join(downloadsDir, `assignment_${assignment.assignmentId}`)
@@ -48,7 +48,7 @@ export async function downloadCoursework(assignment) {
 
 
             const baseName = path.parse(fileName).name;
-            localPath = path.join(assignmentDir,`${baseName}.pdf`)
+            localPath = path.join(assignmentDir, `${baseName}.pdf`)
 
 
         }
@@ -65,7 +65,7 @@ export async function downloadCoursework(assignment) {
             );
 
 
-            localPath = path.join(assignmentDir,fileName)
+            localPath = path.join(assignmentDir, `${fileName}`)
 
 
         }
@@ -96,8 +96,12 @@ export async function downloadCoursework(assignment) {
             }
         );
 
+        material.localPath = localPath;
+        material.fileName = fileName;
 
     }
+
+    return assignment;
 
 }
 

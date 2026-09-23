@@ -36,6 +36,7 @@ async function cleanupAssignmentDirectories(assignmentId) {
         recursive: true,
         force: true
     });
+
 }
 
 export { makeTempDirectories, cleanupAssignmentDirectories, downloadsDir, solutionsDir }

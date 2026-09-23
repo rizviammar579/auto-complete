@@ -5,7 +5,7 @@ import { upsertCoursework } from "./upsertCoursework.js";
 
 export async function ListAndUpsertCoursework(courses) {
 
-    if (courses.length === 0) return
+    if (!courses.length) return
 
     for (const course of courses) {
 
@@ -16,7 +16,7 @@ export async function ListAndUpsertCoursework(courses) {
                 const result = await listCoursework(course)
 
 
-                if (Object.keys(result.data).length === 0) continue;
+                if (!Object.keys(result.data).length) continue;
 
                 const assignments = result.data.courseWork
                 await upsertCoursework(assignments)

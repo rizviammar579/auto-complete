@@ -11,10 +11,10 @@ import { createNotification } from "../utils/createNotification.js";
 import { cleanupAssignmentDirectories, solutionsDir } from "./tempDirectories.js";
 import { notifyForForm } from "./notifyForForm.js"
 import { notifyForReview } from "./notifyForReview.js"
-import { PDFParse } from "pdf-parse";
 
 
-export async function processWithTextExtraction(pendingAssignment, assignment, course) {
+
+export async function processWithTextExtraction(assignment, course) {
 
     const materials = assignment.materials
 
@@ -74,30 +74,7 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
         switch (extension) {
             case ".pdf":
 
-                try {
-                    const pdfBuffer = fs.readFileSync(fileToUpload);
-
-                    const parser = new PDFParse({
-                        data: pdfBuffer
-                    });
-
-                    const result = await parser.getText();
-
-                    await parser.destroy();
-
-                    content.push(`PDF:\n${result.text}`);
-                } catch (err) {
-                    // console.log(err);
-
-                    await createNotification(
-                        'Text Extraction Failed',
-                        `${course.courseName} - ${assignment.title} could not be processed using text extraction.`,
-                        'warning'
-                    )
-
-                    return;
-
-                }
+                
 
                 break;
 
@@ -178,10 +155,10 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
         return
     }
 
-    const uploadDir = path.join(solutionsDir,`assignment_${assignment.assignmentId}`);
-  fs.mkdirSync(uploadDir, { recursive: true });
+    const uploadDir = path.join(solutionsDir, `assignment_${assignment.assignmentId}`);
+    fs.mkdirSync(uploadDir, { recursive: true });
 
-  const uploadPath = path.join(uploadDir,`solution.docx`)
+    const uploadPath = path.join(uploadDir, `solution.docx`)
 
 
     try {
@@ -202,8 +179,7 @@ export async function processWithTextExtraction(pendingAssignment, assignment, c
         {
             $set: {
                 aiStatus: "GENERATED",
-                solutionGeneratedAt: new Date(),
-                solutionPath: uploadPath
+                solutionGeneratedAt: new Date()
 
             }
         }

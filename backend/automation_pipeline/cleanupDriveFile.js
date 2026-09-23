@@ -1,21 +1,17 @@
-import fs from 'fs/promises'
 import { drive } from '../services/google/googleService.js';
-import { assignmentProcessing } from "../../models/assignmentProcessingSchema.js";
 import { createNotification } from '../utils/createNotification.js';
 
-export async function cleanup(Assignment) {
+export async function cleanupDriveFile(Assignment) {
 
-    if (Assignment.solutionPath) {
-        await fs.rm(Assignment.solutionPath, {
-            force: true
-        });
-    }
 
     if (Assignment.driveFileId) {
         try {
+
             await drive.files.delete({
                 fileId: Assignment.driveFileId
             });
+
+
         } catch (err) {
             if (err.code !== 404) {
 
@@ -26,19 +22,11 @@ export async function cleanup(Assignment) {
                 );
 
             }
+
+            return
         }
     }
 
-    await assignmentProcessing.updateOne({ assignmentId: Assignment.assignmentId },
-        {
-            $set: {
-                solutionPath: "",
-                driveFileId: "",
-                driveFileLink: "",
-                driveFileName: "",
-                aiStatus: "REGENERATING"
-            }
-        }
-    )
+
 
 }

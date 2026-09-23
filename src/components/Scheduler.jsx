@@ -32,7 +32,7 @@ const Scheduler = ({ data, fetchSettingsData }) => {
     }
 
     return (
-        <div className='font-inter border w-min-fit p-5 rounded-2xl flex flex-col gap-5 w-full lx:w-fit'>
+        <div className='font-inter border w-min-fit p-5 rounded-2xl flex flex-col gap-5 w-full lx:max-w-[400px]'>
 
             <div className='flex justify-between gap-3 lx:gap-10 lx:flex-row flex-col'>
                 <h1 className='text-[20px] font-semibold'>Automation</h1>

@@ -6,7 +6,6 @@ import { assignmentProcessing } from '../../models/assignmentProcessingSchema.js
 
 export default async function uploadSolnToDrive(filePath, assignment, course) {
 
-
   const rootFolderId = await getRootFolder();
 
   const courseFolderId = await getCourseFolder(
@@ -16,6 +15,7 @@ export default async function uploadSolnToDrive(filePath, assignment, course) {
 
 
   const driveFileName = `2501030021-${assignment.title}-B1`
+
   // The request body for the file to be uploaded.
   const requestBody = {
     name: driveFileName,
@@ -48,26 +48,25 @@ export default async function uploadSolnToDrive(filePath, assignment, course) {
     }
   });
 
-  await Promise.all([
-    drive.permissions.create({
-      fileId,
-      requestBody: {
-        role: "writer",
-        type: "user",
-        emailAddress: "rizviammar579@gmail.com"
-      }
-    }),
+  // await Promise.all([
+  //   drive.permissions.create({
+  //     fileId,
+  //     requestBody: {
+  //       role: "writer",
+  //       type: "user",
+  //       emailAddress: "rizviammar579@gmail.com"
+  //     }
+  //   }),
 
-    drive.permissions.create({
-      fileId,
-      requestBody: {
-        role: "owner",
-        type: "user",
-        emailAddress: "2501030021@mail.jiit.ac.in"
-      }
-    })
-  ]);
-
+  //   drive.permissions.create({
+  //     fileId,
+  //     requestBody: {
+  //       role: "writer",
+  //       type: "user",
+  //       emailAddress: "2501030021@mail.jiit.ac.in"
+  //     }
+  //   })
+  // ]);
 
 
   const response = await drive.files.get({
@@ -77,7 +76,6 @@ export default async function uploadSolnToDrive(filePath, assignment, course) {
 
   const webViewLink = response.data.webViewLink;
 
-
   await assignmentProcessing.updateOne({ assignmentId: assignment.assignmentId },
     {
       $set: {
@@ -86,8 +84,7 @@ export default async function uploadSolnToDrive(filePath, assignment, course) {
         driveFileId: fileId
       }
     })
-
-
+ 
 
 }
 

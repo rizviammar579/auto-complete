@@ -1,6 +1,6 @@
 import { runtimeState } from "../utils/runtimeState.js";
 import { createNotification } from "../utils/createNotification.js";
-import { automation } from "../functions/automation.js";
+import { automation } from "../automation_pipeline/automation.js";
 
 export async function runAutomation() {
 

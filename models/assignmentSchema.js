@@ -18,20 +18,11 @@ const assignmentSchema = new mongoose.Schema({
         required: true
     },
 
-    state: {
-        type: String,
-        required: true
-    },
-
     description:  {
         type: String,
         default: ""
     },    
 
-    workType: {
-        type: String,
-        required: true
-    },
 
     dueDate: {
         type: {
@@ -50,9 +41,6 @@ const assignmentSchema = new mongoose.Schema({
         default: null
     },
 
-    maxPoints: {
-        type: Number
-    },
 
     alternateLink: {
         type: String

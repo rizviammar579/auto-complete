@@ -5,7 +5,7 @@ export async function ListAndUpsertCourses() {
 
     const result = await listCourses()
 
-    if (Object.keys(result.data).length === 0) {
+    if (!Object.keys(result.data).length) {
 
         console.log('No courses found.');
         return [];

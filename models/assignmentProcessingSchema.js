@@ -36,12 +36,6 @@ const assignmentProcessingSchema = new mongoose.Schema({
         default: "PENDING"
     },
 
-    
-    solutionPath: {
-        type: String,
-        default: ""
-    },
-
     solutionGeneratedAt: {
         type: Date,
         default: null

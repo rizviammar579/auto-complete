@@ -1,7 +1,7 @@
 import { assignmentProcessing } from "../../models/assignmentProcessingSchema.js";
 import { createNotification } from "../utils/createNotification.js";
 
-export async function notifyForForm(material,assignment,course) {
+export async function notifyForForm(assignment,course) {
 
     await createNotification(
     `Google Form Found`,
