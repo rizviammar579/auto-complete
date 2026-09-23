@@ -245,7 +245,6 @@ export async function generateSolution(assignment, course) {
     fs.mkdirSync(uploadDir, { recursive: true });
 
     const uploadPath = path.join(uploadDir, `solution.docx`)
-    console.log("soln dir formed")
 
     try {
 
