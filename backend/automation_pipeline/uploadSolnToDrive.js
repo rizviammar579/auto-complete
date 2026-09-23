@@ -1,8 +1,11 @@
 import fs from 'node:fs';
+import dotenv from 'dotenv'
 import { drive } from '../services/google/googleService.js';
 import getRootFolder from './getRootFolder.js'
 import getCourseFolder from './getCourseFolder.js'
 import { assignmentProcessing } from '../../models/assignmentProcessingSchema.js';
+
+dotenv.config()
 
 export default async function uploadSolnToDrive(filePath, assignment, course) {
 
@@ -48,25 +51,22 @@ export default async function uploadSolnToDrive(filePath, assignment, course) {
     }
   });
 
-  // await Promise.all([
-  //   drive.permissions.create({
-  //     fileId,
-  //     requestBody: {
-  //       role: "writer",
-  //       type: "user",
-  //       emailAddress: "rizviammar579@gmail.com"
-  //     }
-  //   }),
+  const ownerEmails = process.env.OWNER_EMAILS
+    .split(",")
+    .map(email => email.trim());
 
-  //   drive.permissions.create({
-  //     fileId,
-  //     requestBody: {
-  //       role: "writer",
-  //       type: "user",
-  //       emailAddress: "2501030021@mail.jiit.ac.in"
-  //     }
-  //   })
-  // ]);
+  await Promise.all(
+    ownerEmails.map(email =>
+      drive.permissions.create({
+        fileId,
+        requestBody: {
+          role: "writer",
+          type: "user",
+          emailAddress: email
+        }
+      })
+    )
+  );
 
 
   const response = await drive.files.get({
@@ -84,7 +84,7 @@ export default async function uploadSolnToDrive(filePath, assignment, course) {
         driveFileId: fileId
       }
     })
- 
+
 
 }
 
