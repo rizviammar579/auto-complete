@@ -47,7 +47,7 @@ router.get("/google/callback", async (req, res) => {
 
         });
 
-        res.redirect("https://auto-complete-8p7xaq9ml-ammar-970d.vercel.app/dashboard");
+        res.redirect("https://auto-complete-nu-sand.vercel.app/dashboard");
 
     } catch (error) {
         console.error("Google authentication failed:", error);
