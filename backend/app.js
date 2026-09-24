@@ -22,6 +22,8 @@ app.use(cors({
 
 app.use(express.json());
 
+app.set("trust proxy", 1);
+
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
@@ -31,7 +33,9 @@ app.use(
             mongoUrl: process.env.MONGODB_URI
         }),
         cookie: {
-            maxAge: 7 * 24 * 60 * 60 * 1000
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            secure: true,
+            sameSite: "none"
         }
     })
 );
