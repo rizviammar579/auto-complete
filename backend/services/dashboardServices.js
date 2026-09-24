@@ -151,6 +151,8 @@ export async function regenerateSolution(req, res) {
 
   } catch (err) {
 
+    await cleanupAssignmentDirectories(assignment.assignmentId)
+
     await assignmentProcessing.updateOne(
       { assignmentId: Assignment.assignmentId },
       {
