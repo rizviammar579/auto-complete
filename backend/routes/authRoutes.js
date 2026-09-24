@@ -45,9 +45,11 @@ router.get("/google/callback", async (req, res) => {
                 return res.status(500).send("Session save failed");
             }
 
+            res.redirect("https://auto-complete-nu-sand.vercel.app/dashboard");
+
         });
 
-        res.redirect("https://auto-complete-nu-sand.vercel.app/dashboard");
+        
 
     } catch (error) {
         console.error("Google authentication failed:", error);
