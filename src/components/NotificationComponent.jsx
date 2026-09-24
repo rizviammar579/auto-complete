@@ -29,7 +29,7 @@ const NotificationComponent = ({ notification, fetchNotificationData }) => {
 
     try {
 
-      await axios.patch(`http://localhost:3000/notifications/read/${id}`, {}, {
+      await axios.patch(`https://auto-complete-ywqk.onrender.com/notifications/read/${id}`, {}, {
         withCredentials: true
       });
 
@@ -48,7 +48,7 @@ const NotificationComponent = ({ notification, fetchNotificationData }) => {
 
     try {
 
-      await axios.delete(`http://localhost:3000/notifications/delete/${id}`, {
+      await axios.delete(`https://auto-complete-ywqk.onrender.com/notifications/delete/${id}`, {
         withCredentials: true
       });
 

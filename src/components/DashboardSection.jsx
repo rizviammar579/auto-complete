@@ -11,7 +11,7 @@ const DashboardSection = () => {
   async function fetchDashboardData() {
 
       const response = await axios.get(
-        "http://localhost:3000/"
+        "https://auto-complete-ywqk.onrender.com/"
       );
 
 

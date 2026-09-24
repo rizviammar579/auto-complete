@@ -12,7 +12,7 @@ const Scheduler = ({ data, fetchSettingsData }) => {
         try {
 
             const response = await axios.post(
-                "http://localhost:3000/settings/run-automation", {}, {
+                "https://auto-complete-ywqk.onrender.com/settings/run-automation", {}, {
                 withCredentials: true
             }
             );

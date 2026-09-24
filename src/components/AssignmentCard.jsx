@@ -24,7 +24,7 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
   const handleTurnIn = async (id) => {
     try {
 
-      await axios.patch("http://localhost:3000/", {
+      await axios.patch("https://auto-complete-ywqk.onrender.com/", {
         assignmentId: id
       }, {
         withCredentials: true
@@ -56,7 +56,7 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
       setRegeneratingId(assignment.assignmentId)
 
       const response = await axios.post(
-        "http://localhost:3000/regenerate-solution",
+        "https://auto-complete-ywqk.onrender.com/regenerate-solution",
         { Assignment: assignment }, {
         withCredentials: true
       }

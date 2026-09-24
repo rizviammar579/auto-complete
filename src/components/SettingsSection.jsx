@@ -14,7 +14,7 @@ const SettingsSection = () => {
   async function fetchSettingsData() {
 
     const response = await axios.get(
-      "http://localhost:3000/settings/"
+      "https://auto-complete-ywqk.onrender.com/settings/"
     );
 
 

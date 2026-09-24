@@ -26,7 +26,7 @@ const NotificationsSection = () => {
   async function fetchNotificationData() {
 
     const response = await axios.get(
-      "http://localhost:3000/notifications/"
+      "https://auto-complete-ywqk.onrender.com/notifications/"
     );
 
 
@@ -46,7 +46,7 @@ const NotificationsSection = () => {
 
     try {
 
-      await axios.patch("http://localhost:3000/notifications/read-all", {}, {
+      await axios.patch("https://auto-complete-ywqk.onrender.com/notifications/read-all", {}, {
         withCredentials: true
       });
 
@@ -66,7 +66,7 @@ const NotificationsSection = () => {
 
     try {
 
-      await axios.delete("http://localhost:3000/notifications/delete-all", {
+      await axios.delete("https://auto-complete-ywqk.onrender.com/notifications/delete-all", {
         withCredentials: true
       });
 

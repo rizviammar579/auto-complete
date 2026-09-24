@@ -7,7 +7,7 @@ function ProtectedRoute() {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
 
     useEffect(() => {
-        fetch("http://localhost:3000/auth/me", {
+        fetch("https://auto-complete-ywqk.onrender.com/auth/me", {
             credentials: "include"
         })
             .then((response) => {

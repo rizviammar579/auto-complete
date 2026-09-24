@@ -26,7 +26,7 @@ const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter,
     const handleTurnIn = async (id) => {
         try {
 
-            await axios.patch("http://localhost:3000/assignments", {
+            await axios.patch("https://auto-complete-ywqk.onrender.com/assignments", {
                 assignmentId: id
             }, {
                 withCredentials: true
@@ -58,7 +58,7 @@ const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter,
             setRegeneratingId(assignment.assignmentId)
 
             const response = await axios.post(
-                "http://localhost:3000/regenerate-solution",
+                "https://auto-complete-ywqk.onrender.com/regenerate-solution",
                 { Assignment: assignment }, {
                 withCredentials: true
             }

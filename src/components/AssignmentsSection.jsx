@@ -24,7 +24,7 @@ const AssignmentsSection = () => {
 
   async function fetchAssignments(filter) {
     const response = await axios.get(
-      `http://localhost:3000/assignments?filter=${filter}`
+      `https://auto-complete-ywqk.onrender.com/assignments?filter=${filter}`
     )
 
     const assignments = response.data.assignments
