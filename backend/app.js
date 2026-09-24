@@ -16,7 +16,7 @@ dotenv.config()
 const app = express();
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://auto-complete-8p7xaq9ml-ammar-970d.vercel.app/",
     credentials: true
 }));
 
