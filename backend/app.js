@@ -16,7 +16,7 @@ dotenv.config()
 const app = express();
 
 app.use(cors({
-    origin: "https://auto-complete-nu-sand.vercel.app/",
+    origin: "https://auto-complete-nu-sand.vercel.app",
     credentials: true
 }));
 
