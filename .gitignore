@@ -29,4 +29,4 @@ dist-ssr
 credentials.json
 oauth.json
 gitcommands.md
-tokens/
+google-api-token.json

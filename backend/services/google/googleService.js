@@ -18,8 +18,7 @@ const SCOPES = ['https://www.googleapis.com/auth/classroom.courses.readonly',
 // The path to the credentials file.
 const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
 
-const TOKEN_DIR = path.join(process.cwd(), 'tokens');
-const TOKEN_PATH = path.join(TOKEN_DIR, 'google-api-token.json');
+const TOKEN_PATH = path.join(process.cwd(), 'google-api-token.json');
 
 
 async function loadSavedToken() {
