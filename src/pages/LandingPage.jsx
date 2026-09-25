@@ -5,8 +5,6 @@ const LandingPage = () => {
 
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-  console.log(BACKEND_URL)
-
   return (
 
     <div className='bg-gray-950 font-inter min-h-[100vh] ax:h-[100vh] flex justify-center items-center p-3 dx:py-10 dx:px-20 ax:px-0 ax:py-0'>
