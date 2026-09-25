@@ -92,7 +92,7 @@ const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter,
     return (
         <div className={`${show && window.innerWidth < 1400 ? "fixed inset-0 bg-black/20 backdrop-blur-md " : ""}`}>
 
-            <div className={`z-50 bg-white w-[350px] rounded-xl p-5 w-fit m-2 mt-6 ${window.innerWidth < 1400 ? "absolute inset-x-1/12 jx:inset-x-1/6 lx:inset-x-1/4 dx:inset-x-1/3 cx:inset-x-3/8 hx:inset-x-3/7 min-w-[300px] max-h-[90vh] h-fit" : "h-full"}`}
+            <div className={`z-50 bg-white w-[350px] rounded-xl p-5 w-fit m-2 mt-6 ${window.innerWidth < 1400 ? "absolute inset-x-1/12 jx:inset-x-1/6 lx:inset-x-1/4 dx:inset-x-1/3 cx:inset-x-3/8 hx:inset-x-3/7 min-w-[300px] max-h-[90vh] h-fit -inset-y-5" : "h-full"}`}
                >
                 <div className='flex'>
                     <div className='w-[80%] flex flex-col gap-3'>
@@ -154,7 +154,7 @@ const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter,
 
                 <div className='flex  items-center'>
                     <div className='font font-semibold'>Submission Status</div>
-                    <div className={`px-2 rounded-sm text-[13px] font-semibold ml-5 border bg-amber-100 text-yellow-500 border-yellow-400`}>{assignment.submissionStatus ? 'SUBMITTED' : 'NOT SUBMITTED'}</div>
+                    <div className={`px-2 rounded-sm text-[13px] font-semibold ml-5 border bg-amber-100 text-yellow-500 border-yellow-400 text-center`}>{assignment.submissionStatus ? 'SUBMITTED' : 'NOT SUBMITTED'}</div>
 
                 </div>
 
