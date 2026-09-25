@@ -4,10 +4,12 @@ import { Loader } from "./Loader.jsx";
 
 function ProtectedRoute() {
 
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
     const [isAuthenticated, setIsAuthenticated] = useState(null);
 
     useEffect(() => {
-        fetch("https://auto-complete-ywqk.onrender.com/auth/me", {
+        fetch(`${BACKEND_URL}/auth/me`, {
             credentials: "include"
         })
             .then((response) => {

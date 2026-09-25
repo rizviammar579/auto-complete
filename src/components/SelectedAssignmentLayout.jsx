@@ -1,5 +1,4 @@
 import React from 'react'
-import { useState } from 'react'
 import { CalendarDays } from 'lucide-react'
 import { formatDueDateTime } from '../../backend/utils/formatDueDateTime'
 import { Search, FileText, Check, RefreshCw } from 'lucide-react'
@@ -8,6 +7,8 @@ import axios from 'axios'
 import { useAccessDenied } from '../context/AccessDeniedContext'
 
 const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter, regeneratingId, setRegeneratingId, show, setShow }) => {
+
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
     const { showAccessDenied } = useAccessDenied();
 
@@ -26,7 +27,7 @@ const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter,
     const handleTurnIn = async (id) => {
         try {
 
-            await axios.patch("https://auto-complete-ywqk.onrender.com/assignments", {
+            await axios.patch(`${BACKEND_URL}/assignments`, {
                 assignmentId: id
             }, {
                 withCredentials: true
@@ -58,7 +59,7 @@ const SelectedAssignmentLayout = ({ assignment, fetchAssignments, currentFilter,
             setRegeneratingId(assignment.assignmentId)
 
             const response = await axios.post(
-                "https://auto-complete-ywqk.onrender.com/regenerate-solution",
+                `${BACKEND_URL}/regenerate-solution`,
                 { Assignment: assignment }, {
                 withCredentials: true
             }

@@ -6,7 +6,10 @@ import axios from 'axios'
 import { RefreshCw } from 'lucide-react'
 import { useAccessDenied } from '../context/AccessDeniedContext.jsx'
 
+
 const AssignmentCard = ({ assignment, fetchDashboardData }) => {
+
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   const { showAccessDenied } = useAccessDenied();
 
@@ -24,7 +27,7 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
   const handleTurnIn = async (id) => {
     try {
 
-      await axios.patch("https://auto-complete-ywqk.onrender.com/", {
+      await axios.patch(`${BACKEND_URL}`, {
         assignmentId: id
       }, {
         withCredentials: true
@@ -56,7 +59,7 @@ const AssignmentCard = ({ assignment, fetchDashboardData }) => {
       setRegeneratingId(assignment.assignmentId)
 
       const response = await axios.post(
-        "https://auto-complete-ywqk.onrender.com/regenerate-solution",
+        `${BACKEND_URL}/regenerate-solution`,
         { Assignment: assignment }, {
         withCredentials: true
       }

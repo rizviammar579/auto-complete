@@ -8,13 +8,15 @@ import AIConfiguration from '../components/AIConfiguration'
 import { Loader } from '../components/Loader'
 
 const SettingsSection = () => {
+
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
  
   const [settingsData, setSettingsData] = useState(null)
 
   async function fetchSettingsData() {
 
     const response = await axios.get(
-      "https://auto-complete-ywqk.onrender.com/settings/"
+      `${BACKEND_URL}/settings/`
     );
 
 

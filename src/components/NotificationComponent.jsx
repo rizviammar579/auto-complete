@@ -1,6 +1,4 @@
 import React from 'react'
-import { useState } from 'react'
-import { ChevronDown, ChevronRight } from 'lucide-react'
 import { timeAgo } from '../../backend/utils/timeAgo.js'
 import toast from 'react-hot-toast'
 import axios from 'axios'
@@ -8,6 +6,8 @@ import { Trash2 } from 'lucide-react'
 import { useAccessDenied } from '../context/AccessDeniedContext.jsx'
 
 const NotificationComponent = ({ notification, fetchNotificationData }) => {
+
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   const { showAccessDenied } = useAccessDenied();
 
@@ -29,7 +29,7 @@ const NotificationComponent = ({ notification, fetchNotificationData }) => {
 
     try {
 
-      await axios.patch(`https://auto-complete-ywqk.onrender.com/notifications/read/${id}`, {}, {
+      await axios.patch(`${BACKEND_URL}/notifications/read/${id}`, {}, {
         withCredentials: true
       });
 
@@ -48,7 +48,7 @@ const NotificationComponent = ({ notification, fetchNotificationData }) => {
 
     try {
 
-      await axios.delete(`https://auto-complete-ywqk.onrender.com/notifications/delete/${id}`, {
+      await axios.delete(`${BACKEND_URL}/notifications/delete/${id}`, {
         withCredentials: true
       });
 

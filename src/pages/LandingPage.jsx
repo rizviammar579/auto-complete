@@ -1,8 +1,11 @@
 import React from 'react'
 import LandingPageComponent from '../components/LandingPageComponent'
 
-
 const LandingPage = () => {
+
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+  console.log(BACKEND_URL)
 
   return (
 
@@ -53,7 +56,7 @@ const LandingPage = () => {
 
 
           <div className='flex flex-col gap-5 items-center justify-center'>
-            <button className='text-[14px] ex:text-[16px] fx:text-[18px] bx:text-[18px] ax:text-[20px] flex gap-3 justify-center items-center cursor-pointer border border-gray-400 px-3 py-2 ex:px-4 ex:py-3 rounded-xl hover:rounded-full bg-white transition-all' onClick={() => { window.location.href = "https://auto-complete-ywqk.onrender.com/auth/google" }}>
+            <button className='text-[14px] ex:text-[16px] fx:text-[18px] bx:text-[18px] ax:text-[20px] flex gap-3 justify-center items-center cursor-pointer border border-gray-400 px-3 py-2 ex:px-4 ex:py-3 rounded-xl hover:rounded-full bg-white transition-all' onClick={() => { window.location.href = `${BACKEND_URL}/auth/google` }}>
               <img src="../google.png" alt="" className='w-[28px] ex:w-[40px]' /> Sign in with Google</button>
             <p className='font-light text-gray-500 mb-10 text-[12px] ex:text-[13px] fx:text-[14px]'>Get started with your Google account</p>
           </div>

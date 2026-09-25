@@ -5,6 +5,8 @@ import { useAccessDenied } from '../context/AccessDeniedContext.jsx'
 
 const Scheduler = ({ data, fetchSettingsData }) => {
 
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
     const { showAccessDenied } = useAccessDenied();
 
     async function runAutomationManually() {
@@ -12,7 +14,7 @@ const Scheduler = ({ data, fetchSettingsData }) => {
         try {
 
             const response = await axios.post(
-                "https://auto-complete-ywqk.onrender.com/settings/run-automation", {}, {
+                `${BACKEND_URL}/settings/run-automation`, {}, {
                 withCredentials: true
             }
             );

@@ -5,13 +5,15 @@ import axios from 'axios'
 import { Loader } from '../components/Loader'
 
 const DashboardSection = () => {
+
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   
   const [dashboardData, setDashboardData] = useState(null)
 
   async function fetchDashboardData() {
 
       const response = await axios.get(
-        "https://auto-complete-ywqk.onrender.com/"
+        `${BACKEND_URL}`
       );
 
 

@@ -9,6 +9,8 @@ import { useAccessDenied } from '../context/AccessDeniedContext.jsx'
 
 const NotificationsSection = () => {
 
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
   const { showAccessDenied } = useAccessDenied();
 
   const [notifications, setNotifications] = useState(null)
@@ -26,7 +28,7 @@ const NotificationsSection = () => {
   async function fetchNotificationData() {
 
     const response = await axios.get(
-      "https://auto-complete-ywqk.onrender.com/notifications/"
+      `${BACKEND_URL}/notifications/`
     );
 
 
@@ -46,7 +48,7 @@ const NotificationsSection = () => {
 
     try {
 
-      await axios.patch("https://auto-complete-ywqk.onrender.com/notifications/read-all", {}, {
+      await axios.patch(`${BACKEND_URL}/notifications/read-all`, {}, {
         withCredentials: true
       });
 
@@ -66,7 +68,7 @@ const NotificationsSection = () => {
 
     try {
 
-      await axios.delete("https://auto-complete-ywqk.onrender.com/notifications/delete-all", {
+      await axios.delete(`${BACKEND_URL}/notifications/delete-all`, {
         withCredentials: true
       });
 

@@ -6,6 +6,8 @@ import SelectedAssignmentLayout from '../components/SelectedAssignmentLayout'
 import NoAssignments from '../components/NoAssignments'
 
 const AssignmentsSection = () => {
+
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   
   const [assignmentData, setAssignmentData] = useState(null)
   const [currentFilter, setCurrentFilter] = useState('unsubmitted')
@@ -24,7 +26,7 @@ const AssignmentsSection = () => {
 
   async function fetchAssignments(filter) {
     const response = await axios.get(
-      `https://auto-complete-ywqk.onrender.com/assignments?filter=${filter}`
+      `${BACKEND_URL}/assignments?filter=${filter}`
     )
 
     const assignments = response.data.assignments

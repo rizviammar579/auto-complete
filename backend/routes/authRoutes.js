@@ -1,6 +1,9 @@
 import express from "express";
 import oauth2Client from "../services/google/googleOAuth.js";
 import { google } from "googleapis";
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const router = express.Router();
 
@@ -44,8 +47,8 @@ router.get("/google/callback", async (req, res) => {
                 console.error(err);
                 return res.status(500).send("Session save failed");
             }
-
-            res.redirect("https://auto-complete-nu-sand.vercel.app/dashboard");
+            
+            res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
 
         });
 
