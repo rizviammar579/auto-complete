@@ -29,7 +29,7 @@
 <br>
 
 <p align="center">
-  <video src="./src/assets/demo.mp4" autoplay loop muted playsinline width=400></video>
+  <video src="./src/assets/demo.mp4" autoplay loop muted playsinline width=500></video>
 </p>
 
 <br>
