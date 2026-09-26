@@ -1,7 +1,7 @@
 <table align="center">
   <tr>
     <td>
-      <img src="./public/favicon.jpg" alt="auto-complete Logo" width="55" />
+      <img src="./public/favicon/favicon.jpg" alt="auto-complete Logo" width="55" />
     </td>
     <td>
       <h1>auto-complete</h1>
@@ -622,7 +622,7 @@ Auto-Complete depends heavily on Google APIs and the Gemini API. At multi-user s
 
 ### Landing Page
 
-<p style="display: flex; gap: 50px; justify-content: center; align-items: center;">
+<p style="display: flex; gap: 100px; justify-content: center; align-items: center;">
   <img src="./public/screenshots/landing_ss.png" alt="" width="400"/>
   <img src="./public/screenshots/landing_mob.jpeg" alt="" width="150"/>
 </p>
@@ -632,7 +632,7 @@ Auto-Complete depends heavily on Google APIs and the Gemini API. At multi-user s
 
 ### Dashboard Page
 
-<p style="display: flex; gap: 50px; justify-content: center; align-items: center;">
+<p style="display: flex; gap: 100px; justify-content: center; align-items: center;">
   <img src="./public/screenshots/dashboard_ss.png" alt="" width="400"/>
 <img src="./public/screenshots/dashboard_mob.jpeg" alt="" width="150"/>
 </p>
@@ -641,7 +641,7 @@ Auto-Complete depends heavily on Google APIs and the Gemini API. At multi-user s
 
 ### Assignments Page
 
-<p style="display: flex; gap: 50px; justify-content: center; align-items: center;">
+<p style="display: flex; gap: 100px; justify-content: center; align-items: center;">
   <img src="./public/screenshots/assignments_ss.png" alt="" width="400"/>
 <img src="./public/screenshots/assignments_mob.jpeg" alt="" width="150"/>
 </p>
@@ -650,7 +650,7 @@ Auto-Complete depends heavily on Google APIs and the Gemini API. At multi-user s
 
 ### Notifications Page
 
-<p style="display: flex; gap: 50px; justify-content: center; align-items: center;">
+<p style="display: flex; gap: 100px; justify-content: center; align-items: center;">
   <img src="./public/screenshots/notifications_ss.png" alt="" width="400"/>
 <img src="./public/screenshots/notifications_mob.jpeg" alt="" width="150"/>
 </p>
@@ -659,7 +659,7 @@ Auto-Complete depends heavily on Google APIs and the Gemini API. At multi-user s
 
 ### Settings Page
 
-<p style="display: flex; gap: 50px; justify-content: center; align-items: center;">
+<p style="display: flex; gap: 100px; justify-content: center; align-items: center;">
   <img src="./public/screenshots/settings_ss.png" alt="" width="400"/>
 <img src="./public/screenshots/settings_mob.jpeg" alt="" width="150"/>
 </p>
