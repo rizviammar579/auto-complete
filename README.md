@@ -28,9 +28,6 @@
 
 <br>
 
-<p align="center">
-  <video src="./src/assets/demo.mp4" autoplay loop muted playsinline width=500></video>
-</p>
 
 <br>
 <br>
@@ -334,7 +331,7 @@ flowchart LR
 <br>
 
 
-### Personalized Prompt System 
+### Personalized Prompt  
 
 V1 can regenerate a solution, but regeneration is essentially a fresh generation. If the user is unhappy with the result, Gemini is not given any information about what was wrong with the previous attempt. The same prompt can therefore produce another solution with the same underlying issue — while consuming another API call.
 
@@ -350,6 +347,35 @@ flowchart TB
     D --> E[Gemini]
     E --> F[Generated Solution]
 ```
+
+<br>
+<br>
+
+### Terminal Output Screenshots
+
+V2 will explore adding terminal screenshots for coding questions in the generated DOCX. Instead of showing only the code in a code block, the document will include screenshots of the code being executed along with its terminal output, providing visual evidence of the solution running successfully.
+
+
+<br>
+
+### Automated Assignment Submission
+
+V2 will also explore using Playwright/Selenium to automate the final Classroom submission step. After reviewing the generated assignment, the user can click a Submit Assignment button, which triggers the automation to open the assignment in Classroom, attach the generated DOCX, submit it, and verify the submission status.
+
+<br>
+
+
+
+```mermaid
+flowchart LR
+    A[Uploaded DOCX]
+    --> B[Playwright / Selenium]
+    --> C[Open Classroom]
+    --> D[Attach DOCX]
+    --> E[Submit Assignment]
+    --> F[Verify Submission]
+   ``` 
+
 
 <br>
 <br>
@@ -554,7 +580,6 @@ Auto-Complete depends heavily on Google APIs and the Gemini API. At multi-user s
 
 <br>
 
-This table shows evolution, not ranking — each version is the right architecture for the problem it was solving at the time.
 
 <br>
 
@@ -591,31 +616,56 @@ This table shows evolution, not ranking — each version is the right architectu
 
 <br>
 
-
-
-## Database
-
-MongoDB Atlas is the persistent state layer for the application.
-
-```mermaid
-flowchart LR
-    A[Express Backend] --> B[(MongoDB Atlas)]
-   
-    B --> D[Courses]
-    B --> E[Assignments]
-    B --> F[Materials Metadata]
-    B --> G[Processing State]
-   
-    B --> I[Notifications]
-    B --> J[Sessions]
-```
+## Screenshots
 
 <br>
 
-Mongoose handles database interaction. This is a conceptual view of the collections described in the project rather than a full schema — it reflects what the codebase's documented models represent, not exact field-level structure.
+### Landing Page
+
+<p style="display: flex; gap: 50px; justify-content: center; align-items: center;">
+  <img src="./public/screenshots/landing_ss.png" alt="" width="400"/>
+  <img src="./public/screenshots/landing_mob.jpeg" alt="" width="150"/>
+</p>
+  
 
 <br>
 
+### Dashboard Page
+
+<p style="display: flex; gap: 50px; justify-content: center; align-items: center;">
+  <img src="./public/screenshots/dashboard_ss.png" alt="" width="400"/>
+<img src="./public/screenshots/dashboard_mob.jpeg" alt="" width="150"/>
+</p>
+
+<br>
+
+### Assignments Page
+
+<p style="display: flex; gap: 50px; justify-content: center; align-items: center;">
+  <img src="./public/screenshots/assignments_ss.png" alt="" width="400"/>
+<img src="./public/screenshots/assignments_mob.jpeg" alt="" width="150"/>
+</p>
+
+<br>
+
+### Notifications Page
+
+<p style="display: flex; gap: 50px; justify-content: center; align-items: center;">
+  <img src="./public/screenshots/notifications_ss.png" alt="" width="400"/>
+<img src="./public/screenshots/notifications_mob.jpeg" alt="" width="150"/>
+</p>
+
+<br>
+
+### Settings Page
+
+<p style="display: flex; gap: 50px; justify-content: center; align-items: center;">
+  <img src="./public/screenshots/settings_ss.png" alt="" width="400"/>
+<img src="./public/screenshots/settings_mob.jpeg" alt="" width="150"/>
+</p>
+
+<br>
+<br>
 
 ## Project Structure
 
@@ -659,6 +709,37 @@ auto-complete/
 ```
 
 <br>
+<br>
+
+## Database
+
+MongoDB Atlas is the persistent state layer for the application.
+
+```mermaid
+flowchart LR
+    A[Express Backend] --> B[(MongoDB Atlas)]
+   
+    B --> D[Courses]
+    B --> E[Assignments]
+    B --> F[Materials Metadata]
+    B --> G[Processing State]
+   
+    B --> I[Notifications]
+    B --> J[Sessions]
+```
+
+<br>
+
+Mongoose handles database interaction. This is a conceptual view of the collections described in the project rather than a full schema — it reflects what the codebase's documented models represent, not exact field-level structure.
+
+
+
+
+
+
+<br>
+
+
 
 ## Deployment
 
