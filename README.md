@@ -37,7 +37,7 @@
   <a href="https://auto-complete-automation.vercel.app"><img src="https://img.shields.io/badge/Live%20Application-Visit-3B82F6?style=for-the-badge&logo=vercel&logoColor=white" /></a>
   <a href="https://auto-complete-ywqk.onrender.com/health"><img src="https://img.shields.io/badge/API-Operational-10B981?style=for-the-badge&logo=render&logoColor=white" /></a>
   <a href="./src/assets/demo.mp4"><img src="https://img.shields.io/badge/Demo%20Video-Link-F97316?style=for-the-badge&logo=youtube&logoColor=white" /></a>
-  <img src="https://img.shields.io/badge/License-MIT-A855F7?style=for-the-badge" />
+   <a href="./license.md"><img src="https://img.shields.io/badge/License-MIT-A855F7?style=for-the-badge" /></a>
 </p>
 <br>
 <p align="center">
@@ -50,18 +50,34 @@
 
 ## How it all started
 
-University assignments are tedious and involve the same sequence of actions, over and over:
+I entered college as a freshman and, thanks to my college, was suddenly burdened by assignments that are uploaded almost every day.
 
-Check Classroom. Open the assignment. Find the attached material. Download it. Process it. Prepare a solution. Create a document. Upload it.
+So I spent my first year doing what any sincere student would do: completing them one by one.
+
+But I quickly realized that these assignments were taking up a significant amount of my free time and leaving very little room to explore things outside the college curriculum. And with three examinations every semester, along with never ending lab tests and evaluations, time became surprisingly valuable.
+
+That's when I started thinking about the process itself.
+
+Even if I used an AI service to help complete an assignment, there was still a lot of repetitive manual work involved:
+
+
+**Check Classroom → Open the assignment → Find the attached material → Download it → Upload it to an AI service → Generate a DOCX → Copy the answers → Submit it.**
+
+
 
 Each step is trivial on its own. The repetition is what actually costs time.
 
-Auto-Complete started from one simple question:
+<br>
+
+So Auto-Complete started with one simple question:
 
 > **What if this entire workflow became a system instead of a routine?**
 
 <br>
 
+I wasn't interested in building another tool that simply generated answers. I wanted to automate the repetitive workflow around assignments and turn a process I performed almost every day into something that could happen with minimal manual intervention.
+
+And ironically, building this system taught me far more about software engineering than solving the exact same assignment question in three different languages.
 
 
 <br>
@@ -99,7 +115,7 @@ flowchart LR
 
 ### Google Classroom API
 
-Manually tracking assignments defeats the purpose of automation. The application needed to know, directly from the source of truth, which courses exist, which assignments exist, and which materials are attached to them. Connecting to the Classroom API is what turned this from a local script into a system interacting with a real external service.
+Manually tracking assignments defeats the purpose of automation. The application needed to know, directly from the source of truth, which courses exist, which assignments exist, and which materials are attached to them. Connecting to the Classroom API is what turned this from a local script into a system interacting with a real external service. The system calls the Classroom API, once every hour, to check for new assignments and the response it returns is then stored in the database.
 
 <br>
 

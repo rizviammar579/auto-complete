@@ -9,7 +9,7 @@ import notificationRoutes from './routes/notificationRoutes.js'
 import settingsRoutes from './routes/settingsRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 import healthRoutes from './routes/healthRoutes.js'
-// import historyRoutes from './routes/historyRoutes.js'
+import logoutRoutes from './routes/logoutRoutes.js'
 
 dotenv.config()
 
@@ -34,8 +34,8 @@ app.use(
         }),
         cookie: {
             maxAge: 7 * 24 * 60 * 60 * 1000,
-            secure: true,
-            sameSite: "none"
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
         }
     })
 );
@@ -45,7 +45,7 @@ app.use("/", dashboardRoutes);
 app.use("/assignments", assignmentRoutes);
 app.use("/notifications", notificationRoutes);
 app.use("/settings", settingsRoutes);
-// app.use("/history", historyRoutes);
+app.use("/logout", logoutRoutes);
 app.use("/health", healthRoutes);
 app.use("/auth", authRoutes);
 

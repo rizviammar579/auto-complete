@@ -23,6 +23,7 @@ router.get("/google", (req, res) => {
 
 router.get("/google/callback", async (req, res) => {
     try {
+        
         const { code } = req.query;
 
         const { tokens } = await oauth2Client.getToken(code);
@@ -47,12 +48,11 @@ router.get("/google/callback", async (req, res) => {
                 console.error(err);
                 return res.status(500).send("Session save failed");
             }
-            
+
             res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
 
         });
 
-        
 
     } catch (error) {
         console.error("Google authentication failed:", error);
@@ -61,6 +61,7 @@ router.get("/google/callback", async (req, res) => {
 });
 
 router.get("/me", (req, res) => {
+
     if (!req.session.user) {
         return res.status(401).json({
             authenticated: false
@@ -71,6 +72,7 @@ router.get("/me", (req, res) => {
         authenticated: true,
         user: req.session.user
     });
+
 });
 
 
