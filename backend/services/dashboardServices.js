@@ -81,9 +81,12 @@ export async function markAsTurnedIn(req, res) {
 
 export async function regenerateSolution(req, res) {
 
+  let Assignment;
+  let originalStatus;
+
   try {
 
-    const { Assignment } = req.body
+    Assignment = req.body.Assignment;
 
     if (!await canUseAI()) {
 
@@ -99,6 +102,7 @@ export async function regenerateSolution(req, res) {
 
     }
 
+    originalStatus = Assignment.aiStatus
 
     await assignmentProcessing.updateOne({ assignmentId: Assignment.assignmentId },
       {
@@ -113,7 +117,7 @@ export async function regenerateSolution(req, res) {
 
     const result = await generateSolution(assignment, Assignment.course)
 
-    await cleanupAssignmentDirectories(assignment.assignmentId)
+    await cleanupAssignmentDirectories(Assignment.assignmentId)
 
 
     if (result) {
@@ -133,7 +137,7 @@ export async function regenerateSolution(req, res) {
       await assignmentProcessing.updateOne({ assignmentId: Assignment.assignmentId },
         {
           $set: {
-            aiStatus: "GENERATED"
+            aiStatus: originalStatus
           }
         }
       )
@@ -151,13 +155,13 @@ export async function regenerateSolution(req, res) {
 
   } catch (err) {
 
-    await cleanupAssignmentDirectories(assignment.assignmentId)
+    await cleanupAssignmentDirectories(Assignment.assignmentId)
 
     await assignmentProcessing.updateOne(
       { assignmentId: Assignment.assignmentId },
       {
         $set: {
-          aiStatus: "GENERATED"
+          aiStatus: originalStatus
         }
       }
     )
