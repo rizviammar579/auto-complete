@@ -63,7 +63,6 @@ async function getAuthClient() {
         keyfilePath: CREDENTIALS_PATH,
     });
 
-    await fs.mkdir(TOKEN_DIR, { recursive: true });
 
     await fs.writeFile(
         TOKEN_PATH,
